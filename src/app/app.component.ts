@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
@@ -38,4 +38,19 @@ export class AppComponent implements OnInit {
       type: USER_GET
     });
   }
+
+  // camera
+  @ViewChild('video') video:any; 
+// note that "#video" is the name of the template variable in the video element
+
+ngAfterViewInit() {
+  let _video=this.video.nativeElement;
+  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: true })
+                          .then(stream => {
+                            _video.src = window.URL.createObjectURL(stream);
+                            _video.play();
+                          })
+  }
+}
 }
