@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   observable$: Observable<ISimpleResponse>;
   isImageCaptured: boolean;
   canvas: HTMLCanvasElement;
+  _window: any;
 
   constructor(private http: HttpClient, private store: Store<IAppState>) { }
 
@@ -38,6 +39,7 @@ export class AppComponent implements OnInit {
     this.isImageCaptured = false
     this.setCanvas()
     this.checkGyro();
+    this._window = window;
   }
 
   ngAfterViewInit() {
@@ -87,7 +89,7 @@ export class AppComponent implements OnInit {
   }
 
   checkGyro() {
-    if (window.DeviceMotionEvent) {
+    if (this._window.DeviceMotionEvent) {
       window.addEventListener('devicemotion', this.motion, false);
     } else {
       console.log('DeviceMotionEvent is not supported');
