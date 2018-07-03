@@ -29,11 +29,16 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(((position) => {
+      navigator.geolocation.watchPosition(((position) => {
         document.getElementById("gpsLongtitude").innerText = position.coords.longitude.toString()
         document.getElementById("gpsLatitude").innerText = position.coords.latitude.toString()
         console.log(position.coords);
       }))
+      // navigator.geolocation.getCurrentPosition(((position) => {
+      //   document.getElementById("gpsLongtitude").innerText = position.coords.longitude.toString()
+      //   document.getElementById("gpsLatitude").innerText = position.coords.latitude.toString()
+      //   console.log(position.coords);
+      // }))
     };
 
     this.isImageCaptured = false
