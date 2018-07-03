@@ -3,22 +3,19 @@
 <app-ui-sub-navigation [title]="(observable$ | async)?.title" [description]="(observable$ | async)?.text"></app-ui-sub-navigation>
 -->
 
-<video #video width="100%" height="100%" autoplay></video>
-<button style="
-    position: absolute;
-    top: 10%;
-    left: 10%;
+<video #video id="video" width="100%" height="100%" autoplay></video>
+
+<div class="btn-group" role="group" aria-label="Basic example" style="top: 5%;
+    left: 30%;
     transform: translate(-10%, -10%);
     -ms-transform: translate(-10%, -10%);
-    background-color: #555;
-    color: white;
-    font-size: 60px;
-    padding: 12px 24px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    text-align: center;">Send</button>
-<h2>{{location}}</h2>
+    position: absolute;">
+  <button *ngIf="!isImageCaptured" type="button" class="btn btn-secondary" (click)="generateThumbnail()">Capture</button>
+  <button *ngIf="isImageCaptured" type="button" class="btn btn-secondary" (click)="upload()">Upload</button>
+  <button *ngIf="isImageCaptured" type="button" class="btn btn-secondary" (click)="resetCamera()">Reset</button>
+</div>
+
+    <h2>{{location}}</h2>
 <!-- <div class="main">
   <router-outlet></router-outlet>
 </div>
