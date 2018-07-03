@@ -17,13 +17,32 @@ app.set("port", port);
 /**
  * Create HTTP server.
  */
-const server = http.createServer(app);
+//const server = http.createServer(app);
+
+/**
+ * Create HTTPS server.
+ */
+var fs = require('fs')
+
+var pathToEncrption = "../encryption/"
+var key = fs.readFileSync(pathToEncrption + 'private.key');
+var cert = fs.readFileSync(pathToEncrption + 'primary.crt' );
+
+var options = {
+  key: key,
+  cert: cert
+};
+
+var https = require('https');
+const server = https.createServer(options, app)
+
+server.listen(443)
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+// server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);
 
