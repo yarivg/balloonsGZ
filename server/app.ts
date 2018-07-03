@@ -24,11 +24,12 @@ app.use("/api/public", publicRouter);
 app.use("/api/feed", feedRouter);
 app.use("/api/user", userRouter);
 
-if (app.get("env") === "production") {
-
+// if (app.get("env") === "production") {
   // in production mode run application from dist folder
+
+  // PRODUCTION MODE
   app.use(express.static(path.join(__dirname, "/../client")));
-}
+// }
 
 // catch 404 and forward to error handler
 app.use((req: express.Request, res: express.Response, next) => {
