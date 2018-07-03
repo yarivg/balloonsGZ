@@ -16,6 +16,9 @@ import { ISimpleResponse } from './shared/interfaces/simple.interface';
   styleUrls: ['./app.component.css', './bootstrap.min.css']
 })
 export class AppComponent implements OnInit {
+  @ViewChild('video') video: any;
+  @ViewChild('gpsLongtitude') gpsLongtitude: any;
+  @ViewChild('gpsLatitude') gpsLatitude: any;
   location = {};
   observable$: Observable<ISimpleResponse>;
   isImageCaptured: boolean;
@@ -23,30 +26,19 @@ export class AppComponent implements OnInit {
 
   constructor(private http: HttpClient, private store: Store<IAppState>) { }
 
-  setPosition(position) {
-    // this.location = position.coords;
-    console.log(position.coords);
-  }
-
   ngOnInit() {
-
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(this.setPosition);
+      navigator.geolocation.getCurrentPosition(((position) => {
+        document.getElementById("gpsLongtitude").innerText = position.coords.longitude.toString()
+        document.getElementById("gpsLatitude").innerText = position.coords.latitude.toString()
+        console.log(position.coords);
+      }))
     };
-
-    // this.observable$ = this.http.get<ISimpleResponse>('/api/public/simple');
-
-    // this.store.dispatch({
-    //   type: USER_GET
-    // });
 
     this.isImageCaptured = false
     this.setCanvas()
+    this.checkGyro();
   }
-
-  // camera
-  @ViewChild('video') video: any;
-  // note that "#video" is the name of the template variable in the video element
 
   ngAfterViewInit() {
     let _video = this.video.nativeElement;
@@ -69,7 +61,6 @@ export class AppComponent implements OnInit {
     this.canvas.style.left = "25%";
     this.canvas.style.width = "50%";
     this.canvas.style.height = "50%";
-
   }
 
   generateThumbnail() {
@@ -93,5 +84,23 @@ export class AppComponent implements OnInit {
     this.isImageCaptured = false;
     console.log('resetting camera');
     document.body.removeChild(this.canvas);
+  }
+
+  checkGyro() {
+    if (window.DeviceMotionEvent) {
+      window.addEventListener('devicemotion', this.motion, false);
+    } else {
+      console.log('DeviceMotionEvent is not supported');
+    }
+  }
+
+  motion(event) {
+    const x = document.getElementById('gyroCordsX');
+    const y = document.getElementById('gyroCordsY');
+    const z = document.getElementById('gyroCordsZ');
+
+    x.textContent = event.accelerationIncludingGravity.x;
+    y.textContent = event.accelerationIncludingGravity.y;
+    z.textContent = event.accelerationIncludingGravity.z;
   }
 }
