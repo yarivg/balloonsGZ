@@ -38,6 +38,12 @@ const server = https.createServer(options, app)
 
 server.listen(443)
 
+// Redirect from http port 80 to https
+http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+}).listen(80);
+
 /**
  * Listen on provided port, on all network interfaces.
  */

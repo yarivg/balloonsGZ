@@ -10,7 +10,10 @@ import { IAppState } from './store';
 import { USER_GET } from './store/profile/profile.actions';
 import { ISimpleResponse } from './shared/interfaces/simple.interface';
 
+declare var $: any
+
 @Component({
+  moduleId: module.id + "",
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css', './bootstrap.min.css']
@@ -24,6 +27,8 @@ export class AppComponent implements OnInit {
   isImageCaptured: boolean;
   canvas: HTMLCanvasElement;
   _window: any;
+  phoneModal: any;
+  userPhoneNumber: string = localStorage.getItem('userPhoneNumber')
 
   constructor(private http: HttpClient, private store: Store<IAppState>) { }
 
@@ -34,17 +39,12 @@ export class AppComponent implements OnInit {
         document.getElementById("gpsLatitude").innerText = position.coords.latitude.toString()
         console.log(position.coords);
       }))
-      // navigator.geolocation.getCurrentPosition(((position) => {
-      //   document.getElementById("gpsLongtitude").innerText = position.coords.longitude.toString()
-      //   document.getElementById("gpsLatitude").innerText = position.coords.latitude.toString()
-      //   console.log(position.coords);
-      // }))
-    };
+    }
 
     this.isImageCaptured = false
+    this._window = window
     this.setCanvas()
-    this.checkGyro();
-    this._window = window;
+    this.checkGyro()
   }
 
   ngAfterViewInit() {
@@ -56,6 +56,37 @@ export class AppComponent implements OnInit {
           _video.play();
         })
     }
+
+    this.initModal()
+  }
+
+  savePhoneNumber() {
+    localStorage.setItem('userPhoneNumber', this.userPhoneNumber)
+    this.closeModal()
+  }
+
+  initModal() {
+    this.phoneModal = document.getElementById('phoneModal')
+
+    if(!this.userPhoneNumber) {
+      this.displayModal()
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('phoneModal')) {
+            document.getElementById('phoneModal').style.display = "none"
+        }
+    }
+  }
+
+  closeModal() {
+    this.phoneModal.style.display = "none";
+  }
+
+  displayModal() {
+    $("#phoneModal").modal('show')
+    // document.getElementById('phoneModal').style.display = "block";
   }
 
   setCanvas() {
