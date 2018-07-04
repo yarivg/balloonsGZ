@@ -125,30 +125,24 @@ export class AppComponent implements OnInit {
   }
 
   checkGyro() {
+    var alpha;
     if ('ondeviceorientationabsolute' in window) {
       alert('ondeviceorientationabsolute')
-      // We can listen for the new deviceorientationabsolute event.
-    } else if ('ondeviceorientation' in window) {
-      // We can still listen for deviceorientation events.
-      // The `absolute` property of the event tells us whether
-      // or not the degrees are absolute.
-      alert('ondeviceorientation')
-    }
-
-    this._window.addEventListener('deviceorientation', function(event: any) {
-      var alpha;
-      // Check for iOS property
-      if(event.webkitCompassHeading) {
+      this._window.addEventListener('deviceorientation', function(event: any) {
+        alert(JSON.stringify(event))
         alpha = event.webkitCompassHeading;
-      }
-      // non iOS
-      else {
-        alpha = event.alpha;
-        if(!window['chrome']) {
-          // Assume Android stock
-          alpha = alpha-270;
+      })
+
+    } else if ('ondeviceorientation' in window) {
+      alert('ondeviceorientation')
+      this._window.addEventListener('deviceorientation', function(event: any) {
+        // Check for iOS property
+        if(event.webkitCompassHeading) {
+          alpha = event.webkitCompassHeading;
         }
       }
+    }
+
 
       document.getElementById('northDegrees').innerText = alpha ? alpha.toString() : 'none'
     })
