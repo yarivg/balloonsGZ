@@ -10,7 +10,7 @@
     "lint:server": "tslint './server/**/*.ts' -c ./server/tslint.json --fix",
     "test:client": "ng test --watch false",
     "e2e:client": "ng e2e",
-    "build": "ng build --env=prod --sm=false --aot --output-path=dist/client && npm run server:build",
+    "build": "ng build --env=prod --sm=false --aot=false --output-path=dist/client && npm run server:build",
     "server:run": "nodemon",
     "server:build": "tsc -p ./server",
     "postinstall": "npm run build"
