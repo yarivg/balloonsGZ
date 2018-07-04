@@ -125,11 +125,38 @@ export class AppComponent implements OnInit {
   }
 
   checkGyro() {
-    if (this._window.DeviceMotionEvent) {
-      window.addEventListener('devicemotion', this.motion, false);
-    } else {
-      console.log('DeviceMotionEvent is not supported');
+    if ('ondeviceorientationabsolute' in window) {
+      alert('ondeviceorientationabsolute')
+      // We can listen for the new deviceorientationabsolute event.
+    } else if ('ondeviceorientation' in window) {
+      // We can still listen for deviceorientation events.
+      // The `absolute` property of the event tells us whether
+      // or not the degrees are absolute.
+      alert('ondeviceorientation')
     }
+
+    this._window.addEventListener('deviceorientation', function(event: any) {
+      var alpha;
+      // Check for iOS property
+      if(event.webkitCompassHeading) {
+        alpha = event.webkitCompassHeading;
+      }
+      // non iOS
+      else {
+        alpha = event.alpha;
+        if(!this._window.chrome) {
+          // Assume Android stock
+          alpha = alpha-270;
+        }
+      }
+
+      document.getElementById('northDegrees').innerText = alpha.toString()
+    })
+    // if (this._window.DeviceMotionEvent) {
+    //   window.addEventListener('devicemotion', this.motion, false);
+    // } else {
+    //   console.log('DeviceMotionEvent is not supported');
+    // }
   }
 
   motion(event) {
