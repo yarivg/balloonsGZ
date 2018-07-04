@@ -68,15 +68,15 @@ export class AppComponent implements OnInit {
   initModal() {
     this.phoneModal = document.getElementById('phoneModal')
 
-    if(!this.userPhoneNumber) {
+    if (!this.userPhoneNumber) {
       this.displayModal()
     }
-    
+
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('phoneModal')) {
-            document.getElementById('phoneModal').style.display = "none"
-        }
+    window.onclick = function (event) {
+      if (event.target == document.getElementById('phoneModal')) {
+        document.getElementById('phoneModal').style.display = "none"
+      }
     }
   }
 
@@ -91,10 +91,10 @@ export class AppComponent implements OnInit {
 
   setCanvas() {
     this.canvas = document.createElement('canvas');
-    this.canvas.width  = 100;
+    this.canvas.width = 100;
     this.canvas.height = 100;
     this.canvas.style.position = "absolute";
-    
+
     this.canvas.style.top = "25%";
     this.canvas.style.left = "25%";
     this.canvas.style.width = "50%";
@@ -103,13 +103,13 @@ export class AppComponent implements OnInit {
 
   generateThumbnail() {
     this.isImageCaptured = true;
-    
-    var videoElement = <HTMLCanvasElement> document.getElementById("video");
+
+    var videoElement = <HTMLCanvasElement>document.getElementById("video");
     videoElement = document.getElementById("video") as HTMLCanvasElement;
 
     var ctx = this.canvas.getContext('2d');
     ctx.drawImage(videoElement, 0, 0, 100, 100);
-    
+
     document.body.appendChild(this.canvas);
   }
 
@@ -126,40 +126,34 @@ export class AppComponent implements OnInit {
 
   checkGyro() {
     var alpha;
+    
     if ('ondeviceorientationabsolute' in window) {
       alert('ondeviceorientationabsolute')
-      this._window.addEventListener('deviceorientation', function(event: any) {
+      this._window.addEventListener('deviceorientation', function (event: any) {
         alert(JSON.stringify(event))
         alpha = event.webkitCompassHeading;
       })
 
     } else if ('ondeviceorientation' in window) {
       alert('ondeviceorientation')
-      this._window.addEventListener('deviceorientation', function(event: any) {
+      this._window.addEventListener('deviceorientation', function (event: any) {
         // Check for iOS property
-        if(event.webkitCompassHeading) {
+        if (event.webkitCompassHeading) {
           alpha = event.webkitCompassHeading;
         }
-      }
+      })
     }
 
-
-      document.getElementById('northDegrees').innerText = alpha ? alpha.toString() : 'none'
-    })
-    // if (this._window.DeviceMotionEvent) {
-    //   window.addEventListener('devicemotion', this.motion, false);
-    // } else {
-    //   console.log('DeviceMotionEvent is not supported');
-    // }
+    document.getElementById('northDegrees').innerText = alpha ? alpha.toString() : 'none'
   }
 
-  motion(event) {
-    const x = document.getElementById('gyroCordsX');
-    const y = document.getElementById('gyroCordsY');
-    const z = document.getElementById('gyroCordsZ');
+  // motion(event) {
+  //   const x = document.getElementById('gyroCordsX');
+  //   const y = document.getElementById('gyroCordsY');
+  //   const z = document.getElementById('gyroCordsZ');
 
-    x.textContent = event.accelerationIncludingGravity.x;
-    y.textContent = event.accelerationIncludingGravity.y;
-    z.textContent = event.accelerationIncludingGravity.z;
-  }
+  //   x.textContent = event.accelerationIncludingGravity.x;
+  //   y.textContent = event.accelerationIncludingGravity.y;
+  //   z.textContent = event.accelerationIncludingGravity.z;
+  // }
 }
