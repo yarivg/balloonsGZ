@@ -39,10 +39,16 @@ const server = https.createServer(options, app)
 server.listen(443)
 
 // Redirect from http port 80 to https
-// http.createServer(function (req, res) {
-//     res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-//     res.end();
-// }).listen(80);
+http.createServer(function (req, res) {
+  console.log(req.url)
+  if(req.url.indexOf('.well-known/acme-challenge/') > -1) {
+    res.write(fs.readFileSync('../' + req.url))
+    res.end();
+  } else{
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+  } 
+}).listen(80);
 
 /**
  * Listen on provided port, on all network interfaces.
