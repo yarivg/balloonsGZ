@@ -11,19 +11,26 @@
     -ms-transform: translate(-10%, -10%);
     position: absolute;">
   <button *ngIf="!isImageCaptured" type="button" class="btn btn-secondary" (click)="generateThumbnail()">Capture</button>
+  <button *ngIf="!isImageCaptured" type="button" class="btn btn-secondary" (click)="swapCamera()">Swap</button>
   <button *ngIf="isImageCaptured" type="button" class="btn btn-secondary" (click)="upload()">Upload</button>
   <button *ngIf="isImageCaptured" type="button" class="btn btn-secondary" (click)="resetCamera()">Reset</button>
 </div>
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<input type="file" accept="image/*">
+
 <div class="alert alert-primary" role="alert">
   <b>Longtitude:</b> <div #gpsLongtitude id="gpsLongtitude"></div>
   <b>Latitude:</b> <div #gpsLatitude id="gpsLatitude"></div>
 </div>
+
 <div class="alert alert-primary" role="alert">
   <b>Gyro:</b>
   <div #gyroCordsX id="gyroCordsX"></div>
   <div #gyroCordsY id="gyroCordsY"></div>
   <div #gyroCordsZ id="gyroCordsZ"></div>
 </div>
+
 <!-- <div class="main">
   <router-outlet></router-outlet>
 </div>

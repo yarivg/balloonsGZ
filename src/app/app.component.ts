@@ -24,6 +24,10 @@ export class AppComponent implements OnInit {
   isImageCaptured: boolean;
   canvas: HTMLCanvasElement;
   _window: any;
+  
+  // Camera
+  camOptions: any;
+  isRearCam: boolean;
 
   constructor(private http: HttpClient, private store: Store<IAppState>) { }
 
@@ -34,29 +38,43 @@ export class AppComponent implements OnInit {
         document.getElementById("gpsLatitude").innerText = position.coords.latitude.toString()
         console.log(position.coords);
       }))
-      // navigator.geolocation.getCurrentPosition(((position) => {
-      //   document.getElementById("gpsLongtitude").innerText = position.coords.longitude.toString()
-      //   document.getElementById("gpsLatitude").innerText = position.coords.latitude.toString()
-      //   console.log(position.coords);
-      // }))
     };
 
     this.isImageCaptured = false
     this.setCanvas()
-    this.checkGyro();
-    this._window = window;
+    this.checkGyro()
+    this._window = window
+
+    this.isRearCam = true
+    this.camOptions = {
+      rear: { video: { facingMode: "environment" } },
+      front: { video: true }
+    }
   }
 
   ngAfterViewInit() {
+    this.initCamera(this.camOptions.rear)
+  }
+
+  swapCamera() {
+    this.isRearCam ? this.initCamera(this.camOptions.front) : this.initCamera(this.camOptions.rear)
+
+    this.isRearCam = !this.isRearCam
+    console.log(this.isRearCam)
+  }
+
+  initCamera(camOptions) {
     let _video = this.video.nativeElement;
+    
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true })
+      navigator.mediaDevices.getUserMedia(camOptions)
         .then(stream => {
           _video.src = window.URL.createObjectURL(stream);
           _video.play();
         })
     }
   }
+  
 
   setCanvas() {
     this.canvas = document.createElement('canvas');
