@@ -126,16 +126,13 @@ export class AppComponent implements OnInit {
 
   checkGyro() {
     var alpha;
-    
+
     if ('ondeviceorientationabsolute' in window) {
-      alert('ondeviceorientationabsolute')
       this._window.addEventListener('deviceorientation', function (event: any) {
-        alert(JSON.stringify(event))
         alpha = event.webkitCompassHeading;
       })
 
     } else if ('ondeviceorientation' in window) {
-      alert('ondeviceorientation')
       this._window.addEventListener('deviceorientation', function (event: any) {
         // Check for iOS property
         if (event.webkitCompassHeading) {
