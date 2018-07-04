@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
   ngAfterViewInit() {
     let _video = this.video.nativeElement;
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true })
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
         .then(stream => {
           _video.src = window.URL.createObjectURL(stream);
           _video.play();
