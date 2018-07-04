@@ -31,6 +31,7 @@
   <button *ngIf="isImageCaptured" type="button" class="btn btn-secondary" (click)="upload()">Upload</button>
   <button *ngIf="isImageCaptured" type="button" class="btn btn-secondary" (click)="resetCamera()">Reset</button>
 </div>
+<input type="file" accept="image/*,video/*" capture>
 <div class="alert alert-primary" role="alert">
   <b>Longtitude:</b> <div #gpsLongtitude id="gpsLongtitude"></div>
   <b>Latitude:</b> <div #gpsLatitude id="gpsLatitude"></div>
