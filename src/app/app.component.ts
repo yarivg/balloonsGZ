@@ -44,15 +44,14 @@ export class AppComponent implements OnInit {
     this.setCanvas()
     this.checkGyro()
     this._window = window
+  }
 
+  ngAfterViewInit() {
     this.isRearCam = true
     this.camOptions = {
       rear: { video: { facingMode: "environment" } },
       front: { video: true }
     }
-  }
-
-  ngAfterViewInit() {
     this.initCamera(this.camOptions.rear)
   }
 
