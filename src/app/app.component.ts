@@ -144,13 +144,13 @@ export class AppComponent implements OnInit {
       // non iOS
       else {
         alpha = event.alpha;
-        if(!this._window.chrome) {
+        if(!window['chrome']) {
           // Assume Android stock
           alpha = alpha-270;
         }
       }
 
-      document.getElementById('northDegrees').innerText = alpha.toString()
+      document.getElementById('northDegrees').innerText = alpha ? alpha.toString() : 'none'
     })
     // if (this._window.DeviceMotionEvent) {
     //   window.addEventListener('devicemotion', this.motion, false);
