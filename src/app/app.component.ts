@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
     this.isImageCaptured = false
     this._window = window
     this.setCanvas()
-    this.checkGyro()
+    this.checkNorth()
   }
 
   ngAfterViewInit() {
@@ -124,24 +124,7 @@ export class AppComponent implements OnInit {
     document.body.removeChild(this.canvas);
   }
 
-  checkGyro() {
-    // alert('ondeviceorientationabsolute' in window ? 'ondeviceorientationabsolute' : 'ondeviceorientation')
-    // if ('ondeviceorientationabsolute' in window) {
-    //   this._window.addEventListener('deviceorientationabsolute', function (event: any) {
-    //     document.getElementById('northDegrees').innerText = 
-    //           event.alpha ? event.alpha.toString() : 'none'
-    //   })
-    // } else 
-    // if ('ondeviceorientation' in window) {
-    //   this._window.addEventListener('deviceorientation', function (event: any) {
-    //     alert(JSON.stringify(event))
-    //     if (event.webkitCompassHeading) {
-    //       document.getElementById('northDegrees').innerText =
-    //         event.webkitCompassHeading ? event.webkitCompassHeading.toString() : 'none'
-    //     }
-    //   })
-    // }
-
+  checkNorth() {
     // Check if device can provide absolute orientation data
     if('DeviceOrientationAbsoluteEvent' in window) {
       window.addEventListener("DeviceOrientationAbsoluteEvent", this.deviceOrientationListener);
