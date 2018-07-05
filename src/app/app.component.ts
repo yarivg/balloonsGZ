@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
     this.isImageCaptured = false
     this._window = window
     this.setCanvas()
-    this.checkGyro()
+    this.checkNorth()
   }
 
   ngAfterViewInit() {
@@ -124,32 +124,31 @@ export class AppComponent implements OnInit {
     document.body.removeChild(this.canvas);
   }
 
-  checkGyro() {
-    // alert('ondeviceorientationabsolute' in window ? 'ondeviceorientationabsolute' : 'ondeviceorientation')
-    // if ('ondeviceorientationabsolute' in window) {
-    //   this._window.addEventListener('deviceorientationabsolute', function (event: any) {
-    //     document.getElementById('northDegrees').innerText = 
-    //           event.alpha ? event.alpha.toString() : 'none'
-    //   })
-    // } else 
-    if ('ondeviceorientation' in window) {
-      this._window.addEventListener('deviceorientation', function (event: any) {
-        alert(JSON.stringify(event))
-        if (event.webkitCompassHeading) {
-          document.getElementById('northDegrees').innerText = 
-              event.webkitCompassHeading ? event.webkitCompassHeading.toString() : 'none'
-        }
-      })
+  checkNorth() {
+    // Check if device can provide absolute orientation data
+    if('DeviceOrientationAbsoluteEvent' in window) {
+      window.addEventListener("DeviceOrientationAbsoluteEvent", this.deviceOrientationListener);
+    } // If not, check if the device sends any orientation data
+    else if('DeviceOrientationEvent' in window) {
+      window.addEventListener("deviceorientation", this.deviceOrientationListener);
+    } // Send an alert if the device isn't compatible
+    else {
+      alert("Sorry, try again on a compatible mobile device!");
     }
   }
 
-  // motion(event) {
-  //   const x = document.getElementById('gyroCordsX');
-  //   const y = document.getElementById('gyroCordsY');
-  //   const z = document.getElementById('gyroCordsZ');
+  deviceOrientationListener(event) {
+    var alpha = event.alpha; //z axis rotation [0,360)
 
-  //   x.textContent = event.accelerationIncludingGravity.x;
-  //   y.textContent = event.accelerationIncludingGravity.y;
-  //   z.textContent = event.accelerationIncludingGravity.z;
-  // }
+    //Check if absolute values have been sent
+    if (typeof event.webkitCompassHeading !== "undefined") {
+      alpha = event.webkitCompassHeading; //iOS non-standard
+      var heading = alpha
+      document.getElementById("northDegrees").innerHTML = heading.toFixed([0]);
+    }
+    else {
+      var heading: any = 360 - alpha; //heading [0, 360)
+      document.getElementById("northDegrees").innerHTML = heading.toFixed([0]).toString() + "(relavtive north)";
+    }
+  }
 }
