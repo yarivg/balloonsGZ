@@ -125,11 +125,14 @@ export class AppComponent implements OnInit {
   }
 
   checkGyro() {
-    if ('ondeviceorientationabsolute' in window) {
-      this._window.addEventListener('deviceorientationabsolute', function (event: any) {
-        alert(JSON.stringify(event))
-      })
-    } else if ('ondeviceorientation' in window) {
+    // alert('ondeviceorientationabsolute' in window ? 'ondeviceorientationabsolute' : 'ondeviceorientation')
+    // if ('ondeviceorientationabsolute' in window) {
+    //   this._window.addEventListener('deviceorientationabsolute', function (event: any) {
+    //     document.getElementById('northDegrees').innerText = 
+    //           event.alpha ? event.alpha.toString() : 'none'
+    //   })
+    // } else 
+    if ('ondeviceorientation' in window) {
       this._window.addEventListener('deviceorientation', function (event: any) {
         alert(JSON.stringify(event))
         if (event.webkitCompassHeading) {
