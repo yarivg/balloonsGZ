@@ -41,7 +41,8 @@ server.listen(443)
 // Redirect from http port 80 to https
 http.createServer(function (req, res) {
   console.log(req.url)
-  if(req.url.indexOf('.well-known/acme-challenge/') > -1) {
+  if(req.url.indexOf('.well-known/acme-challenge/') > -1 ||
+     req.url.indexOf('.well-known/pki-validation/')  > -1) {
     res.write(fs.readFileSync('../' + req.url))
     res.end();
   } else{
