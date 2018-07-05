@@ -33,8 +33,6 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient, private store: Store<IAppState>) { }
 
   ngOnInit() {
-    
-
     this.isImageCaptured = false
     this._window = window
     this.setCanvas()
@@ -46,7 +44,21 @@ export class AppComponent implements OnInit {
         document.getElementById("gpsLongtitude").innerText = position.coords.longitude.toString()
         document.getElementById("gpsLatitude").innerText = position.coords.latitude.toString()
         console.log(position.coords);
-      }))
+      }), (error) => {
+        var gpsElement = document.getElementById("gpsLongtitude")
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            gpsElement.innerHTML = "User denied the request for Geolocation."
+            this.checkLocation()
+            break;
+          case error.POSITION_UNAVAILABLE:
+            gpsElement.innerHTML = "Location information is unavailable."
+            break;
+          case error.TIMEOUT:
+            gpsElement.innerHTML = "The request to get user location timed out."
+            break;
+        }
+      })
     }
   }
 
@@ -71,7 +83,7 @@ export class AppComponent implements OnInit {
     this.checkLocation()
     this.checkNorth()
 
-    $('#phoneModal').modal('hide')  
+    $('#phoneModal').modal('hide')
   }
 
   initModal() {
@@ -87,7 +99,7 @@ export class AppComponent implements OnInit {
   }
 
   displayModal() {
-    $('#phoneModal').modal({backdrop: 'static', keyboard: false})  
+    $('#phoneModal').modal({ backdrop: 'static', keyboard: false })
   }
 
   setCanvas() {
@@ -127,10 +139,10 @@ export class AppComponent implements OnInit {
 
   checkNorth() {
     // Check if device can provide absolute orientation data
-    if('DeviceOrientationAbsoluteEvent' in window) {
+    if ('DeviceOrientationAbsoluteEvent' in window) {
       window.addEventListener("DeviceOrientationAbsoluteEvent", this.deviceOrientationListener);
     } // If not, check if the device sends any orientation data
-    else if('DeviceOrientationEvent' in window) {
+    else if ('DeviceOrientationEvent' in window) {
       window.addEventListener("deviceorientation", this.deviceOrientationListener);
     } // Send an alert if the device isn't compatible
     else {
