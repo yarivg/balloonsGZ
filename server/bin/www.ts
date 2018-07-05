@@ -26,9 +26,9 @@ var fs = require('fs')
 
 var pathToEncrption = "../encryption/"
 var key = fs.readFileSync(pathToEncrption + 'balloon_private.key');
-var cert = fs.readFileSync(pathToEncrption + 'ballon_cert.crt' );
+var cert = fs.readFileSync(pathToEncrption + 'balloםn_cf.crt' );
 var ca = [
-  fs.readFileSync(pathToEncrption + 'balloon_cf.crt' ),
+  // fs.readFileSync(pathToEncrption + 'balloon_cf.crt' ),
   fs.readFileSync(pathToEncrption + 'AddTrustExternalCARoot.crt' ),
   fs.readFileSync(pathToEncrption + 'COMODORSAAddTrustCA.crt' ),
   fs.readFileSync(pathToEncrption + 'COMODORSADomainValidationSecureServerCA.crt' )
