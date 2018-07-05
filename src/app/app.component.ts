@@ -164,9 +164,8 @@ export class AppComponent implements OnInit {
       document.getElementById("northDegrees").innerHTML = heading.toFixed([0]);
     }
     else {
-      alert("Your device is reporting relative alpha values, so this compass won't point north :(");
       var heading: any = 360 - alpha; //heading [0, 360)
-      document.getElementById("northDegrees").innerHTML = heading.toFixed([0]);
+      document.getElementById("northDegrees").innerHTML = heading.toFixed([0]).toString() + "(relavtive north)";
     }
   }
 }
