@@ -126,7 +126,7 @@ export class AppComponent implements OnInit {
 
   checkGyro() {
     if ('ondeviceorientationabsolute' in window) {
-      this._window.addEventListener('deviceorientation', function (event: any) {
+      this._window.addEventListener('deviceorientationabsolute', function (event: any) {
         alert(JSON.stringify(event))
       })
     } else if ('ondeviceorientation' in window) {
