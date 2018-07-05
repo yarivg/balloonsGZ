@@ -40,21 +40,18 @@ server.listen(443)
 
 // Redirect from http port 80 to https
 http.createServer(function (req, res) {
-  var util = require('util')
-  console.log(util.inspect(req))
-  console.log('-----')
-  console.log(req.url)
-  if(req.url.indexOf('/favicon.ico') == -1) {
-    if(req.url.indexOf('.well-known/acme-challenge/') > -1 ||
-      req.url.indexOf('.well-known/pki-validation/')  > -1) {
-      res.write(fs.readFileSync('../' + req.url))
-      res.end();
-    } 
+  if(req.url.indexOf('.well-known/acme-challenge/') > -1 ||
+    req.url.indexOf('.well-known/pki-validation/')  > -1) {
+    res.write(fs.readFileSync('../' + req.url))
+    
+  } else if(req.url.indexOf('/favicon.ico') == -1) {
+    res.write(fs.readFileSync('src/favicon.ico'))
   }
   else{
     res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-    res.end();
   } 
+
+  res.end();
 }).listen(80);
 
 /**
