@@ -25,7 +25,7 @@ app.set("port", port);
 var fs = require('fs')
 
 var pathToEncrption = "../encryption/"
-var key = fs.readFileSync(pathToEncrption + 'ballon_private.key');
+var key = fs.readFileSync(pathToEncrption + 'balloon_private.key');
 var cert = fs.readFileSync(pathToEncrption + 'balloon_cert.crt' );
 var ca = [
   fs.readFileSync(pathToEncrption + 'balloon_cf.crt' ),
