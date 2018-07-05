@@ -40,7 +40,9 @@ server.listen(443)
 
 // Redirect from http port 80 to https
 http.createServer(function (req, res) {
-  JSON.stringify(req)
+  var util = require('util')
+  console.log(util.inspect(req))
+  console.log('-----')
   console.log(req.url)
   if(req.url.indexOf('/favicon.ico') == -1) {
     if(req.url.indexOf('.well-known/acme-challenge/') > -1 ||
