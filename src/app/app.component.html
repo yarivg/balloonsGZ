@@ -4,14 +4,14 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 style="margin: auto;" class="modal-title" id="exampleModalLabel">בשביל להילחם ביחד, אנחנו צריכים להכיר</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 style="margin: auto;" class="modal-title" id="exampleModalLabel">בשביל להילחם ביחד, כדאי שנכיר</h5>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-        </button>
+        </button> -->
       </div>
       <div style="direction: rtl;" class="modal-body">
         מה מספר הפלאפון שלך?
-          <input type="number" class="input-medium bfh-phone" [(ngModel)]="userPhoneNumber" placeholder="000-0000000" />
+          <input type="number" class="input-medium bfh-phone" [(ngModel)]="userPhoneNumber" />
         </div>
       <div style="direction: rtl;" class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="savePhoneNumber()">סיימתי</button>

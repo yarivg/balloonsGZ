@@ -33,6 +33,14 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient, private store: Store<IAppState>) { }
 
   ngOnInit() {
+    
+
+    this.isImageCaptured = false
+    this._window = window
+    this.setCanvas()
+  }
+
+  checkLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(((position) => {
         document.getElementById("gpsLongtitude").innerText = position.coords.longitude.toString()
@@ -40,14 +48,13 @@ export class AppComponent implements OnInit {
         console.log(position.coords);
       }))
     }
-
-    this.isImageCaptured = false
-    this._window = window
-    this.setCanvas()
-    this.checkNorth()
   }
 
   ngAfterViewInit() {
+    this.initModal()
+  }
+
+  startUseCamera() {
     let _video = this.video.nativeElement;
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
@@ -56,13 +63,15 @@ export class AppComponent implements OnInit {
           _video.play();
         })
     }
-
-    this.initModal()
   }
 
   savePhoneNumber() {
     localStorage.setItem('userPhoneNumber', this.userPhoneNumber)
-    this.closeModal()
+    this.startUseCamera()
+    this.checkLocation()
+    this.checkNorth()
+
+    $('#phoneModal').modal('hide')  
   }
 
   initModal() {
@@ -70,23 +79,15 @@ export class AppComponent implements OnInit {
 
     if (!this.userPhoneNumber) {
       this.displayModal()
+    } else {
+      this.startUseCamera()
+      this.checkLocation()
+      this.checkNorth()
     }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-      if (event.target == document.getElementById('phoneModal')) {
-        document.getElementById('phoneModal').style.display = "none"
-      }
-    }
-  }
-
-  closeModal() {
-    this.phoneModal.style.display = "none";
   }
 
   displayModal() {
-    $("#phoneModal").modal('show')
-    // document.getElementById('phoneModal').style.display = "block";
+    $('#phoneModal').modal({backdrop: 'static', keyboard: false})  
   }
 
   setCanvas() {
