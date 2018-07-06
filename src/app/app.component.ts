@@ -151,6 +151,7 @@ export class AppComponent implements OnInit {
   }
 
   deviceOrientationListener(event) {
+    alert(JSON.stringify(event))
     var alpha = event.alpha; //z axis rotation [0,360)
 
     //Check if absolute values have been sent
