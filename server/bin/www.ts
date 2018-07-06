@@ -43,11 +43,10 @@ var options = {
 var https = require('https');
 const server = https.createServer(options, app)
 
-server.listen(443)
+server.listen(443, () => console.log('Balloon listening on port 443!'))
 
 // Redirect from http port 80 to https
 http.createServer(function (req, res) {
-  console.log(req.url)
   if(req.url.indexOf('.well-known/acme-challenge/') > -1 ||
     req.url.indexOf('.well-known/pki-validation/')  > -1) {
     res.write(fs.readFileSync('../' + req.url))
@@ -60,7 +59,7 @@ http.createServer(function (req, res) {
   } 
 
   res.end();
-}).listen(80);
+}).listen(80, () => console.log('Http Port 80 is forwarding to Https(443)'))
 
 /**
  * Listen on provided port, on all network interfaces.
