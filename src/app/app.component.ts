@@ -29,6 +29,8 @@ export class AppComponent implements OnInit {
   _window: any;
   phoneModal: any;
   userPhoneNumber: string = localStorage.getItem('userPhoneNumber')
+  fileToUpload: File = null
+  descritpion: string;
 
   constructor(private http: HttpClient, private store: Store<IAppState>) { }
 
@@ -36,6 +38,24 @@ export class AppComponent implements OnInit {
     this.isImageCaptured = false
     this._window = window
     this.setCanvas()
+  }
+
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+  }
+
+  uploadFileToActivity() {
+    this.http.post('', this.fileToUpload).subscribe(data => {
+      // do something, if upload success
+      }, error => {
+        console.log(error);
+      });
+  }
+
+  postFile(fileToUpload: File) {
+    const endpoint = 'your-destination-url';
+    const formData: FormData = new FormData();
+    formData.append('fileKey', fileToUpload, fileToUpload.name);
   }
 
   checkLocation() {
