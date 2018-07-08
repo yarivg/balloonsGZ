@@ -11,7 +11,7 @@ export class UserAgentService {
      * @returns {String}
      */
     getMobileOperatingSystem() {
-        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        var userAgent = navigator.userAgent || navigator.vendor || window['opera'];
 
         // Windows Phone must come first because its UA also contains "Android"
         if (/windows phone/i.test(userAgent)) {
@@ -23,7 +23,7 @@ export class UserAgentService {
         }
 
         // iOS detection from: http://stackoverflow.com/a/9039885/177710
-        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window['MSStream']) {
             return "iOS";
         }
 
@@ -35,9 +35,9 @@ export class UserAgentService {
      * @returns {Boolean}
      */
     isiOSPhone() {
-        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        var userAgent = navigator.userAgent || navigator.vendor || window['opera'];
 
-        return /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream ? true : false
+        return /iPad|iPhone|iPod/.test(userAgent) && !window['MSStream'] ? true : false
     }
 
    /**
@@ -45,7 +45,7 @@ export class UserAgentService {
      * @returns {Boolean}
      */
     isAndroidPhone() {
-        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        var userAgent = navigator.userAgent || navigator.vendor || window['opera'];
 
         return /android/i.test(userAgent) ? true : false
     }
