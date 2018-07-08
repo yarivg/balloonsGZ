@@ -5,9 +5,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 style="margin: auto;" class="modal-title" id="exampleModalLabel">בשביל להילחם ביחד, כדאי שנכיר</h5>
-        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
       </div>
       <div style="direction: rtl;" class="modal-body">
         מה מספר הפלאפון שלך?
@@ -21,20 +18,21 @@
 </div> 
 
 <!-- Modal -->
- <div class="modal fade" id="uimageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 style="margin: auto;" class="modal-title" id="exampleModalLabel">זיהית גורם מסכן?</h5>
+        <h5 style="direction: rtl; text-align: center; margin: auto; width: -webkit-fill-available;" class="modal-title" id="exampleModalLabel">זיהית גורם מסוכן?</h5>
          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button> 
       </div>
-      <div style="direction: rtl;" class="modal-body">
-          <input type="textarea" [(ngModel)]="descritpion" />
+      <div class="modal-body" style="direction: rtl; text-align: center;">
+          <div id="imageToUpload"></div>
+          <textarea [(ngModel)]="description" rows="3" cols="40"></textarea>
         </div>
       <div style="direction: rtl;" class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="savePhoneNumber()">סיימתי</button>
+        <button type="button" class="btn btn-primary" (click)="upload()">העלה תמונה</button>
       </div>
     </div>
   </div>
@@ -43,13 +41,17 @@
 <video #video id="video" width="100%" height="100%" autoplay></video>
 
 <div class="btn-group" role="group" aria-label="Basic example" style="top: 5%;
-    left: 30%;
+    left: 20%;
     transform: translate(-10%, -10%);
     -ms-transform: translate(-10%, -10%);
-    position: absolute;">
-  <button *ngIf="!isImageCaptured" type="button" class="btn btn-secondary" (click)="generateThumbnail()">Capture</button>
-  <button *ngIf="isImageCaptured" type="button" class="btn btn-secondary" (click)="upload()">Upload</button>
-  <button *ngIf="isImageCaptured" type="button" class="btn btn-secondary" (click)="resetCamera()">Reset</button>
+    position: absolute;
+    width: 7%;
+    height: 10%;">
+  <button type="button" class="btn btn-secondary" (click)="picture()">
+    <img style="width: 50%; height: 50%" src="https://cdn4.iconfinder.com/data/icons/photos-and-pictures/60/camera_sign_copy-512.png"/>
+    <br/>
+    Capture
+  </button>
 </div>
 <input type="file" accept="image/*,video/*" capture (change)="handleFileInput($event.target.files)">
 <div class="alert alert-primary" role="alert">

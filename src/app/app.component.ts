@@ -19,23 +19,21 @@ declare var $: any
   styleUrls: ['./app.component.css', './bootstrap.min.css']
 })
 export class AppComponent implements OnInit {
-  @ViewChild('video') video: any;
-  @ViewChild('gpsLongtitude') gpsLongtitude: any;
-  @ViewChild('gpsLatitude') gpsLatitude: any;
+  @ViewChild('video') video: any
+  @ViewChild('gpsLongtitude') gpsLongtitude: any
+  @ViewChild('gpsLatitude') gpsLatitude: any
   location = {};
-  observable$: Observable<ISimpleResponse>;
-  isImageCaptured: boolean;
-  canvas: HTMLCanvasElement;
-  _window: any;
-  phoneModal: any;
+  observable$: Observable<ISimpleResponse>
+  canvas: HTMLCanvasElement
+  _window: any
+  phoneModal: any
   userPhoneNumber: string = localStorage.getItem('userPhoneNumber')
   fileToUpload: File = null
-  descritpion: string;
+  description: string = ''
 
   constructor(private http: HttpClient, private store: Store<IAppState>) { }
 
   ngOnInit() {
-    this.isImageCaptured = false
     this._window = window
     this.setCanvas()
   }
@@ -126,33 +124,29 @@ export class AppComponent implements OnInit {
     this.canvas = document.createElement('canvas');
     this.canvas.width = 100;
     this.canvas.height = 100;
-    this.canvas.style.position = "absolute";
-
-    this.canvas.style.top = "25%";
-    this.canvas.style.left = "25%";
-    this.canvas.style.width = "50%";
-    this.canvas.style.height = "50%";
+    this.canvas.style.width = "75%";
+    this.canvas.style.height = "75%";
   }
 
-  generateThumbnail() {
-    this.isImageCaptured = true;
-
+  picture() {
     var videoElement = <HTMLCanvasElement>document.getElementById("video");
     videoElement = document.getElementById("video") as HTMLCanvasElement;
 
     var ctx = this.canvas.getContext('2d');
     ctx.drawImage(videoElement, 0, 0, 100, 100);
 
-    document.body.appendChild(this.canvas);
+    document.getElementById('imageToUpload').appendChild(this.canvas);
+
+    $('#imageModal').modal('show')
   }
 
   upload() {
+    $('#imageModal').modal('hide')
     window.alert('uploading image. thank you!')
     console.log('uploaded')
   }
 
   resetCamera() {
-    this.isImageCaptured = false;
     console.log('resetting camera');
     document.body.removeChild(this.canvas);
   }
