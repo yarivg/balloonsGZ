@@ -1,6 +1,5 @@
-
 <!-- Modal -->
- <div class="modal fade" id="phoneModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="phoneModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -8,35 +7,35 @@
       </div>
       <div style="direction: rtl;" class="modal-body">
         מה מספר הפלאפון שלך?
-          <input type="number" class="input-medium bfh-phone" [(ngModel)]="userPhoneNumber" />
-        </div>
+        <input type="number" class="input-medium bfh-phone" [(ngModel)]="userPhoneNumber" />
+      </div>
       <div style="direction: rtl;" class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="savePhoneNumber()">סיימתי</button>
       </div>
     </div>
   </div>
-</div> 
+</div>
 
 <!-- Modal -->
- <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 style="direction: rtl; text-align: center; margin: auto; width: -webkit-fill-available;" class="modal-title" id="exampleModalLabel">זיהית גורם מסוכן?</h5>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-        </button> 
+        </button>
       </div>
       <div class="modal-body" style="direction: rtl; text-align: center;">
-          <div id="imageToUpload"></div>
-          <textarea [(ngModel)]="description" rows="3" cols="40"></textarea>
-        </div>
+        <img id="image">
+        <textarea [(ngModel)]="description" rows="3" cols="35"></textarea>
+      </div>
       <div style="direction: rtl;" class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="upload()">העלה תמונה</button>
       </div>
     </div>
   </div>
-</div> 
+</div>
 
 <video #video id="video" width="100%" height="100%" autoplay></video>
 
@@ -47,7 +46,7 @@
     position: absolute;
     width: 7%;
     height: 10%;">
-  <button type="button" class="btn btn-secondary" (click)="picture()">
+  <button type="button" class="btn btn-secondary" (click)="capture()">
     <img style="width: 50%; height: 50%" src="https://cdn4.iconfinder.com/data/icons/photos-and-pictures/60/camera_sign_copy-512.png"/>
     <br/>
     Capture
@@ -55,17 +54,20 @@
 </div>
 <input type="file" accept="image/*,video/*" capture (change)="handleFileInput($event.target.files)">
 <div class="alert alert-primary" role="alert">
-  <b>Longtitude:</b> <div #gpsLongtitude id="gpsLongtitude"></div>
-  <b>Latitude:</b> <div #gpsLatitude id="gpsLatitude"></div>
+  <b>Longtitude:</b>
+  <div #gpsLongtitude id="gpsLongtitude"></div>
+  <b>Latitude:</b>
+  <div #gpsLatitude id="gpsLatitude"></div>
 </div>
 <div class="alert alert-primary" role="alert">
-  <b>Phone Number:</b>
-  {{ userPhoneNumber }}
+  <b>Phone Number:</b> {{ userPhoneNumber }}
 </div>
 <div class="alert alert-primary" role="alert">
   <b>North Degrees:</b>
-  <div id="northDegrees"></div>
+  <div>{{currAzimuth}}</div>
+  <div *ngIf="isRelativeAzimuth">(relavtive north)</div>
 </div>
+
 <!-- <app-ui-top-navigation></app-ui-top-navigation>
 
 <app-ui-sub-navigation [title]="(observable$ | async)?.title" [description]="(observable$ | async)?.text"></app-ui-sub-navigation>

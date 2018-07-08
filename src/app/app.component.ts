@@ -30,30 +30,28 @@ export class AppComponent implements OnInit {
   userPhoneNumber: string = localStorage.getItem('userPhoneNumber')
   fileToUpload: File = null
   description: string = ''
+  azimuthWhenCapturing: number = 0
+  currAzimuth: number = 0
+  isRelativeAzimuth: boolean = false
 
   constructor(private http: HttpClient, private store: Store<IAppState>) { }
 
   ngOnInit() {
     this._window = window
-    this.setCanvas()
+    this.currAzimuth = 0
   }
 
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
   }
 
+  //TODO: upload file with accepted format
   uploadFileToActivity() {
     this.http.post('', this.fileToUpload).subscribe(data => {
       // do something, if upload success
-      }, error => {
-        console.log(error);
-      });
-  }
-
-  postFile(fileToUpload: File) {
-    const endpoint = 'your-destination-url';
-    const formData: FormData = new FormData();
-    formData.append('fileKey', fileToUpload, fileToUpload.name);
+    }, error => {
+      console.log(error);
+    });
   }
 
   checkLocation() {
@@ -120,22 +118,19 @@ export class AppComponent implements OnInit {
     $('#phoneModal').modal({ backdrop: 'static', keyboard: false })
   }
 
-  setCanvas() {
-    this.canvas = document.createElement('canvas');
-    this.canvas.width = 100;
-    this.canvas.height = 100;
-    this.canvas.style.width = "75%";
-    this.canvas.style.height = "75%";
-  }
+  capture() {
+    const img = document.getElementById('image');
+    const video = document.querySelector('video');
 
-  picture() {
-    var videoElement = <HTMLCanvasElement>document.getElementById("video");
-    videoElement = document.getElementById("video") as HTMLCanvasElement;
+    const canvas = document.createElement('canvas');
 
-    var ctx = this.canvas.getContext('2d');
-    ctx.drawImage(videoElement, 0, 0, 100, 100);
-
-    document.getElementById('imageToUpload').appendChild(this.canvas);
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0);
+    
+    img.setAttribute("src", canvas.toDataURL('image/webp'));
+    img.style.width="75%"
+    img.style.height="75%"
 
     $('#imageModal').modal('show')
   }
@@ -146,36 +141,31 @@ export class AppComponent implements OnInit {
     console.log('uploaded')
   }
 
-  resetCamera() {
-    console.log('resetting camera');
-    document.body.removeChild(this.canvas);
-  }
-
   checkNorth() {
     // Check if device can provide absolute orientation data
     if ('DeviceOrientationAbsoluteEvent' in window) {
-      window.addEventListener("DeviceOrientationAbsoluteEvent", this.deviceOrientationListener);
+      window.addEventListener("DeviceOrientationAbsoluteEvent", (event: any) => {
+        this.deviceOrientationHandler(event)
+      })
     } // If not, check if the device sends any orientation data
     else if ('DeviceOrientationEvent' in window) {
-      window.addEventListener("deviceorientation", this.deviceOrientationListener);
+      window.addEventListener("deviceorientation",(event: any) => {
+        this.deviceOrientationHandler(event)
+      });
     } // Send an alert if the device isn't compatible
     else {
       alert("Sorry, try again on a compatible mobile device!");
     }
   }
 
-  deviceOrientationListener(event) {
-    var alpha = event.alpha; //z axis rotation [0,360)
-
-    //Check if absolute values have been sent
-    if (typeof event.webkitCompassHeading !== "undefined") {
-      alpha = event.webkitCompassHeading; //iOS non-standard
-      var heading = alpha
-      document.getElementById("northDegrees").innerHTML = heading.toFixed([0]);
-    }
-    else {
-      var heading: any = 360 - alpha; //heading [0, 360)
-      document.getElementById("northDegrees").innerHTML = heading.toFixed([0]).toString() + "(relavtive north)";
-    }
+  deviceOrientationHandler(event: any) {
+      //Check if absolute values have been sent
+      if (typeof event.webkitCompassHeading !== "undefined") {
+        this.currAzimuth = event.webkitCompassHeading; //iOS non-standard
+      }
+      else {
+        this.currAzimuth = 360 - event.alpha
+        this.isRelativeAzimuth = true
+      }
   }
 }
