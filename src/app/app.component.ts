@@ -10,13 +10,16 @@ import { IAppState } from './store';
 import { USER_GET } from './store/profile/profile.actions';
 import { ISimpleResponse } from './shared/interfaces/simple.interface';
 
+import { UserAgentService } from '../services/userAgent.service'
+
 declare var $: any
 
 @Component({
   moduleId: module.id + "",
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css', './bootstrap.min.css']
+  styleUrls: ['./app.component.css', './bootstrap.min.css'],
+  providers: [UserAgentService]
 })
 export class AppComponent implements OnInit {
   @ViewChild('video') video: any
@@ -33,16 +36,29 @@ export class AppComponent implements OnInit {
   azimuthWhenCapturing: number = 0
   currAzimuth: number = 0
   isRelativeAzimuth: boolean = false
+  url: string = ''
+  isIOSPhone: boolean = false
 
-  constructor(private http: HttpClient, private store: Store<IAppState>) { }
+  constructor(private http: HttpClient, private store: Store<IAppState>, private userAgent: UserAgentService) { }
 
   ngOnInit() {
+    this.isIOSPhone = this.userAgent.isiOSPhone()
     this._window = window
     this.currAzimuth = 0
   }
 
-  handleFileInput(files: FileList) {
-    this.fileToUpload = files.item(0);
+  onSelectFile(event) { // called each time file input changes
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        this.url = event.target.result;
+      }
+
+      $('#imageModal').modal('show')
+    }
   }
 
   //TODO: upload file with accepted format
@@ -95,9 +111,7 @@ export class AppComponent implements OnInit {
 
   savePhoneNumber() {
     localStorage.setItem('userPhoneNumber', this.userPhoneNumber)
-    this.startUseCamera()
-    this.checkLocation()
-    this.checkNorth()
+    this.checkPermissions()
 
     $('#phoneModal').modal('hide')
   }
@@ -108,10 +122,17 @@ export class AppComponent implements OnInit {
     if (!this.userPhoneNumber) {
       this.displayModal()
     } else {
-      this.startUseCamera()
-      this.checkLocation()
-      this.checkNorth()
+      this.checkPermissions()
     }
+  }
+
+  checkPermissions() {
+    if(!this.isIOSPhone) {
+      this.startUseCamera()
+    }
+    
+    this.checkLocation()
+    this.checkAzimuth()
   }
 
   displayModal() {
@@ -137,11 +158,10 @@ export class AppComponent implements OnInit {
 
   upload() {
     $('#imageModal').modal('hide')
-    window.alert('uploading image. thank you!')
-    console.log('uploaded')
+    alert('uploading image. thank you!')
   }
 
-  checkNorth() {
+  checkAzimuth() {
     // Check if device can provide absolute orientation data
     if ('DeviceOrientationAbsoluteEvent' in window) {
       window.addEventListener("DeviceOrientationAbsoluteEvent", (event: any) => {
