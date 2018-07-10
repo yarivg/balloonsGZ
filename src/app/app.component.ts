@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient, private store: Store<IAppState>, private userAgent: UserAgentService) { }
 
   ngOnInit() {
-    this.isIOSPhone = this.userAgent.isiOSPhone()
+    // this.isIOSPhone = this.userAgent.isiOSPhone()
     this._window = window
     this.currAzimuth = 0
   }
@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
       console.log(error);
     });
   }
-
+  
   checkLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(((position) => {
@@ -130,7 +130,7 @@ export class AppComponent implements OnInit {
     if(!this.isIOSPhone) {
       this.startUseCamera()
     }
-    
+
     this.checkLocation()
     this.checkAzimuth()
   }
@@ -148,7 +148,7 @@ export class AppComponent implements OnInit {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas.getContext('2d').drawImage(video, 0, 0);
-    
+
     img.setAttribute("src", canvas.toDataURL('image/webp'));
     img.style.width="75%"
     img.style.height="75%"
