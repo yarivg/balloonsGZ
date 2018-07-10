@@ -13,6 +13,8 @@ import { ISimpleResponse } from './shared/interfaces/simple.interface';
 import { UserAgentService } from '../services/userAgent.service'
 
 declare var $: any
+const isProd = true
+const serverURL = isProd ? 'http://balloon.cf:3000' : 'http://localhost:3000'
 
 @Component({
   moduleId: module.id + "",
@@ -25,7 +27,7 @@ export class AppComponent implements OnInit {
   @ViewChild('video') video: any
   @ViewChild('gpsLongtitude') gpsLongtitude: any
   @ViewChild('gpsLatitude') gpsLatitude: any
-  location = {};
+  location: any
   observable$: Observable<ISimpleResponse>
   canvas: HTMLCanvasElement
   _window: any
@@ -37,8 +39,9 @@ export class AppComponent implements OnInit {
   locationWhenCapturing: any
   currAzimuth: number = 0
   isRelativeAzimuth: boolean = false
-  url: string = ''
+  imageBase64: string = ''
   isIOSPhone: boolean = false
+  reader: any = new FileReader()
 
   constructor(private http: HttpClient, private store: Store<IAppState>, private userAgent: UserAgentService) { }
 
@@ -50,31 +53,41 @@ export class AppComponent implements OnInit {
 
   onSelectFile(event) { // called each time file input changes
     if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
+      this.reader.readAsDataURL(event.target.files[0]); // read file as data url
 
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-
-      reader.onload = (event: any) => { // called once readAsDataURL is completed
-        this.url = event.target.result;
+      this.reader.onload = (event: any) => { // called once readAsDataURL is completed
+        this.imageBase64 = event.target.result
       }
 
       this.locationWhenCapturing = this.location
+      this.azimuthWhenCapturing = this.currAzimuth
       $('#imageModal').modal('show')
     }
   }
 
-  sendLocation() {
+  uploadReport() {
     let options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       })
     }
-    let lat = this.locationWhenCapturing ? this.locationWhenCapturing.latitude : 0
-    let long = this.locationWhenCapturing ? this.locationWhenCapturing.longitude : 0
-    this.http.get(`http://balloon.cf:3000/api/report?latitude=${lat}&longitude=${long}`, options).subscribe(data => {
-      // do something, if upload success
-      alert(JSON.stringify(data))
+
+    let body = {
+      'phone': this.userPhoneNumber,
+      'name': 'dunky-monkey',
+      'lat': this.location ? this.location.latitude.toString() : '0',
+      'lng': this.location ? this.location.longitude.toString() : '0',
+      'imageBase64': this.imageBase64,
+      'azimuth': this.azimuthWhenCapturing,
+      'tag': 'ballloooon'
+    }
+
+    this.http.post(`${serverURL}/api/report`, 
+                   body,
+                   options).subscribe(data => {
+      alert("עובדים על זה. תודה.")
+      $('#imageModal').modal('hide')
     }, error => {
       console.log(error);
     });
@@ -83,7 +96,7 @@ export class AppComponent implements OnInit {
   checkLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(((position) => {
-        this.locationWhenCapturing = position.coords
+        this.location = position.coords
         console.log(this.locationWhenCapturing)
         document.getElementById("gpsLongtitude").innerText = position.coords.longitude.toString()
         document.getElementById("gpsLatitude").innerText = position.coords.latitude.toString()
@@ -160,18 +173,15 @@ export class AppComponent implements OnInit {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas.getContext('2d').drawImage(video, 0, 0);
-
-    img.setAttribute("src", canvas.toDataURL('image/webp'));
+    this.imageBase64 = canvas.toDataURL('image/webp')
+    img.setAttribute("src", this.imageBase64);
     img.style.width = "75%"
     img.style.height = "75%"
+
     this.locationWhenCapturing = this.location
+    this.azimuthWhenCapturing = this.currAzimuth
 
     $('#imageModal').modal('show')
-  }
-
-  upload() {
-    $('#imageModal').modal('hide')
-    alert('uploading image. thank you!')
   }
 
   checkAzimuth() {

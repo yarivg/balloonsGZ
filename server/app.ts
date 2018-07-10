@@ -13,8 +13,9 @@ import { userRouter } from "./routes/user";
 var util = require('util')
 var https = require('https');
 var url = require('url');
+var bodyParser = require('body-parser');
 
-const loginToken = "otdSlvsbPJvFfvQPWywbMDDm2Pyll8j4ZcDhNgqp"
+const loginToken = "thisisatoken"
 var cors = require('cors')
 const reporterID = 56
 const app: express.Application = express();
@@ -29,35 +30,15 @@ app.use(urlencoded({ extended: true }));
 
 // Add headers - enable cors
 app.use(function (req, res, next) {
-
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
-
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
     // Request headers you wish to allow
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
     res.header("Access-Control-Allow-Credentials", "true")
     next();
 });
-// api routes
-app.use("/api/secure", protectedRouter);
-app.use("/api/login", loginRouter);
-app.use("/api/public", publicRouter);
-app.use("/api/feed", feedRouter);
-app.use("/api/user", userRouter);
-
-var options = {
-    host: 'res-cue.com',
-    port: 443,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      "Access-Control-Allow-Origin": '*'
-    }
-}
 
 console.log('started')
 // New report
@@ -66,46 +47,76 @@ app.post('/report', (req, res) => {
   var query = url_parts.query; 
 
   console.log(query)
+  http.request({
+    host: 'res-cue.com',
+    port: 443,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      "Access-Control-Allow-Origin": '*'
+    }
+  })
   res.send(query)
   res.end()
 })
 
+var options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      "Access-Control-Allow-Origin": '*'
+    }
+}
+
+const seeVUURL = "dev.res-cue.com"
+const seeVUPort = 8081
+const seeVUToken = "thisisatoken"
+
 const new_app = express()
 new_app.use(cors())
+new_app.use(bodyParser.json({limit: '50mb'}));
+new_app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 new_app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers","*")
   res.header("Access-Control-Allow-Credentials", "true")
   next()
 })
-new_app.get('/', (req, res) => res.send('Hello World!'))
-// New report
-new_app.get('/api/report', (req, res) => {
-  var url_parts = url.parse(req.url, true);
-  var query = url_parts.query; 
-  console.log(query)
-  let path = '/app/ws/report/new/report'
-  let reqOptions = JSON.parse(JSON.stringify(options))
-  reqOptions['path'] = path
-  let sayVURequest = https.request(options, (sayVURes) =>
-  {
-      sayVURes.setEncoding('utf8');
-      sayVURes.on('data', function (chunk) {
-        console.log("body: " + chunk);
-        res.send(chunk)
-        res.end()
-      })
-  })
 
-  var sendData = util.format('EmergencySubCatID=0&LocationX=%d&loginToken=%s&AddedTimeMilliseconds=%s&ReporterID=%s&LocationY=%s&EmergencyCatID=6',
-              query.latitude,
-              loginToken, 
-              Date.now().toString(), 
-              reporterID, 
-              query.longitude)
-  console.log(sendData)
-  sayVURequest.write(sendData);
-  sayVURequest.end();
+// CHECK ALIVE
+new_app.get('/', (req, res) => res.send('Hello World!'))
+
+
+// TODO api/token
+const request = require('request')
+
+// New report
+new_app.post('/api/report', (req, res) => {
+  let reqBody = {
+    phone: req.body.phone,
+    name: req.body.name,
+    lng: req.body.lng,
+    lat: req.body.lat,
+    image: req.body.imageBase64,
+    azimuth: req.body.azimuth,
+    tag: req.body.tag,
+    pitch: 0,
+    token: seeVUToken
+  }
+
+request.post({
+    headers: {'content-type': 'application/json'},
+    url:     'http://dev.res-cue.com:8081/web/report',
+    body:   JSON.stringify(reqBody)
+  },(error, response, body) => {
+    if(response.statusCode == 200) {
+      res.send(body).status(200).end()
+    } else {
+      res.send("bad req").status(200).end()
+    }
+  }
+);
 })
+
 new_app.listen(3000, () => console.log('Example app listening on port 3000!'))
 
 // if (app.get("env") === "production") {
