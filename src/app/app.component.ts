@@ -70,10 +70,9 @@ export class AppComponent implements OnInit {
         'Access-Control-Allow-Origin': '*'
       })
     }
-    // Location lat long, 
-    this.http.post('https://localhost/report', {
-      location: this.locationWhenCapturing
-    }, options).subscribe(data => {
+    let lat = this.locationWhenCapturing ? this.locationWhenCapturing.latitude : 0
+    let long = this.locationWhenCapturing ? this.locationWhenCapturing.longitude : 0
+    this.http.get(`http://localhost:3000/api/report?latitude=${lat}&longitude=${long}`, options).subscribe(data => {
       // do something, if upload success
       alert(JSON.stringify(data))
     }, error => {
@@ -84,6 +83,8 @@ export class AppComponent implements OnInit {
   checkLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(((position) => {
+        this.locationWhenCapturing = position.coords
+        console.log(this.locationWhenCapturing)
         document.getElementById("gpsLongtitude").innerText = position.coords.longitude.toString()
         document.getElementById("gpsLatitude").innerText = position.coords.latitude.toString()
         console.log(position.coords);
@@ -163,6 +164,7 @@ export class AppComponent implements OnInit {
     img.setAttribute("src", canvas.toDataURL('image/webp'));
     img.style.width = "75%"
     img.style.height = "75%"
+    this.locationWhenCapturing = this.location
 
     $('#imageModal').modal('show')
   }

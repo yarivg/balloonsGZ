@@ -12,12 +12,16 @@ import { userRouter } from "./routes/user";
 
 var util = require('util')
 var https = require('https');
+var url = require('url');
 
 const loginToken = "otdSlvsbPJvFfvQPWywbMDDm2Pyll8j4ZcDhNgqp"
+var cors = require('cors')
 const reporterID = 56
 const app: express.Application = express();
 
 app.disable("x-powered-by");
+
+app.use(cors())
 
 app.use(json());
 app.use(compression());
@@ -35,6 +39,7 @@ app.use(function (req, res, next) {
     // Request headers you wish to allow
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
+    res.header("Access-Control-Allow-Credentials", "true")
     next();
 });
 // api routes
@@ -45,7 +50,7 @@ app.use("/api/feed", feedRouter);
 app.use("/api/user", userRouter);
 
 var options = {
-    host: 'www.res-cue.com',
+    host: 'res-cue.com',
     port: 443,
     method: 'POST',
     headers: {
@@ -57,11 +62,30 @@ var options = {
 console.log('started')
 // New report
 app.post('/report', (req, res) => {
-  console.log('got req')
+  var url_parts = url.parse(req.url, true);
+  var query = url_parts.query; 
+
+  console.log(query)
+  res.send(query)
+  res.end()
+})
+
+const new_app = express()
+new_app.use(cors())
+new_app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Headers","*")
+  res.header("Access-Control-Allow-Credentials", "true")
+  next()
+})
+new_app.get('/', (req, res) => res.send('Hello World!'))
+// New report
+new_app.get('/api/report', (req, res) => {
+  var url_parts = url.parse(req.url, true);
+  var query = url_parts.query; 
+  console.log(query)
   let path = '/app/ws/report/new/report'
   let reqOptions = JSON.parse(JSON.stringify(options))
   reqOptions['path'] = path
-
   let sayVURequest = https.request(options, (sayVURes) =>
   {
       sayVURes.setEncoding('utf8');
@@ -72,15 +96,17 @@ app.post('/report', (req, res) => {
       })
   })
 
-  util.format('EmergencySubCatID=0&LocationX={0}&loginToken={1}&AddedTimeMilliseconds={2}&ReporterID={3}&LocationY={4}&EmergencyCatID=6',
-              req.body.location.latitude.toString(),
+  var sendData = util.format('EmergencySubCatID=0&LocationX=%d&loginToken=%s&AddedTimeMilliseconds=%s&ReporterID=%s&LocationY=%s&EmergencyCatID=6',
+              query.latitude,
               loginToken, 
-              reporterID, 
               Date.now().toString(), 
-              req.body.location.longtitude.toString())
-  sayVURequest.write('EmergencySubCatID=0&LocationX=31.508143&loginToken=otdSlvsbPJvFfvQPWywbMDDm2Pyll8j4ZcDhNgqp&AddedTimeMilliseconds=1531137892292&ReporterID=56&LocationY=34.592048&EmergencyCatID=6');
+              reporterID, 
+              query.longitude)
+  console.log(sendData)
+  sayVURequest.write(sendData);
   sayVURequest.end();
 })
+new_app.listen(3000, () => console.log('Example app listening on port 3000!'))
 
 // if (app.get("env") === "production") {
   // in production mode run application from dist folder
