@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
   fileToUpload: File = null
   description: string = ''
   azimuthWhenCapturing: number = 0
+  locationWhenCapturing: any
   currAzimuth: number = 0
   isRelativeAzimuth: boolean = false
   url: string = ''
@@ -57,14 +58,24 @@ export class AppComponent implements OnInit {
         this.url = event.target.result;
       }
 
+      this.locationWhenCapturing = this.location
       $('#imageModal').modal('show')
     }
   }
 
-  //TODO: upload file with accepted format
-  uploadFileToActivity() {
-    this.http.post('', this.fileToUpload).subscribe(data => {
+  sendLocation() {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      })
+    }
+    // Location lat long, 
+    this.http.post('https://localhost/report', {
+      location: this.locationWhenCapturing
+    }, options).subscribe(data => {
       // do something, if upload success
+      alert(JSON.stringify(data))
     }, error => {
       console.log(error);
     });
@@ -127,10 +138,10 @@ export class AppComponent implements OnInit {
   }
 
   checkPermissions() {
-    if(!this.isIOSPhone) {
+    if (!this.isIOSPhone) {
       this.startUseCamera()
     }
-    
+
     this.checkLocation()
     this.checkAzimuth()
   }
@@ -148,10 +159,10 @@ export class AppComponent implements OnInit {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas.getContext('2d').drawImage(video, 0, 0);
-    
+
     img.setAttribute("src", canvas.toDataURL('image/webp'));
-    img.style.width="75%"
-    img.style.height="75%"
+    img.style.width = "75%"
+    img.style.height = "75%"
 
     $('#imageModal').modal('show')
   }
@@ -169,7 +180,7 @@ export class AppComponent implements OnInit {
       })
     } // If not, check if the device sends any orientation data
     else if ('DeviceOrientationEvent' in window) {
-      window.addEventListener("deviceorientation",(event: any) => {
+      window.addEventListener("deviceorientation", (event: any) => {
         this.deviceOrientationHandler(event)
       });
     } // Send an alert if the device isn't compatible
@@ -179,13 +190,13 @@ export class AppComponent implements OnInit {
   }
 
   deviceOrientationHandler(event: any) {
-      //Check if absolute values have been sent
-      if (typeof event.webkitCompassHeading !== "undefined") {
-        this.currAzimuth = event.webkitCompassHeading; //iOS non-standard
-      }
-      else {
-        this.currAzimuth = 360 - event.alpha
-        this.isRelativeAzimuth = true
-      }
+    //Check if absolute values have been sent
+    if (typeof event.webkitCompassHeading !== "undefined") {
+      this.currAzimuth = event.webkitCompassHeading; //iOS non-standard
+    }
+    else {
+      this.currAzimuth = 360 - event.alpha
+      this.isRelativeAzimuth = true
+    }
   }
 }

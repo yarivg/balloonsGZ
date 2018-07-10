@@ -23,6 +23,20 @@ app.use(json());
 app.use(compression());
 app.use(urlencoded({ extended: true }));
 
+// Add headers - enable cors
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    next();
+});
 // api routes
 app.use("/api/secure", protectedRouter);
 app.use("/api/login", loginRouter);
@@ -40,8 +54,10 @@ var options = {
     }
 }
 
+console.log('started')
 // New report
 app.post('/report', (req, res) => {
+  console.log('got req')
   let path = '/app/ws/report/new/report'
   let reqOptions = JSON.parse(JSON.stringify(options))
   reqOptions['path'] = path
