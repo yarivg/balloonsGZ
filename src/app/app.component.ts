@@ -72,7 +72,7 @@ export class AppComponent implements OnInit {
     }
     let lat = this.locationWhenCapturing ? this.locationWhenCapturing.latitude : 0
     let long = this.locationWhenCapturing ? this.locationWhenCapturing.longitude : 0
-    this.http.get(`http://localhost:3000/api/report?latitude=${lat}&longitude=${long}`, options).subscribe(data => {
+    this.http.get(`:3000/api/report?latitude=${lat}&longitude=${long}`, options).subscribe(data => {
       // do something, if upload success
       alert(JSON.stringify(data))
     }, error => {
