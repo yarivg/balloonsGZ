@@ -11,14 +11,27 @@
       </div>
       <div style="direction: rtl;" class="modal-body">
         מה מספר הפלאפון שלך?
-          <input type="number" class="input-medium bfh-phone" [(ngModel)]="userPhoneNumber" />
+          <input type="tel"  id="phone" maxlength="10" class="input-medium "  [(ngModel)]="userPhoneNumber" [pattern]="mobnumPattern"
+                 required />
+
+        <span class="validity"></span>
+        <span class="help-block"
+              ng-show="registration.phone.$error.required ||
+                           registration.phone.$error.number">
+                                       </span>
+        <span class="help-block"
+              ng-show="((registration.phone.$error.minlength ||
+                           registration.phone.$error.maxlength) &&
+                           registration.phone.$dirty) ">
+            </span>
         </div>
       <div style="direction: rtl;" class="modal-footer">
+        <p *ngIf="rightPhone" style="color:red" >טלפון בעל 10 ספרות</p>
         <button type="button" class="btn btn-primary" (click)="savePhoneNumber()">סיימתי</button>
       </div>
     </div>
   </div>
-</div> 
+</div>
 
 <video #video id="video" width="100%" height="100%" autoplay></video>
 
