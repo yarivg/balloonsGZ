@@ -80,7 +80,7 @@ export class AppComponent implements OnInit {
       'imageBase64': this.imageBase64,
       'azimuth': this.azimuthWhenCapturing,
       'description': this.description,
-      'category': '1',// TODO - balloon, kite, fire
+      'category': '11',// TODO - balloon, kite, fire
       'userToken': localStorage.getItem('userToken')
     }
 

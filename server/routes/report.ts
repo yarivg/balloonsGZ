@@ -4,8 +4,9 @@ import * as uuid from "uuid";
 
 const _ = require('lodash')
 const request = require('request')
-const seeVUToken = "thisisatoken"
-const reporterID = 56
+
+const seeVUToken = "kljgfzedtapamqpcbwksviwxeofzfeqqrpvphtbwhyocnstakgoduzprhybrxxjwsrctloghthhshqdgaaecqvofmuidjfplosyyokfukkrpjclayvrnmbrnojohyjjm"
+const user_id = '790'
 
 const reportRouter: Router = Router();
 reportRouter.get("/", (req: Request, res: Response) => {
@@ -28,7 +29,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
             description: req.body.description,
             pitch: '0',
             token: seeVUToken,
-            user_id: '1'
+            user_id: user_id
         }
         
         request.post({
