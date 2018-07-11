@@ -23,7 +23,6 @@ reportRouter.post("/", (req: Request, res: Response) => {
         pitch: 0,
         token: seeVUToken
     }
-    console.log(reqBody)
 
     request.post({
         headers: { 'content-type': 'application/json' },
@@ -36,7 +35,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
             console.log('ok res')
             res.send(body).status(200).end()
         } else {
-            res.send("bad req").status(400).end()
+            res.send("bad res").status(400).end()
         }
     }
     );
