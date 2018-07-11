@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core'
+import {Router, ActivatedRoute, Params} from '@angular/router'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
 import { Observable } from 'rxjs/Observable';
 
@@ -43,12 +44,14 @@ export class AppComponent implements OnInit {
   isIOSPhone: boolean = false
   reader: any = new FileReader()
 
-  constructor(private http: HttpClient, private store: Store<IAppState>, private userAgent: UserAgentService) { }
+  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private store: Store<IAppState>, private userAgent: UserAgentService) { }
 
   ngOnInit() {
     this.isIOSPhone = this.userAgent.isiOSPhone()
     this._window = window
     this.currAzimuth = 0
+
+    localStorage.setItem('userToken', window.location.href.split('entry=')[1])
   }
 
   onSelectFile(event) { // called each time file input changes
@@ -81,7 +84,8 @@ export class AppComponent implements OnInit {
       'imageBase64': this.imageBase64,
       'azimuth': this.azimuthWhenCapturing,
       'description': this.description,
-      'tag': 'ballloooon'
+      'category': '1',// TODO - balloon, kite, fire
+      'userToken': localStorage.getItem('userToken')
     }
 
     this.http.post(`/api/report`, 
@@ -90,7 +94,7 @@ export class AppComponent implements OnInit {
       alert("עובדים על זה. תודה.")
       $('#imageModal').modal('hide')
     }, error => {
-      console.log(error);
+      alert(error.error.text)
     });
   }
 
@@ -145,11 +149,12 @@ export class AppComponent implements OnInit {
   initModal() {
     this.phoneModal = document.getElementById('phoneModal')
 
-    if (!this.userPhoneNumber) {
-      this.displayModal()
-    } else {
+    // TODO: check token valid!
+    // if (!this.userPhoneNumber) {
+    //   this.displayModal()
+    // } else {
       this.checkPermissions()
-    }
+    // }
   }
 
   checkPermissions() {
@@ -174,7 +179,7 @@ export class AppComponent implements OnInit {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas.getContext('2d').drawImage(video, 0, 0);
-    this.imageBase64 = canvas.toDataURL('image/webp')
+    this.imageBase64 = canvas.toDataURL('image/jpeg')
     img.setAttribute("src", this.imageBase64);
     img.style.width = "75%"
     img.style.height = "75%"
