@@ -1,6 +1,6 @@
 import { Route } from '@angular/router'
 import { CameraOpenerComponent } from './cameraOpener/cameraOpener.component'
-import { UploadReportComponent } from './uploadReport/uploadReport.component
+import { UploadReportComponent } from './uploadReport/uploadReport.component'
 
 export const routes: Route[] = [
     { path: '', pathMatch: 'full', redirectTo: 'cam'},

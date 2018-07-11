@@ -7,7 +7,10 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { AppComponent } from './app.component';
+import { AppComponent } from './app.component'
+import { CameraOpenerComponent } from './cameraOpener/cameraOpener.component'
+import { UploadReportComponent } from './uploadReport/uploadReport.component'
+
 import { routes } from './app.router';
 import { environment } from '../environments/environment';
 
