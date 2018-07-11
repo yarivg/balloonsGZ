@@ -21,14 +21,15 @@ reportRouter.post("/", (req: Request, res: Response) => {
             name: req.body.name,
             lng: req.body.lng,
             lat: req.body.lat,
-            image: req.body.imageBase64,
+            image: req.body.imageBase64.split('base64,')[1],
             heading: req.body.azimuth,
             category: req.body.category,
             description: req.body.description,
-            pitch: 0,
-            token: seeVUToken
+            pitch: '0',
+            token: seeVUToken,
+            user_id: '1'
         }
-
+        
         request.post({
             headers: { 'content-type': 'application/json' },
             url: 'http://dev.res-cue.com:8082/web/report/image',

@@ -94,7 +94,7 @@ export class AppComponent implements OnInit {
       alert("עובדים על זה. תודה.")
       $('#imageModal').modal('hide')
     }, error => {
-      alert(error.text)
+      alert(error.error.text)
     });
   }
 
@@ -179,7 +179,7 @@ export class AppComponent implements OnInit {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas.getContext('2d').drawImage(video, 0, 0);
-    this.imageBase64 = canvas.toDataURL('image/jpg')
+    this.imageBase64 = canvas.toDataURL('image/jpeg')
     img.setAttribute("src", this.imageBase64);
     img.style.width = "75%"
     img.style.height = "75%"
