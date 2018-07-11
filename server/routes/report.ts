@@ -29,7 +29,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
         body: JSON.stringify(reqBody)
     }, (error, response, body) => {
         if (response && response.statusCode == 200) {
-            console.log('status code :' + )
+            console.log('ok res')
             res.send(body).status(200).end()
         } else {
             res.send("bad req").status(200).end()
