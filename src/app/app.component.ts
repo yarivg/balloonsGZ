@@ -84,7 +84,7 @@ export class AppComponent implements OnInit {
       'imageBase64': this.imageBase64,
       'azimuth': this.azimuthWhenCapturing,
       'description': this.description,
-      'tag': 0,
+      'category': '1',// TODO - balloon, kite, fire
       'userToken': localStorage.getItem('userToken')
     }
 
@@ -179,7 +179,7 @@ export class AppComponent implements OnInit {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas.getContext('2d').drawImage(video, 0, 0);
-    this.imageBase64 = canvas.toDataURL('image/webp')
+    this.imageBase64 = canvas.toDataURL('image/jpg')
     img.setAttribute("src", this.imageBase64);
     img.style.width = "75%"
     img.style.height = "75%"
