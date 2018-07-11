@@ -23,7 +23,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
             lat: req.body.lat,
             image: req.body.imageBase64,
             heading: req.body.azimuth,
-            tag: req.body.tag,
+            tag: req.body.tag,// category - string num
             description: req.body.description,
             pitch: 0,
             token: seeVUToken
