@@ -5,6 +5,7 @@ import * as path from "path";
 import * as http from "http";
 
 import { reportRouter } from "./routes/report"
+import { alonRouter } from "./routes/alon"
 
 var util = require('util')
 var https = require('https');
@@ -34,7 +35,10 @@ app.use(function (req, res, next) {
     next();
 });
 
+
+app.use('/api/token', alonRouter)
 app.use('/api/report', reportRouter)
+
 console.log('started')
 
 // if (app.get("env") === "production") {
