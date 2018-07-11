@@ -14,7 +14,7 @@ import { UserAgentService } from '../services/userAgent.service'
 
 declare var $: any
 const isProd = true
-const serverURL = isProd ? 'http://balloon.cf:3000' : 'http://localhost:3000'
+// const serverURL = isProd ? 'https://balloon.cf' : 'https://localhost'
 
 @Component({
   moduleId: module.id + "",
@@ -83,7 +83,7 @@ export class AppComponent implements OnInit {
       'tag': 'ballloooon'
     }
 
-    this.http.post(`${serverURL}/api/report`, 
+    this.http.post(`/api/report`, 
                    body,
                    options).subscribe(data => {
       alert("עובדים על זה. תודה.")
