@@ -17,10 +17,10 @@ const app: express.Application = express();
 app.disable("x-powered-by");
 
 app.use(cors())
-
 app.use(json());
 app.use(compression());
-app.use(urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 // Add headers - enable cors
 app.use(function (req, res, next) {
