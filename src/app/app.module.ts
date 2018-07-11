@@ -9,12 +9,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
 import { routes } from './app.router';
-import { metaReducers, reducers } from './store';
-import { SharedModule } from './shared/shared.module';
-import { WeatherService } from './weather/weather.service';
-import { WeatherEffects } from './store/weather/weather.effects';
-import { FeedEffects } from './store/feed/feed.effects';
-import { ProfileEffects } from './store/profile/profile.effects';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -23,15 +17,8 @@ import { environment } from '../environments/environment';
   ],
   imports: [
     BrowserModule,
-    SharedModule,
     FormsModule,
     HttpClientModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([
-      ProfileEffects,
-      FeedEffects,
-      WeatherEffects
-    ]),
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : [],
     RouterModule.forRoot(
       routes,
@@ -40,9 +27,7 @@ import { environment } from '../environments/environment';
       }
     )
   ],
-  providers: [
-    WeatherService
-  ],
+  providers: [],
   bootstrap: [
     AppComponent
   ]
