@@ -4,7 +4,7 @@ import { Router } from '@angular/router'
 @Component({
   selector: 'camera-opener-component',
   templateUrl: './cameraOpenerComponent.component.html',
-  styleUrls: ['./cameraOpenerComponent.component.css']
+  styleUrls: []
 })
 export class CameraOpenerComponent {
 
