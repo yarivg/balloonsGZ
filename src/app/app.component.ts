@@ -149,11 +149,12 @@ export class AppComponent implements OnInit {
   initModal() {
     this.phoneModal = document.getElementById('phoneModal')
 
-    if (!this.userPhoneNumber) {
-      this.displayModal()
-    } else {
+    // TODO: check token valid!
+    // if (!this.userPhoneNumber) {
+    //   this.displayModal()
+    // } else {
       this.checkPermissions()
-    }
+    // }
   }
 
   checkPermissions() {
