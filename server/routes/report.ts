@@ -31,7 +31,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
 
         request.post({
             headers: { 'content-type': 'application/json' },
-            url: 'http://dev.res-cue.com:8081/web/report/image',
+            url: 'http://dev.res-cue.com:8082/web/report/image',
             body: JSON.stringify(reqBody)
         }, (error, response, body) => {
             if (response && response.statusCode == 200) {
