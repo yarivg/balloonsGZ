@@ -80,6 +80,7 @@ export class AppComponent implements OnInit {
       'lng': this.location ? this.location.longitude.toString() : '0',
       'imageBase64': this.imageBase64,
       'azimuth': this.azimuthWhenCapturing,
+      'description': this.description,
       'tag': 'ballloooon'
     }
 

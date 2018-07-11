@@ -19,6 +19,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
         image: req.body.imageBase64,
         azimuth: req.body.azimuth,
         tag: req.body.tag,
+        description: req.body.description,
         pitch: 0,
         token: seeVUToken
     }
