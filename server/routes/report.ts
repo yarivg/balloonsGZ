@@ -22,7 +22,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
             lng: req.body.lng,
             lat: req.body.lat,
             image: req.body.imageBase64,
-            azimuth: req.body.azimuth,
+            heading: req.body.azimuth,
             tag: req.body.tag,
             description: req.body.description,
             pitch: 0,
