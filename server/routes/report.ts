@@ -13,6 +13,7 @@ reportRouter.get("/", (req: Request, res: Response) => {
 })
 
 reportRouter.post("/", (req: Request, res: Response) => {
+    console.log('send req to seeVU')
     let phoneNumber = (_.invert(tokens))[req.body.userToken]
     if(phoneNumber) {
         let reqBody = {
@@ -30,15 +31,14 @@ reportRouter.post("/", (req: Request, res: Response) => {
 
         request.post({
             headers: { 'content-type': 'application/json' },
-            url: 'http://dev.res-cue.com:8081/web/report',
+            url: 'http://dev.res-cue.com:8081/web/report/image',
             body: JSON.stringify(reqBody)
         }, (error, response, body) => {
-            console.log(response)
-            console.log(body)
             if (response && response.statusCode == 200) {
                 console.log('ok res')
                 res.send(body).status(200).end()
             } else {
+                console.log(error)
                 res.send("bad res").status(400).end()
             }
         }
