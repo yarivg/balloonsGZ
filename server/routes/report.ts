@@ -28,8 +28,8 @@ reportRouter.post("/", (req: Request, res: Response) => {
         url: 'http://dev.res-cue.com:8081/web/report',
         body: JSON.stringify(reqBody)
     }, (error, response, body) => {
-        console.log('status code :' + response ? response.statusCode: 'error')
-        if (response.statusCode == 200) {
+        if (response && response.statusCode == 200) {
+            console.log('status code :' + )
             res.send(body).status(200).end()
         } else {
             res.send("bad req").status(200).end()
