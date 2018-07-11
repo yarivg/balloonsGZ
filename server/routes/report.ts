@@ -22,17 +22,20 @@ reportRouter.post("/", (req: Request, res: Response) => {
         pitch: 0,
         token: seeVUToken
     }
+    console.log(reqBody)
 
     request.post({
         headers: { 'content-type': 'application/json' },
         url: 'http://dev.res-cue.com:8081/web/report',
         body: JSON.stringify(reqBody)
     }, (error, response, body) => {
+        console.log(response)
+        console.log(body)
         if (response && response.statusCode == 200) {
             console.log('ok res')
             res.send(body).status(200).end()
         } else {
-            res.send("bad req").status(200).end()
+            res.send("bad req").status(400).end()
         }
     }
     );
