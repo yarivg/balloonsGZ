@@ -1,0 +1,131 @@
+
+.container{
+  background-position:center center;
+  background-position: center;
+  background-repeat:no-repeat;
+  width:100%;
+  height:100%;
+  background-color:#eef;
+  border-bottom:1px solid #000;
+
+}
+
+#camera {
+  background-size:contain;
+  width:100%;
+  height:100%;
+}
+
+.container2{
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  width: 5%;
+  height: 5%;
+}
+#back{
+  position: center;
+  width: 95%;
+  height: 80%;
+  top: 60%;
+
+}
+#iconcamera{
+margin-bottom: 10%;
+}
+
+.container3{
+  position: absolute;
+  bottom: 5%;
+  right: 0%;
+  width: 100%;
+  height: 5%;
+}
+
+.conversation-compose {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+}
+
+.conversation-compose div,
+.conversation-compose input {
+  background: #fff;
+  height: 100%;
+}
+
+.conversation-compose .box{
+  margin: 30px;
+  background-color: #ffffff;
+  border: 1px solid black;
+  opacity: 0.6;
+  filter: alpha(opacity=60); /* For IE8 and earlier */
+}
+.conversation-compose .input-msg {
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 70%;
+  direction:RTL;
+  border: 0;
+  flex: 1 1 auto;
+  font-size: 16px;
+  margin-left: 10%;
+  outline: none;
+  min-width: 100%;
+}
+
+
+
+.conversation-compose .photo:after {
+  border-width: 0px 0 10px 10px;
+  border-color: transparent transparent transparent #fff;
+  border-style: solid;
+  position: absolute;
+  width: 0;
+  height: 0;
+  content: "";
+  top: 0;
+  right: -10px;
+}
+
+.conversation-compose .photo i {
+  display: block;
+  color: #7d8488;
+  font-size: 24px;
+  transform: translate(-50%, -50%);
+  position: relative;
+  top: 50%;
+  left: 50%;
+}
+
+.conversation-compose .send {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  flex: 0 0 auto;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 0;
+  position: relative;
+  outline: none;
+}
+
+.conversation-compose .send .circle {
+  background: #008a7c;
+  border-radius: 50%;
+  color: #fff;
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.conversation-compose .send .circle i {
+  font-size: 24px;
+  margin-left: 5px;
+}
