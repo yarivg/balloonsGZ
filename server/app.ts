@@ -35,6 +35,8 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 
 app.use('/api/token', alonRouter)
 app.use('/api/report', reportRouter)
