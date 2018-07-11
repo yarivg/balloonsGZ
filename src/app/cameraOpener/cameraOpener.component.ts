@@ -1,16 +1,12 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router'
+
 
 @Component({
-  selector: 'camera-opener-component',
-  templateUrl: './cameraOpenerComponent.component.html',
-  styleUrls: []
+  selector: 'camera-opener',
+  templateUrl: './cameraOpener.component.html',
+  styleUrls: ['./cameraOpener.component.css']
 })
 export class CameraOpenerComponent {
 
-  constructor(private router: Router) {
-    setTimeout(() => {
-      this.router.navigate(['upload'])
-    }, 2000)
-  }
+  constructor() {}
 }

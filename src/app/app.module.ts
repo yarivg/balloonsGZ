@@ -16,7 +16,9 @@ import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CameraOpenerComponent,
+    UploadReportComponent
   ],
   imports: [
     BrowserModule,
