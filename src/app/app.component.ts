@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -10,37 +10,95 @@ import { IAppState } from './store';
 import { USER_GET } from './store/profile/profile.actions';
 import { ISimpleResponse } from './shared/interfaces/simple.interface';
 
+import { UserAgentService } from '../services/userAgent.service'
+
 declare var $: any
+const isProd = true
+// const serverURL = isProd ? 'https://balloon.cf' : 'https://localhost'
 
 @Component({
   moduleId: module.id + "",
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css', './bootstrap.min.css']
+  styleUrls: ['./app.component.css', './bootstrap.min.css'],
+  providers: [UserAgentService]
 })
 export class AppComponent implements OnInit {
-  @ViewChild('video') video: any;
-  @ViewChild('gpsLongtitude') gpsLongtitude: any;
-  @ViewChild('gpsLatitude') gpsLatitude: any;
-  location = {};
-  observable$: Observable<ISimpleResponse>;
-  isImageCaptured: boolean;
-  canvas: HTMLCanvasElement;
-  _window: any;
-  phoneModal: any;
+  @ViewChild('video') video: any
+  @ViewChild('gpsLongtitude') gpsLongtitude: any
+  @ViewChild('gpsLatitude') gpsLatitude: any
+  location: any
+  observable$: Observable<ISimpleResponse>
+  canvas: HTMLCanvasElement
+  _window: any
+  phoneModal: any
   userPhoneNumber: string = localStorage.getItem('userPhoneNumber')
+  fileToUpload: File = null
+  description: string = ''
+  azimuthWhenCapturing: number = 0
+  locationWhenCapturing: any
+  currAzimuth: number = 0
+  isRelativeAzimuth: boolean = false
+  imageBase64: string = ''
+  isIOSPhone: boolean = false
+  reader: any = new FileReader()
 
-  constructor(private http: HttpClient, private store: Store<IAppState>) { }
+  constructor(private http: HttpClient, private store: Store<IAppState>, private userAgent: UserAgentService) { }
 
   ngOnInit() {
-    this.isImageCaptured = false
+    this.isIOSPhone = this.userAgent.isiOSPhone()
     this._window = window
-    this.setCanvas()
+    this.currAzimuth = 0
+  }
+
+  onSelectFile(event) { // called each time file input changes
+    if (event.target.files && event.target.files[0]) {
+      this.reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      this.reader.onload = (event: any) => { // called once readAsDataURL is completed
+        this.imageBase64 = event.target.result
+      }
+
+      this.locationWhenCapturing = this.location
+      this.azimuthWhenCapturing = this.currAzimuth
+      $('#imageModal').modal('show')
+    }
+  }
+
+  uploadReport() {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      })
+    }
+
+    let body = {
+      'phone': this.userPhoneNumber,
+      'name': 'dunky-monkey',
+      'lat': this.location ? this.location.latitude.toString() : '0',
+      'lng': this.location ? this.location.longitude.toString() : '0',
+      'imageBase64': this.imageBase64,
+      'azimuth': this.azimuthWhenCapturing,
+      'description': this.description,
+      'tag': 'ballloooon'
+    }
+
+    this.http.post(`/api/report`, 
+                   body,
+                   options).subscribe(data => {
+      alert("עובדים על זה. תודה.")
+      $('#imageModal').modal('hide')
+    }, error => {
+      console.log(error);
+    });
   }
 
   checkLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(((position) => {
+        this.location = position.coords
+        console.log(this.locationWhenCapturing)
         document.getElementById("gpsLongtitude").innerText = position.coords.longitude.toString()
         document.getElementById("gpsLatitude").innerText = position.coords.latitude.toString()
         console.log(position.coords);
@@ -79,9 +137,7 @@ export class AppComponent implements OnInit {
 
   savePhoneNumber() {
     localStorage.setItem('userPhoneNumber', this.userPhoneNumber)
-    this.startUseCamera()
-    this.checkLocation()
-    this.checkNorth()
+    this.checkPermissions()
 
     $('#phoneModal').modal('hide')
   }
@@ -92,76 +148,68 @@ export class AppComponent implements OnInit {
     if (!this.userPhoneNumber) {
       this.displayModal()
     } else {
-      this.startUseCamera()
-      this.checkLocation()
-      this.checkNorth()
+      this.checkPermissions()
     }
+  }
+
+  checkPermissions() {
+    if (!this.isIOSPhone) {
+      this.startUseCamera()
+    }
+
+    this.checkLocation()
+    this.checkAzimuth()
   }
 
   displayModal() {
     $('#phoneModal').modal({ backdrop: 'static', keyboard: false })
   }
 
-  setCanvas() {
-    this.canvas = document.createElement('canvas');
-    this.canvas.width = 100;
-    this.canvas.height = 100;
-    this.canvas.style.position = "absolute";
+  capture() {
+    const img = document.getElementById('image');
+    const video = document.querySelector('video');
 
-    this.canvas.style.top = "25%";
-    this.canvas.style.left = "25%";
-    this.canvas.style.width = "50%";
-    this.canvas.style.height = "50%";
+    const canvas = document.createElement('canvas');
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0);
+    this.imageBase64 = canvas.toDataURL('image/webp')
+    img.setAttribute("src", this.imageBase64);
+    img.style.width = "75%"
+    img.style.height = "75%"
+
+    this.locationWhenCapturing = this.location
+    this.azimuthWhenCapturing = this.currAzimuth
+
+    $('#imageModal').modal('show')
   }
 
-  generateThumbnail() {
-    this.isImageCaptured = true;
-
-    var videoElement = <HTMLCanvasElement>document.getElementById("video");
-    videoElement = document.getElementById("video") as HTMLCanvasElement;
-
-    var ctx = this.canvas.getContext('2d');
-    ctx.drawImage(videoElement, 0, 0, 100, 100);
-
-    document.body.appendChild(this.canvas);
-  }
-
-  upload() {
-    window.alert('uploading image. thank you!')
-    console.log('uploaded')
-  }
-
-  resetCamera() {
-    this.isImageCaptured = false;
-    console.log('resetting camera');
-    document.body.removeChild(this.canvas);
-  }
-
-  checkNorth() {
+  checkAzimuth() {
     // Check if device can provide absolute orientation data
     if ('DeviceOrientationAbsoluteEvent' in window) {
-      window.addEventListener("DeviceOrientationAbsoluteEvent", this.deviceOrientationListener);
+      window.addEventListener("DeviceOrientationAbsoluteEvent", (event: any) => {
+        this.deviceOrientationHandler(event)
+      })
     } // If not, check if the device sends any orientation data
     else if ('DeviceOrientationEvent' in window) {
-      window.addEventListener("deviceorientation", this.deviceOrientationListener);
+      window.addEventListener("deviceorientation", (event: any) => {
+        this.deviceOrientationHandler(event)
+      });
     } // Send an alert if the device isn't compatible
     else {
       alert("Sorry, try again on a compatible mobile device!");
     }
   }
 
-  deviceOrientationListener(event) {
-    var alpha = event.alpha; //z axis rotation [0,360)
-
+  deviceOrientationHandler(event: any) {
     //Check if absolute values have been sent
     if (typeof event.webkitCompassHeading !== "undefined") {
-      alpha = event.webkitCompassHeading; //iOS non-standard
-      var heading = alpha
-      document.getElementById("northDegrees").innerHTML = heading.toFixed([0]);
+      this.currAzimuth = event.webkitCompassHeading; //iOS non-standard
     }
     else {
-      var heading: any = 360 - alpha; //heading [0, 360)
-      document.getElementById("northDegrees").innerHTML = heading.toFixed([0]).toString() + "(relavtive north)";
+      this.currAzimuth = 360 - event.alpha
+      this.isRelativeAzimuth = true
     }
   }
 }
