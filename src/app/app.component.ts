@@ -6,9 +6,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Store } from '@ngrx/store';
-import { IAppState } from './store';
-import { USER_GET } from './store/profile/profile.actions';
-import { ISimpleResponse } from './shared/interfaces/simple.interface';
 
 import { UserAgentService } from '../services/userAgent.service'
 
@@ -28,7 +25,6 @@ export class AppComponent implements OnInit {
   @ViewChild('gpsLongtitude') gpsLongtitude: any
   @ViewChild('gpsLatitude') gpsLatitude: any
   location: any
-  observable$: Observable<ISimpleResponse>
   canvas: HTMLCanvasElement
   _window: any
   phoneModal: any
@@ -43,7 +39,7 @@ export class AppComponent implements OnInit {
   isIOSPhone: boolean = false
   reader: any = new FileReader()
 
-  constructor(private http: HttpClient, private store: Store<IAppState>, private userAgent: UserAgentService) { }
+  constructor(private http: HttpClient, private userAgent: UserAgentService) { }
 
   ngOnInit() {
     this.isIOSPhone = this.userAgent.isiOSPhone()
