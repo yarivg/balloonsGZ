@@ -23,9 +23,9 @@ alonRouter.post("/", (req: Request, res: Response) => {
             tokens[req.body.phone] = token;
         }
 
-        res.send(JSON.stringify({
+        res.send({
             url: `${protocol}${domain}${refEndpoint}${tokens[req.body.phone]}`
-        }))
+        })
     } else {
         res.send("Wrong key, Fuck OFF");
     }
