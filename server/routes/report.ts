@@ -14,7 +14,8 @@ reportRouter.get("/", (req: Request, res: Response) => {
 
 reportRouter.post("/", (req: Request, res: Response) => {
     console.log('send req to seeVU')
-    let phoneNumber = (_.invert(tokens))[req.body.userToken]
+    // TODO remove xxx-xxxxxxxx if alon way required
+    let phoneNumber = (_.invert(tokens))[req.body.userToken] || 'XXX-XXXXXXX'
     if(phoneNumber) {
         let reqBody = {
             phone: phoneNumber,
