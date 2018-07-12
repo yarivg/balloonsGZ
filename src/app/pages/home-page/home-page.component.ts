@@ -10,8 +10,8 @@ import { ReportService } from '../../../services/report.service'
 })
 export class HomePageComponent implements OnInit {
 
-  private reader: any = new FileReader();
-  public imageBase64: string = null;
+  private reader: any = new FileReader()
+  public imageBase64: string = null
   public location: any
   public currAzimuth: any
   public azimuthWhenCapturing: any
