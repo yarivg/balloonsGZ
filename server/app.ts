@@ -43,7 +43,7 @@ console.log('started')
   // in production mode run application from dist folder
 
   // PRODUCTION MODE
-app.use(express.static(path.join(__dirname, "/../client")));
+  app.use(express.static(path.join(__dirname, "/../client")));
 // }
 
 // catch 404 and forward to error handler
