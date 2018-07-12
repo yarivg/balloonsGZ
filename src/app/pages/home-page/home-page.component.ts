@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, AfterViewInit } from '@angular/core'
 import { Router, ActivatedRoute, Params} from '@angular/router'
 import { ReportService } from '../../../services/report.service'
 
@@ -9,7 +9,7 @@ declare var $: any;
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent implements OnInit, AfterViewInit{
 
   private reader: any = new FileReader()
   public imageBase64: string = null
@@ -27,6 +27,19 @@ export class HomePageComponent implements OnInit {
   ngOnInit() {
     this.reportSrv.checkLocation()
     this.reportSrv.checkAzimuth()
+
+    $('.home-page').css('display', 'none')
+  }
+
+  // Handle loading screen div and homepage, in such a way
+  // that simulates a real loading screen
+  ngAfterViewInit() {
+    let loadingscreen = $('#loading');
+    let homescreen = $('.home-page');
+    setTimeout(function () {
+      loadingscreen.fadeOut();
+      homescreen.fadeIn();
+    }, 900)
   }
 
   goToCommentScreen() {

@@ -1,3 +1,12 @@
+.loading-screen {
+  width: 100%;
+  height: 100%;
+  background: url(/assets/loading-screen.png);
+  background-size: cover;
+  position: absolute;
+  z-index: 5;
+}
+
 .bg-os {
   width: 100%;
   height: 100%;
