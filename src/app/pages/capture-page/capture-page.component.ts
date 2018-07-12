@@ -60,6 +60,7 @@ export class CapturePageComponent implements OnInit, OnDestroy {
 
   goToMapScreen() {
     this.router.navigate(['/map']);
+    alert('דיווח נשלח בהצלחה, תודה!');
   }
 
   initCamera(config: any) {

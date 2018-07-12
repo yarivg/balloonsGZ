@@ -53,14 +53,15 @@ export class ReportService {
             }), (error) => {
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
-                        alert("User denied the request for Geolocation.")
+                        // alert("User denied the request for Geolocation.")
+                        // alert("User denied the request for Geolocation.")
                         this.checkLocation()
                         break;
                     case error.POSITION_UNAVAILABLE:
-                        alert("Location information is unavailable.")
+                        // alert("Location information is unavailable.")
                         break;
                     case error.TIMEOUT:
-                        alert("The request to get user location timed out.")
+                        // alert("The request to get user location timed out.")
                         break;
                 }
             })
