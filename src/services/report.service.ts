@@ -123,8 +123,8 @@ export class ReportService {
 
             this.router.navigate(['/map']);
         }, error => {
-            console.log('onerror', body)
-            alert(error.error.text)
+            console.log(error)
+            this.router.navigate(['/map']);
         });
     }
 }

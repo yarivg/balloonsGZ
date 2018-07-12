@@ -14,18 +14,19 @@ export class HomePageComponent implements OnInit {
   private reader: any = new FileReader()
   public imageBase64: string = null
   public currLocation: any
-  public currAzimuth: any
+  public currAzimuth: any = ''
   
   constructor(private router: Router, private reportSrv: ReportService) {
-    if(!localStorage.getItem('userToken')) {
-      localStorage.setItem('userToken', window.location.href.split('entry=')[1])
+    let splitString = window.location.href.split('entry=')
+    
+    if(splitString.length > 1 && ['undefined', '', null, undefined].includes(localStorage.getItem('userToken'))) {
+      localStorage.setItem('userToken', splitString[1])
     }
   }
 
   ngOnInit() {
     this.reportSrv.checkLocation()
     this.reportSrv.checkAzimuth()
-
   }
 
   goToCommentScreen() {
