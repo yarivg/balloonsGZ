@@ -35,7 +35,7 @@ export class CommentPageComponent implements OnInit {
 
   makeUserMessage() {
     let opening = "דיווח%20על%20"
-    return `${this.getGoogleMapsURL()}${'.%0A' + opening}${this.currCategoryName + '.%0A' + this.description + '.%0A' }`
+    return `${this.getGoogleMapsURL()}${'%0A' + opening}${this.currCategoryName + '.%0A' + this.description + '.%0A' }`
   }
 
   getGoogleMapsURL() {
