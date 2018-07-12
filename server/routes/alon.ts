@@ -44,4 +44,7 @@ alonRouter.post("/", (req: Request, res: Response) => {
 //     console.log(tokens)
 // })
 
-export { alonRouter, tokens }
+module.exports = { 
+    'tokens': tokens,
+    'router': alonRouter
+}

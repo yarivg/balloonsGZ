@@ -1,10 +1,9 @@
 import { Request, Response, Router } from "express";
-import { tokens } from "../routes/alon"
 import * as uuid from "uuid";
 
 const _ = require('lodash')
+const alonAPI = require("../routes/alon")
 const request = require('request')
-
 const seeVUToken = "leeroezpsnyoecdjvqofomqpwjvrjcybdvcpewkwhjbvkwdeqewlyfhtyprhxngbmhrdxzjupigeounbiwzgdbzuuydtykguzkxoghqjnjisazxwaswjwscpuyogdzgr"
 const user_id = '1846'
 
@@ -15,8 +14,13 @@ reportRouter.get("/", (req: Request, res: Response) => {
 
 reportRouter.post("/", (req: Request, res: Response) => {
     console.log('send req to seeVU')
+    
+    let phoneNumber
+    if(req.body.userToken) {
+        phoneNumber = (_.invert(alonAPI.tokens))[req.body.userToken] || 'XXX-XXXXXXX'
+    }
+
     // TODO remove xxx-xxxxxxxx if alon way required
-    let phoneNumber = (_.invert(tokens))[req.body.userToken] || 'XXX-XXXXXXX'
     if(phoneNumber) {
         let reqBody = {
             phone: phoneNumber,
@@ -24,8 +28,8 @@ reportRouter.post("/", (req: Request, res: Response) => {
             lng: req.body.lng,
             lat: req.body.lat,
             image: req.body.imageBase64.split('base64,')[1],
-            heading: req.body.azimuth.toString(),
-            category: req.body.category.toString(),
+            heading: req.body.azimuth ? req.body.azimuth.toString() : '0',
+            category: req.body.category ? req.body.category.toString() : '0',
             description: req.body.description,
             pitch: '0',
             token: seeVUToken,
