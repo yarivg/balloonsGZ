@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@ang
 import { Router } from '@angular/router';
 
 import { ReportService } from '../../../services/report.service';
-import { reportRouter } from '../../../../server/routes/report';
 
 @Component({
   selector: 'app-capture-page',
