@@ -39,6 +39,7 @@ export class CommentPageComponent implements OnInit {
     // function that sets the lower part of the view to display either,
     // 'height' div or 'size' div - accordingly for each type of the reports
     function determineSubState(typeValue) {
+      if (!typeValue || typeValue == '') return;
       
       $('.size, .height').removeClass('hidden');
 
