@@ -37,7 +37,7 @@ export class HomePageComponent implements OnInit, AfterViewInit{
     setTimeout(function () {
       loadingscreen.fadeOut();
       homescreen.fadeIn();
-    }, 900)
+    }, 1500)
   }
 
   goToCommentScreen() {

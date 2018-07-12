@@ -176,3 +176,8 @@
   background-color: #037c6d;
   color: #FFF;
 }
+
+.btn-group {
+  width: 100%;
+  text-align: center;
+}
