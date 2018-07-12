@@ -1,10 +1,9 @@
 import { Request, Response, Router } from "express";
-import { tokens } from "../routes/alon"
 import * as uuid from "uuid";
 
 const _ = require('lodash')
+const alonAPI = require("../routes/alon")
 const request = require('request')
-
 const seeVUToken = "leeroezpsnyoecdjvqofomqpwjvrjcybdvcpewkwhjbvkwdeqewlyfhtyprhxngbmhrdxzjupigeounbiwzgdbzuuydtykguzkxoghqjnjisazxwaswjwscpuyogdzgr"
 const user_id = '1846'
 
@@ -15,8 +14,13 @@ reportRouter.get("/", (req: Request, res: Response) => {
 
 reportRouter.post("/", (req: Request, res: Response) => {
     console.log('send req to seeVU')
+    
+    let phoneNumber
+    if(req.body.userToken) {
+        phoneNumber = (_.invert(alonAPI.tokens))[req.body.userToken] || 'XXX-XXXXXXX'
+    }
+
     // TODO remove xxx-xxxxxxxx if alon way required
-    let phoneNumber = (_.invert(tokens))[req.body.userToken] || 'XXX-XXXXXXX'
     if(phoneNumber) {
         let reqBody = {
             phone: phoneNumber,
