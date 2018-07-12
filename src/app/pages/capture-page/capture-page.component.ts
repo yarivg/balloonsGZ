@@ -1,10 +1,13 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { ReportService } from '../../../services/report.service';
+
 @Component({
   selector: 'app-capture-page',
   templateUrl: './capture-page.component.html',
-  styleUrls: ['./capture-page.component.css']
+  styleUrls: ['./capture-page.component.css'],
+  providers: [ReportService]
 })
 export class CapturePageComponent implements OnInit, OnDestroy {
   @ViewChild('video') video: any;
@@ -12,11 +15,23 @@ export class CapturePageComponent implements OnInit, OnDestroy {
   public imageBase64: string = null;
   private reader: any = new FileReader();
 
-  constructor(private router: Router, private cd: ChangeDetectorRef) {
+  constructor(private router: Router, private cd: ChangeDetectorRef, private reportSrv: ReportService) {
+
   }
 
   ngOnInit() {
-    this.initCamera({video: true, audio: false});
+    // this.initCamera({video: true, audio: false});
+    this.initImageScreen();
+  }
+
+  initImageScreen() {
+    // Get image from report service (photo taken at the previous route)
+    this.imageBase64 = this.reportSrv.getImage();
+
+    if (this.imageBase64 === null) {
+      console.log('photo is blank - sry lads')
+    }
+
   }
 
   ngOnDestroy() {

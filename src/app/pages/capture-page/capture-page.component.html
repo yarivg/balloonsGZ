@@ -1,8 +1,9 @@
 <div class="capture-page">
   <pre>{{ aaa | json }}</pre>
-  <div class="index-video-wrapper" *ngIf="!imageBase64">
+  <!-- <div class="index-video-wrapper" *ngIf="!imageBase64">
     <video #video autoplay id="index-video"></video>
   </div>
+  -->
   <div class="index-image-wrapper" *ngIf="imageBase64">
     <img [src]="imageBase64">
   </div>

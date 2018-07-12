@@ -69,12 +69,12 @@ export class ReportService {
     checkAzimuth() {
         // Check if device can provide absolute orientation data
         if ('DeviceOrientationAbsoluteEvent' in window) {
-            window.addEventListener("DeviceOrientationAbsoluteEvent", (event: any) => {
+            this._window.addEventListener("DeviceOrientationAbsoluteEvent", (event: any) => {
                 this.deviceOrientationHandler(event)
             })
         } // If not, check if the device sends any orientation data
         else if ('DeviceOrientationEvent' in window) {
-            window.addEventListener("deviceorientation", (event: any) => {
+            this._window.addEventListener("deviceorientation", (event: any) => {
                 this.deviceOrientationHandler(event)
             });
         } // Send an alert if the device isn't compatible

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core'
-import {Router, ActivatedRoute, Params} from '@angular/router'
+import { Router, ActivatedRoute, Params} from '@angular/router'
 import { ReportService } from '../../../services/report.service'
+
+declare var $: any;
 
 @Component({
   selector: 'app-home-page',
@@ -32,7 +34,7 @@ export class HomePageComponent implements OnInit {
 
   openCamera() {
     // activate camera
-    document.querySelector('input').click();
+    $('input').click();
   }
 
   captureImage(event) {
@@ -41,12 +43,14 @@ export class HomePageComponent implements OnInit {
 
       this.reader.onload = (event: any) => { // called once readAsDataURL is completed
         this.imageBase64 = event.target.result;
+        console.log(event.target.result)
 
         // Hold the image in memory, to be used in the next state(route)
         this.reportSrv.setImage(this.imageBase64);
 
         // Move further, to next route
-        this.goToCaptureScreen();
+        
+        // this.goToCaptureScreen();
       }
 
       this.locationWhenCapturing = this.location;
