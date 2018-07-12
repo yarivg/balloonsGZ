@@ -1,12 +1,69 @@
-.bg-end {
+.bg-os {
     width: 100%;
     height: 100%;
-    background: url(/assets/end-screen.png);
+    background: url(/assets/bg-ios.png);
+    background-size: cover;
     position: absolute;
     z-index: -1;
-    background-size: cover; 
-    -ms-background-size: cover; 
-    -o-background-size: cover; 
-    -moz-background-size: cover; 
-    -webkit-background-size: cover;
+}
+
+.header {
+    width: 100%;
+    box-shadow: 0 0 10px grey;
+    height: 50px;
+  }
+  
+.header .icon {
+    display: block;
+    margin: 0 auto;
+    width: 40px;
+    height: 40px;
+    background-image: url(/assets/colored-balloon.svg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    top: 5px;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: #037c6d;
+    background-size: 50%;
+}
+
+.ending-page .content {
+    width: 60%;
+    height: 100px;
+    margin: 50px auto 0 auto;
+    text-align: center;
+}
+
+.phone-number .icon {
+    background-image: url(/assets/phone-ringing.svg);
+    display: inline-block;
+    margin: 0 auto;
+    width: 55px;
+    height: 55px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    top: 20px;
+    border-radius: 50%;
+    background-size: 50%;
+}
+
+.url {
+    text-decoration: none
+}
+
+.url .icon {
+    background-image: url(/assets/internet.svg);
+    display: inline-block;
+    margin: 0 auto;
+    width: 55px;
+    height: 55px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    top: 20px;
+    border-radius: 50%;
+    background-size: 50%;
 }
