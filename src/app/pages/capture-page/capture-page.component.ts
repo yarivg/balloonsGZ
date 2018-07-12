@@ -1,6 +1,9 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { ReportService } from '../../../services/report.service';
+import { reportRouter } from '../../../../server/routes/report';
+
 @Component({
   selector: 'app-capture-page',
   templateUrl: './capture-page.component.html',
@@ -12,17 +15,37 @@ export class CapturePageComponent implements OnInit, OnDestroy {
   public imageBase64: string = null;
   private reader: any = new FileReader();
 
-  constructor(private router: Router, private cd: ChangeDetectorRef) {
+  constructor(private router: Router, private cd: ChangeDetectorRef, private reportSrv: ReportService) {
+
   }
 
   ngOnInit() {
-    this.initCamera({video: true, audio: false});
+    // this.initCamera({video: true, audio: false});
+    this.initImageScreen();
+  }
+
+  initImageScreen() {
+    console.log('same image on second route', this.reportSrv.getImage())
+    // Get image from report service (photo taken at the previous route)
+    this.imageBase64 = this.reportSrv.getImage();
+
+    if (this.imageBase64 === null) {
+      console.log('photo is blank - sry lads')
+    }
+
   }
 
   ngOnDestroy() {
     if (this.video && this.video.nativeElement) {
       this.video.nativeElement.pause();
     }
+  }
+
+  goBack() {
+    this.router.navigate(['/home'])
+
+    // clear image from cache
+    this.reportSrv.clearImage();
   }
 
   onSelectFile(event) {
@@ -37,6 +60,7 @@ export class CapturePageComponent implements OnInit, OnDestroy {
 
   goToMapScreen() {
     this.router.navigate(['/map']);
+    alert('דיווח נשלח בהצלחה, תודה!');
   }
 
   initCamera(config: any) {

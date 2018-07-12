@@ -40,7 +40,7 @@ video {
   background-size: 80%;
 }
 
-.file-container [type=file] {
+.file-container [type=button] {
   display: block;
   font-size: 999px;
   filter: alpha(opacity=0);

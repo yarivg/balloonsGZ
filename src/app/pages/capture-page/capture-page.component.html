@@ -1,13 +1,15 @@
 <div class="capture-page">
   <pre>{{ aaa | json }}</pre>
-  <div class="index-video-wrapper" *ngIf="!imageBase64">
+  <!-- <div class="index-video-wrapper" *ngIf="!imageBase64">
     <video #video autoplay id="index-video"></video>
   </div>
+  -->
   <div class="index-image-wrapper" *ngIf="imageBase64">
     <img [src]="imageBase64">
   </div>
   <label class="file-container">
-    <input type="file" (change)="onSelectFile($event)" type="file" accept="image/*,video/*"/>
+    <!-- <input type="file" (change)="onSelectFile($event)" accept="image/*,video/*"/> -->
+    <input type="button" (click)="goBack()">
   </label>
 
   <div class="footer">
