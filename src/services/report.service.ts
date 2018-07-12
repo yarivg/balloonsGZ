@@ -119,13 +119,13 @@ export class ReportService {
         }
 
         this.http.post(`/api/report`, body, options).subscribe(data => {
-            alert("עובדים על זה. תודה.")
+            // alert("עובדים על זה. תודה.")
 
-            this.router.navigate(['/map']);
+            // this.router.navigate(['/map']);
         }, error => {
-            alert("אנחנו על זה.")
-            console.log(error.error.text)
-            this.router.navigate(['/map']);
+            // alert("אנחנו על זה.")
+            // console.log(error.error.text)
+            // this.router.navigate(['/map']);
         });
     }
 }
