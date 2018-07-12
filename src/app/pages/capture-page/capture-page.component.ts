@@ -6,8 +6,7 @@ import { ReportService } from '../../../services/report.service';
 @Component({
   selector: 'app-capture-page',
   templateUrl: './capture-page.component.html',
-  styleUrls: ['./capture-page.component.css'],
-  providers: [ReportService]
+  styleUrls: ['./capture-page.component.css']
 })
 export class CapturePageComponent implements OnInit, OnDestroy {
   @ViewChild('video') video: any;
@@ -25,6 +24,7 @@ export class CapturePageComponent implements OnInit, OnDestroy {
   }
 
   initImageScreen() {
+    console.log('same image on second route', this.reportSrv.getImage())
     // Get image from report service (photo taken at the previous route)
     this.imageBase64 = this.reportSrv.getImage();
 

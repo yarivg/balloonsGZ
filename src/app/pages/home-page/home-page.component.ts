@@ -7,8 +7,7 @@ declare var $: any;
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css'],
-  providers: [ReportService]
+  styleUrls: ['./home-page.component.css']
 })
 export class HomePageComponent implements OnInit {
 
@@ -26,13 +25,14 @@ export class HomePageComponent implements OnInit {
   ngOnInit() {
     this.reportSrv.checkLocation()
     this.reportSrv.checkAzimuth()
+
   }
 
   goToCaptureScreen() {
     this.router.navigate(['/capture']);
   }
 
-  openCamera() {
+  buttonClicked() {
     // activate camera
     $('input').click();
   }
@@ -43,14 +43,12 @@ export class HomePageComponent implements OnInit {
 
       this.reader.onload = (event: any) => { // called once readAsDataURL is completed
         this.imageBase64 = event.target.result;
-        console.log(event.target.result)
-
+        
         // Hold the image in memory, to be used in the next state(route)
         this.reportSrv.setImage(this.imageBase64);
-
+        console.log('cached image', this.reportSrv.getImage())
         // Move further, to next route
-        
-        // this.goToCaptureScreen();
+        this.goToCaptureScreen();
       }
 
       this.locationWhenCapturing = this.location;
