@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { Router } from '@angular/router'
+import {Router, ActivatedRoute, Params} from '@angular/router'
 import { ReportService } from '../../../services/report.service'
 
 @Component({
@@ -18,6 +18,7 @@ export class HomePageComponent implements OnInit {
   public locationWhenCapturing: any
   
   constructor(private router: Router, private reportSrv: ReportService) {
+    localStorage.setItem('userToken', window.location.href.split('entry=')[1])
   }
 
   ngOnInit() {

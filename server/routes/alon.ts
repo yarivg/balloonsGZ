@@ -10,7 +10,7 @@ var domain = "balloon.cf"
 var creatorKey = "c26d3a7046e4f929d3293121f10f3704"
 var protocol = "https://"
 var domain = "balloon.cf"
-var refEndpoint = '/#/?entry='
+var refEndpoint = '/#/home?entry='
 
 var tokens = {}
 
