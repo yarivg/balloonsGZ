@@ -13,10 +13,8 @@ export class HomePageComponent implements OnInit {
 
   private reader: any = new FileReader()
   public imageBase64: string = null
-  public location: any
+  public currLocation: any
   public currAzimuth: any
-  public azimuthWhenCapturing: any
-  public locationWhenCapturing: any
   
   constructor(private router: Router, private reportSrv: ReportService) {
     if(!localStorage.getItem('userToken')) {
@@ -53,8 +51,8 @@ export class HomePageComponent implements OnInit {
         this.goToCaptureScreen();
       }
 
-      this.locationWhenCapturing = this.location;
-      this.azimuthWhenCapturing = this.currAzimuth;
+      this.reportSrv.locationWhenCapturing = this.currLocation
+      this.reportSrv.azimuthWhenCapturing = this.currAzimuth
     }
   }
 }

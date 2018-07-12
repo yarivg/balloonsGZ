@@ -11,8 +11,8 @@ export class ReportService {
     private currAzimuth: number = 0
 
     // report data
-    private azimuthWhenCapturing: number = 0
-    private locationWhenCapturing: any
+    public azimuthWhenCapturing: any = '0'
+    public locationWhenCapturing: any
     private category: string = '11'
     private imageBase64: string = ''
 
