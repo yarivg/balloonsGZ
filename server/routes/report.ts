@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
-import { isInPolygon } from '../utils/polygonFilter'
 import * as uuid from "uuid";
 
+const isInPolygon = require('../utils/polygonFilter').isInPolygon
 const _ = require('lodash')
 const alonAPI = require("../routes/alon")
 const request = require('request')
@@ -58,7 +58,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
             res.end()
         }
     } else { // If not in polygon
-        res.send("ok").status(200).end()
+        res.send("עובדים על זה. תודה.").status(200).end()
     }
 });
 
