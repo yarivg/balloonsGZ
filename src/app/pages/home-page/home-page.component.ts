@@ -29,8 +29,8 @@ export class HomePageComponent implements OnInit {
     this.reportSrv.checkAzimuth()
   }
 
-  goToCaptureScreen() {
-    this.router.navigate(['/capture']);
+  goToCommentScreen() {
+    this.router.navigate(['/comment']);
   }
 
   buttonClicked() {
@@ -47,13 +47,15 @@ export class HomePageComponent implements OnInit {
         
         // Hold the image in memory, to be used in the next state(route)
         this.reportSrv.setImage(this.imageBase64);
-        console.log('cached image', this.reportSrv.getImage())
-        // Move further, to next route
-        this.goToCaptureScreen();
-      }
 
-      this.reportSrv.locationWhenCapturing = this.currLocation
-      this.reportSrv.azimuthWhenCapturing = this.currAzimuth
+        // as of now - immediately create a report to the server, description is ''
+        this.reportSrv.locationWhenCapturing = this.currLocation
+        this.reportSrv.azimuthWhenCapturing = this.currAzimuth
+        this.reportSrv.upload('');
+
+        // Move further, to next route
+        this.goToCommentScreen();
+      }
     }
   }
 }

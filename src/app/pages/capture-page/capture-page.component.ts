@@ -58,7 +58,7 @@ export class CapturePageComponent implements OnInit, OnDestroy {
   }
 
   goToMapScreen() {
-    this.reportSrv.upload(this.description)
+    // this.reportSrv.upload(this.description)
     alert('דיווח נשלח בהצלחה, תודה!');
   }
 
