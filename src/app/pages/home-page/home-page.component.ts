@@ -19,7 +19,9 @@ export class HomePageComponent implements OnInit {
   public locationWhenCapturing: any
   
   constructor(private router: Router, private reportSrv: ReportService) {
-    localStorage.setItem('userToken', window.location.href.split('entry=')[1])
+    if(!localStorage.getItem('userToken')) {
+      localStorage.setItem('userToken', window.location.href.split('entry=')[1])
+    }
   }
 
   ngOnInit() {

@@ -109,7 +109,7 @@ export class ReportService {
         }
 
         let body = {
-            'name': 'dunky-monkey',
+            'name': 'WEB-REPORTER',
             'lat': this.currLocation ? this.currLocation.latitude.toString() : '0',
             'lng': this.currLocation ? this.currLocation.longitude.toString() : '0',
             'imageBase64': this.getImage(),
