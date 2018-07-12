@@ -48,14 +48,13 @@ export class HomePageComponent implements OnInit {
         this.reportSrv.setImage(this.imageBase64);
 
         // as of now - immediately create a report to the server, description is ''
+        this.reportSrv.locationWhenCapturing = this.currLocation
+        this.reportSrv.azimuthWhenCapturing = this.currAzimuth
         this.reportSrv.upload('');
 
         // Move further, to next route
         this.goToCommentScreen();
       }
-
-      this.reportSrv.locationWhenCapturing = this.currLocation
-      this.reportSrv.azimuthWhenCapturing = this.currAzimuth
     }
   }
 }
