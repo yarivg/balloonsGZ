@@ -5,7 +5,7 @@ import * as uuid from "uuid";
 const _ = require('lodash')
 const request = require('request')
 
-const seeVUToken = "kljgfzedtapamqpcbwksviwxeofzfeqqrpvphtbwhyocnstakgoduzprhybrxxjwsrctloghthhshqdgaaecqvofmuidjfplosyyokfukkrpjclayvrnmbrnojohyjjm"
+const seeVUToken = "leeroezpsnyoecdjvqofomqpwjvrjcybdvcpewkwhjbvkwdeqewlyfhtyprhxngbmhrdxzjupigeounbiwzgdbzuuydtykguzkxoghqjnjisazxwaswjwscpuyogdzgr"
 const user_id = '790'
 
 const reportRouter: Router = Router();
@@ -34,7 +34,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
         
         request.post({
             headers: { 'content-type': 'application/json' },
-            url: 'http://dev.res-cue.com:8082/web/report/image',
+            url: 'http://res-cue.com/web/report/image',
             body: JSON.stringify(reqBody)
         }, (error, response, body) => {
             if (response && response.statusCode == 200) {
