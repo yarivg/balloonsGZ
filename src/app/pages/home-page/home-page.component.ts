@@ -22,6 +22,8 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.reportSrv.checkLocation()
+    this.reportSrv.checkAzimuth()
   }
 
   goToCaptureScreen() {
