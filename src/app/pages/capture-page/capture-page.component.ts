@@ -59,7 +59,7 @@ export class CapturePageComponent implements OnInit, OnDestroy {
   }
 
   goToMapScreen() {
-    this.router.navigate(['/map']);
+    this.reportSrv.upload()
     alert('דיווח נשלח בהצלחה, תודה!');
   }
 
