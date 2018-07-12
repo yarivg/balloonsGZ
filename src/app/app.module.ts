@@ -16,6 +16,7 @@ import { CapturePageComponent } from './pages/capture-page/capture-page.componen
 import { reportRouter } from '../../server/routes/report';
 import { ReportService } from '../services/report.service';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
+import { EndingPageComponent } from './pages/ending-page/ending-page.component';
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
@@ -24,7 +25,8 @@ import { CommentPageComponent } from './pages/comment-page/comment-page.componen
     AppComponent,
     HomePageComponent,
     CapturePageComponent,
-    CommentPageComponent
+    CommentPageComponent,
+    EndingPageComponent
     //MapPageComponent,
   ],
   imports: [

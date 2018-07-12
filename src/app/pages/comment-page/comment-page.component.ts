@@ -59,13 +59,9 @@ export class CommentPageComponent implements OnInit {
       let parent = $(this).parent();
       onSelect($(this), parent);
     });
-
-
   }
-  goHome() {
-    this.router.navigate(['/home']);
-    setTimeout(() => {
-      alert('תודה על הדיווח. אנחנו על זה.')
-    }, 200)
+
+  goToEndingPage() {
+    this.router.navigate(['/ending']);
   }
 }
