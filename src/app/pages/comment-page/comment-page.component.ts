@@ -40,7 +40,7 @@ export class CommentPageComponent implements OnInit {
 
   getGoogleMapsURL() {
       if(this.reportSrv.currLocation) {
-         return `www.google.com/maps/?q=${this.reportSrv.currLocation.latitude},${this.reportSrv.currLocation.longitude}` 
+         return `google.com/maps/?q=${this.reportSrv.currLocation.latitude},${this.reportSrv.currLocation.longitude}` 
       } else {
         return ''
       }
