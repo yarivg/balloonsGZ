@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ReportService {
@@ -16,7 +17,7 @@ export class ReportService {
     private imageBase64: string = ''
     private description: string = ''
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private router: Router) {
         this._window = window
     }
     /**
@@ -111,7 +112,7 @@ export class ReportService {
             'name': 'dunky-monkey',
             'lat': this.currLocation ? this.currLocation.latitude.toString() : '0',
             'lng': this.currLocation ? this.currLocation.longitude.toString() : '0',
-            'imageBase64': this.imageBase64,
+            'imageBase64': this.getImage(),
             'azimuth': this.azimuthWhenCapturing,
             'description': this.description,
             'category': '11',// TODO - balloon, kite, fire
@@ -120,6 +121,8 @@ export class ReportService {
 
         this.http.post(`/api/report`, body, options).subscribe(data => {
             alert("עובדים על זה. תודה.")
+
+            this.router.navigate(['/map']);
         }, error => {
             alert(error.error.text)
         });

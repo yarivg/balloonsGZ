@@ -6,7 +6,7 @@ const _ = require('lodash')
 const request = require('request')
 
 const seeVUToken = "leeroezpsnyoecdjvqofomqpwjvrjcybdvcpewkwhjbvkwdeqewlyfhtyprhxngbmhrdxzjupigeounbiwzgdbzuuydtykguzkxoghqjnjisazxwaswjwscpuyogdzgr"
-const user_id = '790'
+const user_id = '1846'
 
 const reportRouter: Router = Router();
 reportRouter.get("/", (req: Request, res: Response) => {
