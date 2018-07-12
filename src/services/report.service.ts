@@ -29,6 +29,10 @@ export class ReportService {
         return this.image == stringifiedImage;
     }
 
+    clearImage() {
+        this.image = null;
+    }
+
     /**
     *   Return the local variable image (as string)
     *   @returns {String}

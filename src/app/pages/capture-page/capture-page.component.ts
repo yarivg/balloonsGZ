@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@ang
 import { Router } from '@angular/router';
 
 import { ReportService } from '../../../services/report.service';
+import { reportRouter } from '../../../../server/routes/report';
 
 @Component({
   selector: 'app-capture-page',
@@ -38,6 +39,13 @@ export class CapturePageComponent implements OnInit, OnDestroy {
     if (this.video && this.video.nativeElement) {
       this.video.nativeElement.pause();
     }
+  }
+
+  goBack() {
+    this.router.navigate(['/home'])
+
+    // clear image from cache
+    this.reportSrv.clearImage();
   }
 
   onSelectFile(event) {
