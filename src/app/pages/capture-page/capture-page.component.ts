@@ -14,10 +14,9 @@ export class CapturePageComponent implements OnInit, OnDestroy {
 
   public imageBase64: string = null;
   private reader: any = new FileReader();
+  private description: string = ''
 
-  constructor(private router: Router, private cd: ChangeDetectorRef, private reportSrv: ReportService) {
-
-  }
+  constructor(private router: Router, private cd: ChangeDetectorRef, private reportSrv: ReportService) {}
 
   ngOnInit() {
     // this.initCamera({video: true, audio: false});
@@ -59,7 +58,7 @@ export class CapturePageComponent implements OnInit, OnDestroy {
   }
 
   goToMapScreen() {
-    this.reportSrv.upload()
+    this.reportSrv.upload(this.description)
     alert('דיווח נשלח בהצלחה, תודה!');
   }
 

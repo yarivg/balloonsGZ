@@ -15,7 +15,6 @@ export class ReportService {
     private locationWhenCapturing: any
     private category: string = '11'
     private imageBase64: string = ''
-    private description: string = ''
 
     constructor(private http: HttpClient, private router: Router) {
         this._window = window
@@ -100,7 +99,7 @@ export class ReportService {
         }
     }
 
-    upload() {
+    upload(description: string) {
         let options = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -114,7 +113,7 @@ export class ReportService {
             'lng': this.currLocation ? this.currLocation.longitude.toString() : '0',
             'imageBase64': this.getImage(),
             'azimuth': this.azimuthWhenCapturing,
-            'description': this.description,
+            'description': description,
             'category': '11',// TODO - balloon, kite, fire
             'userToken': localStorage.getItem('userToken')
         }
