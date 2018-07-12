@@ -1,0 +1,56 @@
+<div class="comment-page">
+  <div class="bg-os"></div>
+  <div class="header">
+    <div class="icon"></div>
+  </div>
+  <div class="content">
+    <div class="title">למילוי פרטים נוספים על הדיווח:</div>
+    <div class="factor text-center">הגורם המאיים</div>
+    <div class="factor-icons radio-group">
+
+      <div class="factor-icon fire">
+        <div class="icon select-circle radio" data-value="fire"></div>
+        <span>שרפה</span>
+      </div>
+
+      <div class="factor-icon balloon">
+        <div class="icon select-circle radio selected" data-value="balloon"></div>
+        <span>בלון</span>
+      </div>
+
+      <div class="factor-icon kite">
+        <div class="icon select-circle radio" data-value="kite"></div>
+        <span>עפיפון</span>
+      </div>
+
+    </div>
+
+    <div class="comment">
+      <label>
+        <span class="block mini-header">הערות</span>
+        <textarea></textarea>
+      </label>
+    </div>
+
+    <div class="size hidden">
+      <span class="mini-header">גודל השרפה</span>
+      <div class="buttons radio-group">
+        <button class="radio">גדולה</button>
+        <button class="radio">בינונית</button>
+        <button class="radio">קטנה</button>
+      </div>
+    </div>
+
+    <div class="height">
+      <span class="mini-header">גובה מוערך</span>
+      <div class="buttons radio-group">
+        <button class="radio">גבוה</button>
+        <button class="radio">בינוני</button>
+        <button class="radio">נמוך</button>
+        <button class="radio">על הקרקע</button>
+      </div>
+    </div>
+
+    <button class="finish-button" (click)="goHome()">סיימתי</button>
+  </div>
+</div>

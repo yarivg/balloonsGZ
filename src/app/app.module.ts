@@ -15,6 +15,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { CapturePageComponent } from './pages/capture-page/capture-page.component';
 import { reportRouter } from '../../server/routes/report';
 import { ReportService } from '../services/report.service';
+import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
@@ -23,8 +24,8 @@ import { ReportService } from '../services/report.service';
     AppComponent,
     HomePageComponent,
     CapturePageComponent,
+    CommentPageComponent
     //MapPageComponent,
-    //CommentPageComponent
   ],
   imports: [
     BrowserModule,
