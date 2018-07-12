@@ -9,17 +9,17 @@
     <div class="factor-icons radio-group">
 
       <div class="factor-icon fire">
-        <div class="icon select-circle radio" data-value="fire"></div>
-        <span>שרפה</span>
+        <div (click)="chooseCategory('שריפה')"class="icon select-circle radio" data-value="fire"></div>
+        <span>שריפה</span>
       </div>
 
       <div class="factor-icon balloon">
-        <div class="icon select-circle radio selected" data-value="balloon"></div>
+        <div (click)="chooseCategory('בלון')" class="icon select-circle radio selected" data-value="balloon"></div>
         <span>בלון</span>
       </div>
 
       <div class="factor-icon kite">
-        <div class="icon select-circle radio" data-value="kite"></div>
+        <div (click)="chooseCategory('עפיפון')" class="icon select-circle radio" data-value="kite"></div>
         <span>עפיפון</span>
       </div>
 
@@ -28,7 +28,7 @@
     <div class="comment">
       <label>
         <span class="block mini-header">הערות</span>
-        <textarea></textarea>
+        <textarea [(ngModel)]="description"></textarea>
       </label>
     </div>
 
@@ -51,6 +51,10 @@
       </div>
     </div>
 
-    <button class="finish-button" (click)="goHome()">סיימתי</button>
+    <div style="margin-right: 40%" class="btn-group" role="group" aria-label="Basic example">
+      <button class="finish-button" (click)="goHome()">סיימתי</button>
+      <a *ngIf="this.reportSrv.currLocation" href="https://api.whatsapp.com/send?text={{ makeUserMessage() }}"><img class="share" src="/assets/whatsapp.png" /></a>   
+    </div>
+    
   </div>
 </div>

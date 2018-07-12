@@ -54,6 +54,15 @@
   background-size: 50%;
 }
 
+.share {
+  margin-left: 50%;
+  margin: 0 auto;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  top: 5px;
+}
+
 .title {
   margin: 0 auto;
   font-size: 24px;
@@ -132,7 +141,6 @@
 }
 
 .finish-button {
-  display: block;
   margin: 20px auto;
   background-color: #037c6d;
   padding: 10px 30px;
