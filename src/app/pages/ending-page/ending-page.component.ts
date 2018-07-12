@@ -19,13 +19,14 @@ export class EndingPageComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit() {
+    let that = this;
     // Display is visible
     setTimeout(function () { 
-      this.router.navigate('/home');
-    }, 2000)
+      that.goHome()
+    }, 3000)
   }
 
   goHome() {
-
+    this.router.navigate(['/home']);
   }
 }
