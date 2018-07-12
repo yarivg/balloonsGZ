@@ -1,5 +1,6 @@
-import { OnInit, Component} from '@angular/core';
-import { Router } from '@angular/router';
+import { OnInit, Component} from '@angular/core'
+import { Router } from '@angular/router'
+import { ReportService } from '../../../services/report.service'
 
 declare var $: any;
 
@@ -10,12 +11,47 @@ declare var $: any;
 })
 export class CommentPageComponent implements OnInit {
 
-  private selectedType: string = null;
+  private CATEGORIES_NAMES = {
+    'שריפה': '11',
+    'בלון': '15',
+    'עפיפון': '16'
+  }
 
-  constructor(private router: Router) { }
+  private selectedType: string = null;
+  private description: string = ''
+  private currCategoryName = 'בלון'
+
+  constructor(private router: Router, private reportSrv: ReportService) { }
 
   ngOnInit() {
-    this.initTypeSelection()    
+    this.initTypeSelection()
+
+    if(this.reportSrv.currLocation) {
+      this.reportSrv.clearWatching()
+    } else {
+      this.reportSrv.checkLocation()
+    }
+  }
+
+  makeUserMessage() {
+    let opening = "דיווח%20על%20"
+    return `${opening}${this.currCategoryName}.\n${this.getGoogleMapsURL()}`
+  }
+
+  getGoogleMapsURL() {
+      if(this.reportSrv.currLocation) {
+         return `www.google.com/maps/?q=${this.reportSrv.currLocation.latitude},${this.reportSrv.currLocation.longitude}` 
+      } else {
+        return ''
+      }
+  }
+  
+  /**
+   * Store chosen category in report service 
+   */
+  chooseCategory(cat: string) {
+    this.currCategoryName = cat
+    this.reportSrv.setCategory(this.CATEGORIES_NAMES[cat])
   }
 
   /**

@@ -13,8 +13,6 @@ export class HomePageComponent implements OnInit {
 
   private reader: any = new FileReader()
   public imageBase64: string = null
-  public currLocation: any
-  public currAzimuth: any = ''
   
   constructor(private router: Router, private reportSrv: ReportService) {
     let splitString = window.location.href.split('entry=')
@@ -49,8 +47,6 @@ export class HomePageComponent implements OnInit {
         this.reportSrv.setImage(this.imageBase64);
 
         // as of now - immediately create a report to the server, description is ''
-        this.reportSrv.locationWhenCapturing = this.currLocation
-        this.reportSrv.azimuthWhenCapturing = this.currAzimuth
         this.reportSrv.upload('');
 
         // Move further, to next route

@@ -1,24 +1,29 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Injectable } from '@angular/core'
+import { Router } from '@angular/router'
 
 @Injectable()
 export class ReportService {
     private image: string = null
     private _window: any
+    private watchPosId: number
 
-    private currLocation: any
+    public currLocation: any
     private currAzimuth: number = 0
 
     // report data
     public azimuthWhenCapturing: any = '0'
-    public locationWhenCapturing: any
     private category: string = '11'
     private imageBase64: string = ''
+    
+    public setCategory(catValue: string) {
+        this.category = catValue
+    }
 
     constructor(private http: HttpClient, private router: Router) {
         this._window = window
     }
+    
     /**
         *   Set private local variable "image", to hold the recieved image (as string)
         *   @returns {Boolean}
@@ -47,7 +52,7 @@ export class ReportService {
      */
     checkLocation() {
         if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(((position) => {
+            this.watchPosId = navigator.geolocation.watchPosition(((position) => {
                 this.currLocation = position.coords
                 console.log(position.coords)
             }), (error) => {
@@ -68,6 +73,13 @@ export class ReportService {
         }
     }
 
+    /**
+     * pauses watching user location
+     */
+    clearWatching() {
+        navigator.geolocation.clearWatch(this.watchPosId);
+    }
+    
     /**
  *  Watches user azimuth for his report
  */
