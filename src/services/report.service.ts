@@ -16,6 +16,10 @@ export class ReportService {
     private category: string = '11'
     private imageBase64: string = ''
     
+    public getAzimuth() {
+        return this.currAzimuth
+    }
+
     public setCategory(catValue: string) {
         this.category = catValue
     }

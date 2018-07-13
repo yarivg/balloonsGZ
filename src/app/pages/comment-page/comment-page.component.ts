@@ -1,13 +1,15 @@
 import { OnInit, Component} from '@angular/core'
 import { Router } from '@angular/router'
 import { ReportService } from '../../../services/report.service'
+import { UserAgentService } from '../../../services/userAgent.service'
 
 declare var $: any;
 
 @Component({
   selector: 'app-comment-page',
   templateUrl: './comment-page.component.html',
-  styleUrls: ['./comment-page.component.css']
+  styleUrls: ['./comment-page.component.css'],
+  providers: [UserAgentService]
 })
 export class CommentPageComponent implements OnInit {
 
@@ -21,7 +23,7 @@ export class CommentPageComponent implements OnInit {
   private description: string = ''
   private currCategoryName = 'בלון'
 
-  constructor(private router: Router, private reportSrv: ReportService) { }
+  constructor(private router: Router, private reportSrv: ReportService, private userAgent: UserAgentService) { }
 
   ngOnInit() {
     this.initTypeSelection()
@@ -34,8 +36,9 @@ export class CommentPageComponent implements OnInit {
   }
 
   makeUserMessage() {
+    let headingPart = `${this.userAgent.isiOSPhone() ? '%0A' + 'כיוון מצפן: ' + parseInt(this.reportSrv.getAzimuth().toString()) : '' }`
     let opening = "דיווח%20על%20"
-    return `${this.getGoogleMapsURL()}${'%0A' + opening}${this.currCategoryName + '.%0A' + this.description + '.%0A' }`
+    return `${this.getGoogleMapsURL()}${ headingPart }${'%0A' + opening}${this.currCategoryName + '.%0A' + this.description + '.%0A' }`
   }
 
   getGoogleMapsURL() {
