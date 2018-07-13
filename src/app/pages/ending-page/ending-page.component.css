@@ -36,6 +36,10 @@
     text-align: center;
 }
 
+.phone-number {
+    font-size: 3em;
+}
+
 .phone-number .icon {
     background-image: url(/assets/phone-ringing.svg);
     display: inline-block;

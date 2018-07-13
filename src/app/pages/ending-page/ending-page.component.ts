@@ -19,11 +19,7 @@ export class EndingPageComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit() {
-    let that = this;
-    // Display is visible
-    setTimeout(function () { 
-      that.goHome()
-    }, 3000)
+    
   }
 
   goHome() {

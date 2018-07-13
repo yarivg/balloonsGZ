@@ -1,10 +1,21 @@
 .loading-screen {
   width: 100%;
   height: 100%;
-  background: url(/assets/loading-screen.png);
+  background: url(/assets/loading-screen-portrait.png);
   background-size: cover;
   position: absolute;
   z-index: 5;
+}
+
+@media screen and (min-width: 768px) {
+  .loading-screen {
+    width: 100%;
+    height: 100%;
+    background: url(/assets/loading-screen.png);
+    background-size: cover;
+    position: absolute;
+    z-index: 5;
+  }
 }
 
 .bg-os {
