@@ -10,14 +10,22 @@ export class ReportService {
 
     public currLocation: any
     private currAzimuth: number = 0
+    private whatsappSharingUrl: string = ''
 
     // report data
-    public azimuthWhenCapturing: any = '0'
     private category: string = '11'
     private imageBase64: string = ''
     
     public setCategory(catValue: string) {
         this.category = catValue
+    }
+
+    public setWhatsappSharingUrl(whatsappSharingUrl: string) {
+        this.whatsappSharingUrl = whatsappSharingUrl
+    }
+
+    public getWhatsappSharingUrl() {
+        return this.whatsappSharingUrl
     }
 
     constructor(private http: HttpClient, private router: Router) {
@@ -124,7 +132,7 @@ export class ReportService {
             'lat': this.currLocation ? this.currLocation.latitude.toString() : '0',
             'lng': this.currLocation ? this.currLocation.longitude.toString() : '0',
             'imageBase64': this.getImage(),
-            'azimuth': this.azimuthWhenCapturing,
+            'azimuth': this.currAzimuth,
             'description': description,
             'category': '11',// TODO - balloon, kite, fire
             'userToken': localStorage.getItem('userToken')

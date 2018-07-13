@@ -98,6 +98,7 @@ export class CommentPageComponent implements OnInit {
   }
 
   goToEndingPage() {
+    this.reportSrv.setWhatsappSharingUrl(this.makeUserMessage())
     this.router.navigate(['/ending']);
   }
 }

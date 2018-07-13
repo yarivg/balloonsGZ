@@ -2,11 +2,13 @@
     <div class="bg-os"></div>
     <div class="header">
         <div class="icon"></div>
+        <span (click)="goHome()" class="icon" style="background-image: url(/assets/home.svg);position: absolute;margin-left: 3%;"></span>
     </div>
     
     <div class="content">
-        <h2> הדיווח נשלח בהצלחה</h2>
-        <div class="phone-number"> *107 <span class="icon"></span> </div>
-        <div class="url"> <a href="https://balloon.cf"> https://balloon.cf </a> <span class="icon"></span> </div>
+          <h2> הדיווח נשלח בהצלחה</h2> 
+        <div class="phone-number"> *107 <span class="icon" style="width: 40%;"></span> </div>
+        <div class="url"> <a href="https://balloon.cf"> https://balloon.cf </a> <span class="icon" style="width: 34%;"></span> </div> 
+        <a *ngIf="this.reportSrv.currLocation" href="https://api.whatsapp.com/send?text={{ this.reportSrv.getWhatsappSharingUrl() }}"><img style="width: 15%;" class="share" src="/assets/whatsapp.svg" /></a>
     </div>
 </div>
