@@ -43,7 +43,7 @@ export class ReportService {
     *   @returns {String}
     */
     getImage() {
-        return this.image;
+        return this.image
     }
 
 
