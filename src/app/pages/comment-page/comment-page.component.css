@@ -22,8 +22,8 @@
 
 .mini-header {
   display: block;
-  margin: 5px;
-  font-size: 2em;
+  margin: 0.7em 0;
+  font-size: 1.3em;
 }
 
 .content {
@@ -41,8 +41,8 @@
 .header .icon {
   display: block;
   margin: 0 auto;
-  width: 40px;
-  height: 40px;
+  width: 2em;
+  height: 2em;
   background-image: url(/assets/colored-balloon.svg);
   background-position: center center;
   background-repeat: no-repeat;
@@ -75,14 +75,14 @@
 
 .factor-icons .factor-icon {
   display: inline-block;
-  width: 30%;
-  height: 100px;
+  width: 28%;
+  height: 3em;
   margin: 5px;
 }
 
 .factor-icons .factor-icon .icon {
-  width: 100px;
-  height: 100px;
+  width: 4em;
+  height: 4em;
   background-position: center center;
   background-repeat: no-repeat;
   border: 1px solid black;
@@ -110,8 +110,8 @@
 }
 
 .comment textarea {
-  width: 80%;
-  height: 100px;
+  width: 90%;
+  height: 3em;
   border-radius: 20px;
   background: transparent;
   border: 2px solid gray;
@@ -121,10 +121,13 @@
 .buttons {
   margin: 0 auto;
   text-align: center;
+  font-size: 0;
 }
 
 .buttons button {
   background: transparent;
+  font-size: 0.8rem !important;
+  margin: 0;
   border: 1px solid black;
   padding: 10px 20px;
   transition: background 0.1s;
@@ -151,10 +154,6 @@
   box-shadow: 3px 3px 10px grey;
 }
 
-.size {
-  margin-top: 15px;
-}
-
 .radio-group {
   position: relative;
 }
@@ -176,4 +175,9 @@
 .buttons .radio.selected{
   background-color: #037c6d;
   color: #FFF;
+}
+
+.btn-group {
+  width: 100%;
+  text-align: center;
 }
