@@ -43,7 +43,7 @@ export class ReportService {
     *   @returns {String}
     */
     getImage() {
-        return this.image;
+        return this.image
     }
 
 
@@ -60,7 +60,7 @@ export class ReportService {
                     case error.PERMISSION_DENIED:
                         // alert("User denied the request for Geolocation.")
                         // alert("User denied the request for Geolocation.")
-                        this.checkLocation()
+                        // this.checkLocation()
                         break;
                     case error.POSITION_UNAVAILABLE:
                         // alert("Location information is unavailable.")
