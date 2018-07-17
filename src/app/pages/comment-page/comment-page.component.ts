@@ -20,7 +20,7 @@ export class CommentPageComponent implements OnInit {
   }
 
   private selectedType: string = null;
-  private description: string = ''
+  description: string = ''
   private currCategoryName = 'בלון'
 
   constructor(private router: Router, private reportSrv: ReportService, private userAgent: UserAgentService) { }
@@ -43,14 +43,14 @@ export class CommentPageComponent implements OnInit {
 
   getGoogleMapsURL() {
       if(this.reportSrv.currLocation) {
-         return `google.com/maps/?q=${this.reportSrv.currLocation.latitude},${this.reportSrv.currLocation.longitude}` 
+         return `google.com/maps/?q=${this.reportSrv.currLocation.latitude},${this.reportSrv.currLocation.longitude}`
       } else {
         return ''
       }
   }
-  
+
   /**
-   * Store chosen category in report service 
+   * Store chosen category in report service
    */
   chooseCategory(cat: string) {
     this.currCategoryName = cat
@@ -60,7 +60,7 @@ export class CommentPageComponent implements OnInit {
   /**
    * Basically, this following function allows html Divs to act as Radio Buttons
    * used mainly for css ease
-   * 
+   *
    * TypeSelection means regards which type of object you have seen and took a photo of
    */
   initTypeSelection() {
@@ -79,7 +79,7 @@ export class CommentPageComponent implements OnInit {
     // 'height' div or 'size' div - accordingly for each type of the reports
     function determineSubState(typeValue) {
       if (!typeValue || typeValue == '') return;
-      
+
       $('.size, .height').removeClass('hidden');
 
       if (typeValue == 'fire') {  // selected type is not above ground physically - display size

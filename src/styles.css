@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~bootstrap-v4-rtl/dist/css/bootstrap-rtl.min.css';
+
 body {
   background-color: #f8f8f8;
 }
@@ -21,4 +24,25 @@ body {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.send-report-button {
+  background: url(/assets/button.png);
+  text-align: center;
+  display: block;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center center;
+  border: none;
+  color: white;
+  font-size: 20px;
+  line-height: 255px;
+  cursor: pointer;
+}
+
+.row-with-vertical-centered-items{
+  display: flex; flex-direction: row; align-items: center;
 }
