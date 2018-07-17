@@ -13,15 +13,30 @@ declare var $: any;
 })
 export class CommentPageComponent implements OnInit {
 
-  private CATEGORIES_NAMES = {
-    'שריפה': '11',
-    'בלון': '15',
-    'עפיפון': '16'
-  }
+  public CATEGORIES_NAMES = {
+    FIRE:'שריפה',
+    BALLOON: 'בלון',
+    KITE: 'עפיפון'
+  };
+
+  public BURNING_SIZES = {
+    SMALL: 'קטנה',
+    MEDIUM: 'בינונית',
+    LARGE: 'גדולה'
+  };
+
+  public FLYING_OBJECTS_HEIGHT = {
+    ON_GROUND: 'קרקע',
+    LOW: 'נמוך',
+    MEDIUM: 'בינוני',
+    HIGH: 'גבוה'
+  };
 
   private selectedType: string = null;
-  description: string = ''
-  private currCategoryName = 'בלון'
+  description: string = '';
+  public currCategoryName = 'בלון';
+  burningSize = null;
+  flyingObjectHeight = null;
 
   constructor(private router: Router, private reportSrv: ReportService, private userAgent: UserAgentService) { }
 
@@ -36,9 +51,12 @@ export class CommentPageComponent implements OnInit {
   }
 
   makeUserMessage() {
-    let headingPart = `${this.userAgent.isiOSPhone() ? '%0A' + 'כיוון מצפן: ' + parseInt(this.reportSrv.getAzimuth().toString()) : '' }`
-    let opening = "דיווח%20על%20"
-    return `${this.getGoogleMapsURL()}${ headingPart }${'%0A' + opening}${this.currCategoryName + '.%0A' + this.description + '.%0A' }`
+    let headingPart = `${this.userAgent.isiOSPhone() ? 'כיוון מצפן: \n' + parseInt(this.reportSrv.getAzimuth().toString()) : '' }`;
+    let opening = "דיווח על ";
+    return `${this.getGoogleMapsURL()}\r\n
+    ${headingPart}\r\n
+    ${opening}\r\n
+    ${this.getEventDescription()}.`;
   }
 
   getGoogleMapsURL() {
@@ -49,12 +67,28 @@ export class CommentPageComponent implements OnInit {
       }
   }
 
+  getEventDescription() {
+    if (this.currCategoryName === this.CATEGORIES_NAMES.FIRE) {
+      return `${this.currCategoryName} ${this.burningSize}`;
+    } else {
+      return `${this.currCategoryName} ` + 'בגובה' + ` ${this.flyingObjectHeight}`;
+    }
+  }
+
   /**
    * Store chosen category in report service
    */
   chooseCategory(cat: string) {
-    this.currCategoryName = cat
-    this.reportSrv.setCategory(this.CATEGORIES_NAMES[cat])
+    this.currCategoryName = cat;
+    this.reportSrv.setCategory(cat)
+  }
+
+  chooseBurningSize(burningSize){
+    this.burningSize = burningSize;
+  }
+
+  chooseFlyingObjectHeight(flyingObjectHeight){
+    this.flyingObjectHeight = flyingObjectHeight;
   }
 
   /**
@@ -101,7 +135,7 @@ export class CommentPageComponent implements OnInit {
   }
 
   goToEndingPage() {
-    this.reportSrv.setWhatsappSharingUrl(this.makeUserMessage())
+    this.reportSrv.setWhatsappSharingUrl(encodeURIComponent(this.makeUserMessage()));
     this.router.navigate(['/ending']);
   }
 }
