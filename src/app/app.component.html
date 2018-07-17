@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<div id="loading" class="loading-screen" [hidden]="(!isInLoadingMode)"></div>
+<div class="main-container" [hidden]="isInLoadingMode">
+  <div class="header">
+    <div class="icon"></div>
+    <button (click)="navigateToHomePage()" class="icon home-icon" [hidden]="routerService.url==='/home'"
+            style="background-image: url(/assets/home.svg);position: absolute;margin-left: 3%;"></button>
+  </div>
+  <div class="container main-content" dir="rtl">
+    <router-outlet></router-outlet>
+  </div>
+</div>

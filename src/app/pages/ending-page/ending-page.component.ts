@@ -11,23 +11,25 @@ declare var $: any;
 })
 export class EndingPageComponent implements OnInit, AfterViewInit {
 
+  reportService: ReportService;
   constructor(private router: Router, private reportSrv: ReportService) {
-
+    this.reportService = reportSrv;
   }
 
   ngOnInit() {
-    if (this.reportSrv.currLocation) {
-      this.reportSrv.clearWatching()
+    if (this.reportService.currLocation) {
+      this.reportService.clearWatching()
     } else {
-      this.reportSrv.checkLocation()
+      this.reportService.checkLocation()
     }
+  }
+
+  buttonClicked() {
+    // activate camera
+    $('input').click();
   }
 
   ngAfterViewInit() {
 
-  }
-
-  goHome() {
-    this.router.navigate(['/home']);
   }
 }

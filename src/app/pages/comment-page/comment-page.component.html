@@ -1,39 +1,37 @@
-<div class="comment-page">
-  <div class="bg-os"></div>
-  <div class="header">
-    <div class="icon"></div>
-  </div>
-  <div class="content">
-    <div class="title">למילוי פרטים נוספים על הדיווח:</div>
-    <div class="factor mini-header">הגורם המאיים</div>
-    <div class="factor-icons radio-group">
-      
-      <div class="factor-icon fire">
-        <div (click)="chooseCategory('שריפה')"class="icon select-circle radio" data-value="fire"></div>
-        <span>שריפה</span>
-      </div>
+<div class="row">
+  <div class="col-md-12 page-column">
+    <h2 class="title" style="align-self: flex-start">למילוי פרטים נוספים על הדיווח:</h2>
+    <div>
+      <h3>הגורם המאיים</h3>
+      <div class="factor-icons radio-group">
 
-      <div class="factor-icon balloon">
-        <div (click)="chooseCategory('בלון')" class="icon select-circle radio selected" data-value="balloon"></div>
-        <span>בלון</span>
-      </div>
+        <div class="factor-icon fire">
+          <div (click)="chooseCategory('שריפה')" class="icon select-circle radio" data-value="fire"></div>
+          <span>שריפה</span>
+        </div>
 
-      <div class="factor-icon kite">
-        <div (click)="chooseCategory('עפיפון')" class="icon select-circle radio" data-value="kite"></div>
-        <span>עפיפון</span>
-      </div>
+        <div class="factor-icon balloon">
+          <div (click)="chooseCategory('בלון')" class="icon select-circle radio selected" data-value="balloon"></div>
+          <span>בלון</span>
+        </div>
 
+        <div class="factor-icon kite">
+          <div (click)="chooseCategory('עפיפון')" class="icon select-circle radio" data-value="kite"></div>
+          <span>עפיפון</span>
+        </div>
+
+      </div>
     </div>
 
     <div class="comment">
       <label>
-        <span class="block mini-header">הערות</span>
+        <h3>הערות</h3>
         <textarea [(ngModel)]="description"></textarea>
       </label>
     </div>
 
     <div class="size hidden">
-      <span class="mini-header">גודל השרפה</span>
+      <h3>גודל השרפה</h3>
       <div class="buttons radio-group">
         <button class="radio">גדולה</button>
         <button class="radio">בינונית</button>
@@ -42,7 +40,7 @@
     </div>
 
     <div class="height">
-      <span class="mini-header">גובה מוערך</span>
+      <h3>גובה מוערך</h3>
       <div class="buttons radio-group">
         <button class="radio">גבוה</button>
         <button class="radio">בינוני</button>
@@ -54,6 +52,6 @@
     <div class="btn-group" role="group" aria-label="Basic example">
       <button class="finish-button" (click)="goToEndingPage()">סיימתי</button>
     </div>
-    
+
   </div>
 </div>
