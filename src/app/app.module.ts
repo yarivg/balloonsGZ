@@ -4,7 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {RouterModule} from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 
 import {AppComponent} from './app.component';
@@ -44,7 +44,7 @@ const APP_SERVICES = [
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule,
+    HttpModule,
     !environment.production ? StoreDevtoolsModule.instrument({maxAge: 50}) : [],
     RouterModule.forRoot(
       routes,

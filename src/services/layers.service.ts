@@ -17,6 +17,7 @@ export class LayersService {
   public getLayers() {
    return new Promise((resolve, reject) => {
      this.http.post(environment.serverLayersURL + '/web/status', {
+     // this.http.post(environment.serverBaseURL + '/api/layers', {
        token: environment.token,
        callcenter: environment.callcenter
      }).subscribe(data => {
