@@ -11,12 +11,13 @@ import {AppComponent} from './app.component';
 import {routes} from './app.router';
 import {environment} from '../environments/environment';
 
-import {HomePageComponent} from './pages/home-page/home-page.component';
-import {CapturePageComponent} from './pages/capture-page/capture-page.component';
-import {reportRouter} from '../../server/routes/report';
-import {ReportService} from '../services/report.service';
-import {CommentPageComponent} from './pages/comment-page/comment-page.component';
-import {EndingPageComponent} from './pages/ending-page/ending-page.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import { CapturePageComponent } from './pages/capture-page/capture-page.component';
+import { reportRouter } from '../../server/routes/report';
+import { ReportService } from '../services/report.service';
+import { CommentPageComponent } from './pages/comment-page/comment-page.component';
+import { EndingPageComponent } from './pages/ending-page/ending-page.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import {MapPageComponent} from "./pages/map-page/map-page.component";
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
@@ -44,7 +45,8 @@ const APP_COMPONENTS = [
       {
         useHash: true
       }
-    )
+    ),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [ReportService],
   bootstrap: [

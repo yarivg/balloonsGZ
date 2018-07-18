@@ -13,7 +13,7 @@ export class CapturePageComponent implements OnInit, OnDestroy {
 
   public imageBase64: string = null;
   private reader: any = new FileReader();
-  private description: string = ''
+  public description: string = ''
 
   constructor(private router: Router, private cd: ChangeDetectorRef, private reportSrv: ReportService) {}
 
