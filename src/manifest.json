@@ -1,8 +1,8 @@
 {
-  "name": "balloons-gz",
-  "short_name": "balloons-gz",
+  "name": "זה סופו של כל בלון",
+  "short_name": "בלון",
   "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "background_color": "#000000",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
