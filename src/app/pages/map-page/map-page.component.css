@@ -1,0 +1,88 @@
+.google-map {
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100px;
+  direction: rtl;
+}
+
+.header .header-bg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  opacity: 0.4;
+  z-index: 0;
+}
+.header > img {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  vertical-align: middle;
+  z-index: 2;
+  padding: 20px;
+  position: relative;
+}
+
+.header > span {
+  font-size: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  z-index: 2;
+  position: relative;
+  font-family: sans-serif;
+}
+
+.header > button {
+  display: block;
+  position: absolute;
+  right: 100px;
+  padding: 5px 20px;
+  border-radius: 15px;
+  border: 2px solid darkgrey;
+  background-color: transparent;
+  font-weight: bold;
+  bottom: 5px;
+  z-index: 2;
+}
+
+.header .hint {
+  color: white;
+  text-shadow: 1px 1px 1px black;
+  position: absolute;
+  bottom: -50px;
+  padding: 20px;
+  font-family: sans-serif;
+  font-size: 24px;
+}
+
+.footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+.footer > button {
+  width: 70px;
+  height: 70px;
+  background-image: url(/assets/send.svg);
+  background-color: #037c6d;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 60%;
+  padding: 0.5rem;
+  border-radius: 45px;
+  border: none;
+  z-index: 5;
+  bottom: 15px;
+  position: relative;
+  left: 15px;
+}
+

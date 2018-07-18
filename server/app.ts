@@ -1,50 +1,49 @@
 import { json, urlencoded } from "body-parser";
 import * as compression from "compression";
 import * as express from "express";
-import * as path from "path";
 import * as http from "http";
+import * as path from "path";
 
-import { reportRouter } from "./routes/report"
-var alonAPI = require('./routes/alon')
+import { reportRouter } from "./routes/report";
+let alonAPI = require("./routes/alon");
 
-var util = require('util')
-var https = require('https');
-var url = require('url');
-var bodyParser = require('body-parser');
+let util = require("util");
+let https = require("https");
+let url = require("url");
+let bodyParser = require("body-parser");
 
-var cors = require('cors')
+let cors = require("cors");
 const app: express.Application = express();
 
 app.disable("x-powered-by");
 
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-app.use(cors())
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true}));
+app.use(cors());
 
 // Add headers - enable cors
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader("Access-Control-Allow-Origin", "*");
     // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.header("Access-Control-Allow-Credentials", "true")
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
+    res.header("Access-Control-Allow-Credentials", "true");
     next();
 });
 
+app.use("/api/token", alonAPI.router);
+app.use("/api/report", reportRouter);
 
-app.use('/api/token', alonAPI.router)
-app.use('/api/report', reportRouter)
-
-var polygonFilter = require('./utils/polygonFilter')
-console.log('started')
+let polygonFilter = require("./utils/polygonFilter");
+console.log("started");
 
 // if (app.get("env") === "production") {
   // in production mode run application from dist folder
 
   // PRODUCTION MODE
-  app.use(express.static(path.join(__dirname, "/../client")));
+app.use(express.static(path.join(__dirname, "/../client")));
 // }
 
 // catch 404 and forward to error handler

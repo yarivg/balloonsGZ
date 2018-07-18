@@ -1,0 +1,15 @@
+<div class="map-page">
+  <div #gmap class="google-map" ></div>
+  <div class="header">
+    <img src="/assets/location.svg" />
+    <span>היכן נמצא הגורם המאיים?</span>
+    <button (click)="setCenterMap()">
+      <span>מיקומי הנוכחי</span>
+    </button>
+    <div class="header-bg"></div>
+    <div class="hint">לחץ לחיצה ארוכה כדי לסמן נקודה</div>
+  </div>
+  <div class="footer">
+    <button (click)="goToCommentScreen()"></button>
+  </div>
+</div>
