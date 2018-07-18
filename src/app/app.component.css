@@ -35,6 +35,8 @@
   border-radius: 20px;
   background-color: #037c6d;
   background-size: 50%;
+  cursor: pointer;
+
 }
 
 .loading-screen {
