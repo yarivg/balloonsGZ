@@ -3,6 +3,13 @@ body {
   background-color: #f8f8f8;
 }
 
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
 .loader {
   position: absolute;
   left: 50%;
@@ -21,4 +28,13 @@ body {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.comment-page,
+.map-page,
+.capture-page,
+.home-page {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
