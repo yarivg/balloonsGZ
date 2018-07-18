@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {} from '@types/googlemaps';
 import { Router } from '@angular/router';
+import {LayersService} from "../../../services/layers.service";
 
 @Component({
   selector: 'app-map-page',
@@ -15,10 +16,17 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   private myLocation: any = null;
   private marker: google.maps.Marker;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private layersService: LayersService) {
   }
 
   ngOnInit() {
+    this.layersService.getLayers()
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
     const center = new google.maps.LatLng(0, 0);
     const mapTypeId = google.maps.MapTypeId.HYBRID;
     const zoom = 4;

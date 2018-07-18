@@ -19,6 +19,7 @@ import { CommentPageComponent } from './pages/comment-page/comment-page.componen
 import { EndingPageComponent } from './pages/ending-page/ending-page.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import {MapPageComponent} from "./pages/map-page/map-page.component";
+import {LayersService} from "../services/layers.service";
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
@@ -28,6 +29,11 @@ const APP_COMPONENTS = [
   CommentPageComponent,
   EndingPageComponent,
   MapPageComponent,
+];
+
+const APP_SERVICES = [
+  LayersService,
+  ReportService
 ];
 
 @NgModule({
@@ -48,7 +54,7 @@ const APP_COMPONENTS = [
     ),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [ReportService],
+  providers: [...APP_SERVICES],
   bootstrap: [
     AppComponent
   ]
