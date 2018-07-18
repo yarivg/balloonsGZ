@@ -4,7 +4,7 @@
 
 import {environment} from '../environments/environment';
 import {Injectable} from '@angular/core';
-import {Http, Headers} from '@angular/http';
+import {Http} from '@angular/http';
 
 @Injectable()
 export class LayersService {

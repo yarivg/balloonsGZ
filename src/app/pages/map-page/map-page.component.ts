@@ -1,13 +1,14 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {} from '@types/googlemaps';
-import { Router } from '@angular/router';
-import {LayersService} from "../../../services/layers.service";
+import {Router} from '@angular/router';
+import {LayersService} from '../../../services/layers.service';
 
 @Component({
   selector: 'app-map-page',
   templateUrl: './map-page.component.html',
   styleUrls: ['./map-page.component.css']
 })
+
 export class MapPageComponent implements OnInit, AfterViewInit {
   @ViewChild('gmap') gmap: any;
 
@@ -20,18 +21,20 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.layersService.getLayers()
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
     const center = new google.maps.LatLng(0, 0);
     const mapTypeId = google.maps.MapTypeId.HYBRID;
     const zoom = 4;
 
     this.map = new google.maps.Map(this.gmap.nativeElement, {zoom, mapTypeId, center});
+    this.layersService.getLayers()
+      .then(res => {
+        const responseBody = JSON.parse(res['_body']);
+        this.addLayersToMap(responseBody);
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
     google.maps.event.addListener(this.map, 'click', (event) => {
       if (this.marker) {
@@ -61,6 +64,27 @@ export class MapPageComponent implements OnInit, AfterViewInit {
       this.centerMap();
     } else {
       this.getLocation();
+    }
+  }
+
+  addLayersToMap(responseBody: any) {
+    const reports = responseBody['reports'];
+    const users = responseBody['users'];
+    for (let i = 0; i < reports.length; i++) {
+      const latLng = {'lat': reports[i].lat, 'lng': reports[i].lng};
+      const marker = new google.maps.Marker({
+        position: latLng,
+        icon: 'assets/icons/fire-marker-icon.png',
+      });
+      marker.setMap(this.map);
+    }
+    for (let i = 0; i < users.length; i++) {
+      const latLng = {'lat': users[i].lat, 'lng': users[i].lng};
+      const marker = new google.maps.Marker({
+        position: latLng,
+        icon: 'assets/icons/' + users[i].role + '-icon.png',
+      });
+      marker.setMap(this.map);
     }
   }
 

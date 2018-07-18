@@ -20,6 +20,7 @@ import { EndingPageComponent } from './pages/ending-page/ending-page.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import {MapPageComponent} from "./pages/map-page/map-page.component";
 import {LayersService} from "../services/layers.service";
+import {HttpClientModule} from "@angular/common/http";
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
@@ -44,6 +45,7 @@ const APP_SERVICES = [
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     HttpModule,
     !environment.production ? StoreDevtoolsModule.instrument({maxAge: 50}) : [],
     RouterModule.forRoot(
