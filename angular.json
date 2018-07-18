@@ -78,7 +78,6 @@
             "styles": [
               "node_modules/normalize.css/normalize.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/bootstrap-v4-rtl/dist/css/bootstrap-rtl.min.css",
               "src/styles.css"
             ],
             "assets": [
