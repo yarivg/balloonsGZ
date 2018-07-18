@@ -93,12 +93,12 @@
 }
 
 .comment textarea {
-  width: 90%;
-  height: 3em;
+  height: 4em;
   border-radius: 20px;
   background: transparent;
   border: 2px solid gray;
   padding: 5px;
+  outline: none;
 }
 
 .buttons {
@@ -142,12 +142,14 @@
 }
 
 .radio {
-  cursor:pointer;
+  cursor: pointer;
   transition: border 0.1s, background 0.1s;
+  outline: none;
 }
 
 .radio:active {
-  transform: translateY(3px)
+  transform: translateY(3px);
+  outline: none;
 }
 
 .factor-icons .radio.selected {
@@ -165,7 +167,13 @@
   text-align: center;
 }
 
-.page-column{
-  display: flex;flex-direction: column; justify-content: space-evenly;
-  min-height: 90vh;
+.page-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 86vh;
+}
+
+.subtitle{
+  margin:auto;
 }
