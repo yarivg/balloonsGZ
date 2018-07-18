@@ -17,6 +17,7 @@ import { reportRouter } from '../../server/routes/report';
 import { ReportService } from '../services/report.service';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 import { EndingPageComponent } from './pages/ending-page/ending-page.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
@@ -39,7 +40,8 @@ import { EndingPageComponent } from './pages/ending-page/ending-page.component';
       {
         useHash: true
       }
-    )
+    ),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [ReportService],
   bootstrap: [
