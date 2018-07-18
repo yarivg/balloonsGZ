@@ -1,14 +1,41 @@
-<div class="ending-page">
-    <div class="bg-os"></div>
-    <div class="header">
-        <div class="icon"></div>
-        <span (click)="goHome()" class="icon" style="background-image: url(/assets/home.svg);position: absolute;margin-left: 3%;"></span>
+<div class="ending-page-column" style="padding-bottom: 40%">
+  <div class="ending-page-main-title">הדיווח נשלח בהצלחה</div>
+  <div class="phone-number row-with-vertical-centered-items" style="margin: auto">
+    <span class="new-icon" style="background-image: url(/assets/phone-ringing.svg)"></span>
+    <span style="font-size: 1em">6073<span style="vertical-align: sub">*</span></span>
+  </div>
+  <div class="row-with-vertical-centered-items" style="margin: auto">
+    <span class="new-icon" style="background-image: url(/assets/website-icon.png)"></span>
+    <a href="https://balloon.cf" style="font-size: 2em">https://balloon.cf</a>
+  </div>
+  <div class="row-with-vertical-centered-items" style="margin: auto; justify-content: space-between">
+    <button class="send-report-button" (click)="buttonClicked()">שלח דיווח נוסף</button>
+    <a *ngIf="reportService.currLocation" style="width: 175px;height: 175px"
+       href="https://api.whatsapp.com/send?text={{ reportService.getWhatsappSharingUrl() }}">
+      <img src="/assets/whatsapp.svg"/>
+    </a>
+  </div>
+  <input style="display: none" id="file" type="file" accept="image/*" capture="environment"
+         (change)="reportService.captureImage($event)">
+
+</div>
+<div class="ending-page-column">
+  <div class="ending-page-column" style="align-items: center;">
+    <span class="new-icon" style="background-image: url(/assets/ending-logo.svg)"></span>
+    <span style="font-family: matka; font-size: 3em">זה סופו של כל בלון</span>
+  </div>
+  <div class="row-with-vertical-centered-items" style="justify-content: space-evenly; flex-wrap: wrap;padding-bottom:20px;">
+    <div class="row-with-vertical-centered-items" style="width:320px; justify-content: center">
+      <img height="70" width="70" src="/assets/OfekUnit.png"/>
+      <img height="70" width="70" src="/assets/Bamza_108.png"/>
     </div>
-    
-    <div class="content">
-          <h2> הדיווח נשלח בהצלחה</h2> 
-        <div class="phone-number"> *107 <span class="icon" style="width: 40%;"></span> </div>
-        <div class="url"> <a href="https://balloon.cf"> https://balloon.cf </a> <span class="icon" style="width: 34%;"></span> </div> 
-        <a *ngIf="this.reportSrv.currLocation" href="https://api.whatsapp.com/send?text={{ this.reportSrv.getWhatsappSharingUrl() }}"><img style="width: 15%;" class="share" src="/assets/whatsapp.svg" /></a>
+    <div style="width: 320px;text-align: center"><img src="/assets/tech4israel.png"/></div>
+  </div>
+  <div class="row-with-vertical-centered-items" style="justify-content: space-evenly;flex-wrap: wrap;padding-bottom:20px;">
+    <div style="width: 320px;text-align: center">
+      <img src="/assets/scenaric-logo.png" height="35" width="161"/>
     </div>
+    <img src="/assets/sayvu.png"/>
+
+  </div>
 </div>

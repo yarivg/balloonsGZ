@@ -1,59 +1,57 @@
-<div class="comment-page">
-  <div class="bg-os"></div>
-  <div class="header">
-    <div class="icon"></div>
-  </div>
-  <div class="content">
-    <div class="title">למילוי פרטים נוספים על הדיווח:</div>
-    <div class="factor mini-header">הגורם המאיים</div>
-    <div class="factor-icons radio-group">
-      
-      <div class="factor-icon fire">
-        <div (click)="chooseCategory('שריפה')"class="icon select-circle radio" data-value="fire"></div>
-        <span>שריפה</span>
-      </div>
+<div class="row">
+  <div class="col-md-12 page-column">
+    <h2 class="title" style="align-self: flex-start">למילוי פרטים נוספים על הדיווח:</h2>
+    <div>
+      <h3>הגורם המאיים</h3>
+      <div class="factor-icons radio-group">
 
-      <div class="factor-icon balloon">
-        <div (click)="chooseCategory('בלון')" class="icon select-circle radio selected" data-value="balloon"></div>
-        <span>בלון</span>
-      </div>
+        <div class="factor-icon fire">
+          <div (click)="chooseCategory(CATEGORIES_NAMES.FIRE)" class="icon select-circle radio"></div>
+          <span>{{CATEGORIES_NAMES.FIRE}}</span>
+        </div>
 
-      <div class="factor-icon kite">
-        <div (click)="chooseCategory('עפיפון')" class="icon select-circle radio" data-value="kite"></div>
-        <span>עפיפון</span>
-      </div>
+        <div class="factor-icon balloon">
+          <div (click)="chooseCategory(CATEGORIES_NAMES.BALLOON)" class="icon select-circle radio selected"></div>
+          <span>{{CATEGORIES_NAMES.BALLOON}}</span>
+        </div>
 
+        <div class="factor-icon kite">
+          <div (click)="chooseCategory(CATEGORIES_NAMES.KITE)" class="icon select-circle radio"></div>
+          <span>{{CATEGORIES_NAMES.KITE}}</span>
+        </div>
+
+      </div>
     </div>
 
     <div class="comment">
       <label>
-        <span class="block mini-header">הערות</span>
+        <h3>הערות</h3>
         <textarea [(ngModel)]="description"></textarea>
       </label>
     </div>
 
-    <div class="size hidden">
-      <span class="mini-header">גודל השרפה</span>
+    <div [hidden]="currCategoryName !== CATEGORIES_NAMES.FIRE">
+      <h3>גודל השרפה</h3>
       <div class="buttons radio-group">
-        <button class="radio">גדולה</button>
-        <button class="radio">בינונית</button>
-        <button class="radio">קטנה</button>
+        <button class="radio" (click)="chooseBurningSize(BURNING_SIZES.LARGE)">{{BURNING_SIZES.LARGE}}</button>
+        <button class="radio" (click)="chooseBurningSize(BURNING_SIZES.MEDIUM)">{{BURNING_SIZES.MEDIUM}}</button>
+        <button class="radio" (click)="chooseBurningSize(BURNING_SIZES.SMALL)">{{BURNING_SIZES.SMALL}}</button>
       </div>
     </div>
 
-    <div class="height">
-      <span class="mini-header">גובה מוערך</span>
+    <div class="height" [hidden]="currCategoryName === CATEGORIES_NAMES.FIRE">
+      <h3>גובה מוערך</h3>
       <div class="buttons radio-group">
-        <button class="radio">גבוה</button>
-        <button class="radio">בינוני</button>
-        <button class="radio">נמוך</button>
-        <button class="radio">על הקרקע</button>
+        <button class="radio" (click)="chooseFlyingObjectHeight(FLYING_OBJECTS_HEIGHT.HIGH)">{{FLYING_OBJECTS_HEIGHT.HIGH}}</button>
+        <button class="radio" (click)="chooseFlyingObjectHeight(FLYING_OBJECTS_HEIGHT.MEDIUM)">{{FLYING_OBJECTS_HEIGHT.MEDIUM}}</button>
+        <button class="radio" (click)="chooseFlyingObjectHeight(FLYING_OBJECTS_HEIGHT.LOW)">{{FLYING_OBJECTS_HEIGHT.LOW}}</button>
+        <button class="radio" (click)="chooseFlyingObjectHeight(FLYING_OBJECTS_HEIGHT.ON_GROUND)">{{FLYING_OBJECTS_HEIGHT.ON_GROUND}}</button>
       </div>
     </div>
 
     <div class="btn-group" role="group" aria-label="Basic example">
       <button class="finish-button" (click)="goToEndingPage()">סיימתי</button>
     </div>
-    
+
   </div>
 </div>

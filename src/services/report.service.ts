@@ -15,7 +15,8 @@ export class ReportService {
     // report data
     private category: string = '11'
     private imageBase64: string = ''
-    
+    private reader: any = new FileReader()
+
     public getAzimuth() {
         return this.currAzimuth
     }
@@ -35,7 +36,7 @@ export class ReportService {
     constructor(private http: HttpClient, private router: Router) {
         this._window = window
     }
-    
+
     /**
         *   Set private local variable "image", to hold the recieved image (as string)
         *   @returns {Boolean}
@@ -91,7 +92,7 @@ export class ReportService {
     clearWatching() {
         navigator.geolocation.clearWatch(this.watchPosId);
     }
-    
+
     /**
  *  Watches user azimuth for his report
  */
@@ -152,4 +153,23 @@ export class ReportService {
             // this.router.navigate(['/map']);
         });
     }
+
+  captureImage(event) {
+    if (event.target.files && event.target.files[0]) {
+      this.reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      this.reader.onload = (event: any) => { // called once readAsDataURL is completed
+        this.imageBase64 = event.target.result;
+
+        // Hold the image in memory, to be used in the next state(route)
+        this.setImage(this.imageBase64);
+
+        // as of now - immediately create a report to the server, description is ''
+        this.upload('');
+
+        // Move further, to next route
+        this.router.navigate(['/comment']);
+      }
+    }
+  }
 }
