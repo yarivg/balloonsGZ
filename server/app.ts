@@ -5,6 +5,8 @@ import * as http from "http";
 import * as path from "path";
 
 import { reportRouter } from "./routes/report";
+import { layerRouter } from "./routes/layers";
+
 let alonAPI = require("./routes/alon");
 
 let util = require("util");
@@ -35,6 +37,7 @@ app.use((req, res, next) => {
 
 app.use("/api/token", alonAPI.router);
 app.use("/api/report", reportRouter);
+app.use("/api/layers", layerRouter);
 
 let polygonFilter = require("./utils/polygonFilter");
 console.log("started");

@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.min.css';
-@import '~bootstrap-v4-rtl/dist/css/bootstrap-rtl.min.css';
 
 * {
   margin: 0;
@@ -62,6 +61,7 @@ body {
   font-size: 20px;
   line-height: 255px;
   cursor: pointer;
+  outline: none;
 }
 
 .row-with-vertical-centered-items{

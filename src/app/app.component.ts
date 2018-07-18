@@ -9,11 +9,9 @@ import {Router} from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'app';
   isInLoadingMode = true;
-  public routerService:Router;
 
 
   constructor(private router:Router){
-    this.routerService=router;
   }
 
   ngOnInit(): void {
