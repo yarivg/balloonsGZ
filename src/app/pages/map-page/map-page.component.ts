@@ -21,11 +21,23 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    const center = new google.maps.LatLng(0, 0);
-    const mapTypeId = google.maps.MapTypeId.HYBRID;
-    const zoom = 4;
 
-    this.map = new google.maps.Map(this.gmap.nativeElement, {zoom, mapTypeId, center});
+    const options = {
+      zoom: 4,
+      center: new google.maps.LatLng(0, 0),
+      mapTypeId: google.maps.MapTypeId.HYBRID,
+      fullscreenControl: false,
+      streetViewControl: false,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        position: google.maps.ControlPosition.BOTTOM_CENTER
+      },
+      zoomControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_BOTTOM
+      }
+    }
+
+    this.map = new google.maps.Map(this.gmap.nativeElement, options);
     this.layersService.getLayers()
       .then(res => {
         const responseBody = JSON.parse(res['_body']);
