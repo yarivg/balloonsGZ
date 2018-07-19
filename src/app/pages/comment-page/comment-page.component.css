@@ -137,6 +137,18 @@
   box-shadow: 3px 3px 10px grey;
 }
 
+.finish-button:disabled {
+  margin: 20px auto;
+  background-color: grey;
+  padding: 10px 30px;
+  border-radius: 30px;
+  border: none;
+  font-size: 24px;
+  color: white;
+  box-shadow: 3px 3px 10px grey;
+  cursor: not-allowed;
+}
+
 .radio-group {
   position: relative;
 }

@@ -165,12 +165,16 @@ export class ReportService {
         // Hold the image in memory, to be used in the next state(route)
         this.setImage(this.imageBase64);
 
+        // Move further, to next route
+        this.goToCommentScreen();
+
         // as of now - immediately create a report to the server, description is ''
         this.upload('');
-
-        // Move further, to next route
-        this.router.navigate(['/comment']);
       }
     }
+  }
+
+  goToCommentScreen() {
+    this.router.navigate(['/comment']);
   }
 }
