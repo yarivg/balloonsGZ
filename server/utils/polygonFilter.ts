@@ -29,6 +29,8 @@ var kmlparser = (kmlPath) => {
 }
 
 //check if in polygon
+var inPolygon = (point, vs) => { true };
+/*
 var inPolygon = (point, vs) => {
     var x = point[0], y = point[1];                                         //
 
@@ -44,7 +46,7 @@ var inPolygon = (point, vs) => {
 
     return inside;
 }
-
+*/
 // var test = () => {
 //     console.log('Expected "No" Result:')
 //     console.log(isInPolygon([31.475774, 34.438100]))
