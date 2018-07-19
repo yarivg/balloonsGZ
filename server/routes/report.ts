@@ -22,6 +22,8 @@ reportRouter.post("/", (req: Request, res: Response) => {
     if (req.body.userToken) {
       phoneNumber = (_.invert(alonAPI.tokens))[req.body.userToken] || "XXX-XXXXXXX";
     }
+
+    console.log(phoneNumber);
     // TODO remove xxx-xxxxxxxx if alon way required
     // if (phoneNumber) {
     const reqBody = {
