@@ -25,7 +25,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
     // TODO remove xxx-xxxxxxxx if alon way required
     // if (phoneNumber) {
     const reqBody = {
-      phone: "+9725675454",
+      phone: phoneNumber,
       name: req.body.name,
       lng: req.body.lng,
       lat: req.body.lat,
