@@ -13,10 +13,10 @@ export class HomePageComponent implements OnInit, AfterViewInit{
 
   private reader: any = new FileReader()
   public imageBase64: string = null
-  
+
   constructor(private router: Router, private reportSrv: ReportService) {
     let splitString = window.location.href.split('entry=')
-    
+
     if(splitString.length > 1 && ['undefined', '', null, undefined].includes(localStorage.getItem('userToken'))) {
       localStorage.setItem('userToken', splitString[1])
     }
@@ -26,7 +26,7 @@ export class HomePageComponent implements OnInit, AfterViewInit{
     this.reportSrv.checkLocation()
     this.reportSrv.checkAzimuth()
 
-    $('.home-page').css('display', 'none')
+    $('.home-page').css('display', 'none');
   }
 
   // Handle loading screen div and homepage, in such a way
@@ -40,8 +40,8 @@ export class HomePageComponent implements OnInit, AfterViewInit{
     }, 1500)
   }
 
-  goToCommentScreen() {
-    this.router.navigate(['/comment']);
+  goToMapScreen() {
+    this.router.navigate(['/map']);
   }
 
   buttonClicked() {
@@ -55,7 +55,7 @@ export class HomePageComponent implements OnInit, AfterViewInit{
 
       this.reader.onload = (event: any) => { // called once readAsDataURL is completed
         this.imageBase64 = event.target.result;
-        
+
         // Hold the image in memory, to be used in the next state(route)
         this.reportSrv.setImage(this.imageBase64);
 
@@ -63,7 +63,7 @@ export class HomePageComponent implements OnInit, AfterViewInit{
         this.reportSrv.upload('');
 
         // Move further, to next route
-        this.goToCommentScreen();
+        this.goToMapScreen();
       }
     }
   }

@@ -4,7 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {RouterModule} from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 
 import {AppComponent} from './app.component';
@@ -19,6 +19,8 @@ import { CommentPageComponent } from './pages/comment-page/comment-page.componen
 import { EndingPageComponent } from './pages/ending-page/ending-page.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import {MapPageComponent} from "./pages/map-page/map-page.component";
+import {LayersService} from "../services/layers.service";
+import {HttpClientModule} from "@angular/common/http";
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
@@ -30,6 +32,11 @@ const APP_COMPONENTS = [
   MapPageComponent,
 ];
 
+const APP_SERVICES = [
+  LayersService,
+  ReportService
+];
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +46,7 @@ const APP_COMPONENTS = [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    HttpModule,
     !environment.production ? StoreDevtoolsModule.instrument({maxAge: 50}) : [],
     RouterModule.forRoot(
       routes,
@@ -48,7 +56,7 @@ const APP_COMPONENTS = [
     ),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [ReportService],
+  providers: [...APP_SERVICES],
   bootstrap: [
     AppComponent
   ]
