@@ -16,7 +16,8 @@ reportRouter.get("/", (req: Request, res: Response) => {
 reportRouter.post("/", (req: Request, res: Response) => {
     console.log('send req to seeVU')
 
-    if (req.body.lat && req.body.lng && isInPolygon([req.body.lat, req.body.lng])) {
+    if (req.body.lat && req.body.lng) {
+    // if (req.body.lat && req.body.lng && isInPolygon([req.body.lat, req.body.lng])) {
         let phoneNumber
         if (req.body.userToken) {
             phoneNumber = (_.invert(alonAPI.tokens))[req.body.userToken] || 'XXX-XXXXXXX'
