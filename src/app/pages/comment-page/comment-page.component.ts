@@ -35,13 +35,14 @@ export class CommentPageComponent implements OnInit {
   private selectedType: string = null;
   description: string = '';
   public currCategoryName = 'בלון';
-  burningSize = null;
-  flyingObjectHeight = null;
+  burningSize = '';
+  flyingObjectHeight = '';
 
   constructor(private router: Router, private reportSrv: ReportService, private userAgent: UserAgentService) { }
 
   ngOnInit() {
-    this.initTypeSelection()
+    this.chooseCategory(this.CATEGORIES_NAMES.FIRE);
+    this.initTypeSelection();
 
     if(this.reportSrv.currLocation) {
       this.reportSrv.clearWatching()
@@ -53,10 +54,11 @@ export class CommentPageComponent implements OnInit {
   makeUserMessage() {
     let headingPart = `${this.userAgent.isiOSPhone() ? 'כיוון מצפן: \n' + parseInt(this.reportSrv.getAzimuth().toString()) : '' }`;
     let opening = "דיווח על ";
-    return `${this.getGoogleMapsURL()}\r\n
-    ${headingPart}\r\n
-    ${opening}\r\n
-    ${this.getEventDescription()}.`;
+    return `${this.getGoogleMapsURL()}\n
+    ${headingPart}\n
+    ${opening}\n
+    ${this.getEventDescription()}\n
+    ${this.description}.`;
   }
 
   getGoogleMapsURL() {
@@ -137,5 +139,12 @@ export class CommentPageComponent implements OnInit {
   goToEndingPage() {
     this.reportSrv.setWhatsappSharingUrl(encodeURIComponent(this.makeUserMessage()));
     this.router.navigate(['/ending']);
+  }
+
+  canReportBeSent(){
+    if (this.currCategoryName === this.CATEGORIES_NAMES.FIRE){
+      return Object.values(this.BURNING_SIZES).includes(this.burningSize);
+    }
+    return Object.values(this.FLYING_OBJECTS_HEIGHT).includes(this.flyingObjectHeight);
   }
 }
