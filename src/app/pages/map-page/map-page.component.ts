@@ -123,7 +123,7 @@ export class MapPageComponent implements OnInit, AfterViewInit {
           contentString = that.createInfoOnTroop(contentObject);
           break;
       }
-      infowindow.setContent(contentString);
+      infowindow.setContent(contentString, { maxWidth: 400 });
       infowindow.open(map, marker);
     });
   }
