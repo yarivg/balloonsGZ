@@ -2,6 +2,7 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {} from '@types/googlemaps';
 import {Router} from '@angular/router';
 import {LayersService} from '../../../services/layers.service';
+import {RolesPipe} from '../../pipes/roles.pipe';
 
 @Component({
   selector: 'app-map-page',
@@ -12,7 +13,9 @@ import {LayersService} from '../../../services/layers.service';
 export class MapPageComponent implements OnInit, AfterViewInit {
   @ViewChild('gmap') gmap: any;
 
+  private rolesPipe = new RolesPipe();
   private map: any;
+  private map_objects: {};
   private location: any;
   private myLocation: any = null;
   private marker: google.maps.Marker;
@@ -35,13 +38,13 @@ export class MapPageComponent implements OnInit, AfterViewInit {
       zoomControlOptions: {
         position: google.maps.ControlPosition.RIGHT_BOTTOM
       }
-    }
+    };
 
     this.map = new google.maps.Map(this.gmap.nativeElement, options);
     this.layersService.getLayers()
       .then(res => {
         const responseBody = JSON.parse(res['_body']);
-        this.addLayersToMap(responseBody);
+        this.addStatusToMap(responseBody);
         console.log(res);
       })
       .catch(err => {
@@ -79,16 +82,20 @@ export class MapPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  addLayersToMap(responseBody: any) {
+  addStatusToMap(responseBody: any) {
     const reports = responseBody['reports'];
     const users = responseBody['users'];
+    const infowindow = new google.maps.InfoWindow();
     for (let i = 0; i < reports.length; i++) {
       const latLng = {'lat': reports[i].lat, 'lng': reports[i].lng};
       const marker = new google.maps.Marker({
         position: latLng,
         icon: 'assets/icons/fire-marker-icon.png',
       });
+      marker.set('type', 'fire');
       marker.setMap(this.map);
+
+      this.makeInfoWindowEvent(this.map, infowindow, reports[i], marker);
     }
     for (let i = 0; i < users.length; i++) {
       const latLng = {'lat': users[i].lat, 'lng': users[i].lng};
@@ -96,8 +103,42 @@ export class MapPageComponent implements OnInit, AfterViewInit {
         position: latLng,
         icon: 'assets/icons/' + users[i].role + '-icon.png',
       });
+      marker.set('type', 'troop');
       marker.setMap(this.map);
+
+      this.makeInfoWindowEvent(this.map, infowindow, users[i], marker);
     }
+  }
+
+  makeInfoWindowEvent(map, infowindow, contentObject, marker) {
+    const that = this;
+    google.maps.event.addListener(marker, 'click', () => {
+      let contentString;
+      switch (marker.get('type')) {
+        case 'fire':
+          contentString = that.createInfoOnFire(contentObject);
+          break;
+
+        case 'troop':
+          contentString = that.createInfoOnTroop(contentObject);
+          break;
+      }
+      infowindow.setContent(contentString);
+      infowindow.open(map, marker);
+    });
+  }
+
+  createInfoOnFire(contentObject) {
+    return '<h5>שריפה </h5>' +
+    'נ.צ: ' + '(' + contentObject.lat + ',' + contentObject.lng + ') <br/>' +
+      'דווח ב: ' + new Date(contentObject.timestamp).toString() + ' <br/>';
+  }
+
+  createInfoOnTroop(contentObject) {
+    debugger;
+    return '<h5>' + this.rolesPipe.transform(contentObject.role) + '</h5>' +
+    'נ.צ: ' + '(' + contentObject.lat + ',' + contentObject.lng + ') <br/>' +
+      'דווח לאחרונה: ' + new Date(contentObject.timestamp).toString() + ' <br/>';
   }
 
   getLocation() {
