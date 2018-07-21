@@ -6,12 +6,12 @@
       <div class="factor-icons radio-group">
 
         <div class="factor-icon fire">
-          <div (click)="chooseCategory(CATEGORIES_NAMES.FIRE)" class="icon select-circle radio"></div>
+          <div (click)="chooseCategory(CATEGORIES_NAMES.FIRE)" class="icon select-circle radio selected"></div>
           <span>{{CATEGORIES_NAMES.FIRE}}</span>
         </div>
 
         <div class="factor-icon balloon">
-          <div (click)="chooseCategory(CATEGORIES_NAMES.BALLOON)" class="icon select-circle radio selected"></div>
+          <div (click)="chooseCategory(CATEGORIES_NAMES.BALLOON)" class="icon select-circle radio"></div>
           <span>{{CATEGORIES_NAMES.BALLOON}}</span>
         </div>
 
@@ -23,42 +23,42 @@
       </div>
     </div>
 
-    <div class="comment">
-      <label style="display: grid">
-        <h3 class="subtitle">הערות</h3>
-        <textarea [(ngModel)]="description" style="margin: auto;width: 90%;"></textarea>
-      </label>
-    </div>
-
-    <div [hidden]="currCategoryName !== CATEGORIES_NAMES.FIRE">
+    <div style="display: grid;" [hidden]="currCategoryName !== CATEGORIES_NAMES.FIRE">
       <h3 class="subtitle">גודל השרפה</h3>
       <div class="buttons radio-group">
-        <button class="radio" (click)="chooseBurningSize(BURNING_SIZES.LARGE)">{{BURNING_SIZES.LARGE}}</button>
-        <button class="radio" (click)="chooseBurningSize(BURNING_SIZES.MEDIUM)">{{BURNING_SIZES.MEDIUM}}</button>
         <button class="radio" (click)="chooseBurningSize(BURNING_SIZES.SMALL)">{{BURNING_SIZES.SMALL}}</button>
+        <button class="radio" (click)="chooseBurningSize(BURNING_SIZES.MEDIUM)">{{BURNING_SIZES.MEDIUM}}</button>
+        <button class="radio" (click)="chooseBurningSize(BURNING_SIZES.LARGE)">{{BURNING_SIZES.LARGE}}</button>
       </div>
     </div>
 
-    <div class="height" style="display: grid;" [hidden]="currCategoryName === CATEGORIES_NAMES.FIRE">
+    <div style="display: grid;" [hidden]="currCategoryName === CATEGORIES_NAMES.FIRE">
       <h3 class="subtitle">גובה מוערך</h3>
       <div class="buttons radio-group">
-        <button class="radio" (click)="chooseFlyingObjectHeight(FLYING_OBJECTS_HEIGHT.HIGH)">
-          {{FLYING_OBJECTS_HEIGHT.HIGH}}
-        </button>
-        <button class="radio" (click)="chooseFlyingObjectHeight(FLYING_OBJECTS_HEIGHT.MEDIUM)">
-          {{FLYING_OBJECTS_HEIGHT.MEDIUM}}
+        <button class="radio" (click)="chooseFlyingObjectHeight(FLYING_OBJECTS_HEIGHT.ON_GROUND)">
+          {{FLYING_OBJECTS_HEIGHT.ON_GROUND}}
         </button>
         <button class="radio" (click)="chooseFlyingObjectHeight(FLYING_OBJECTS_HEIGHT.LOW)">
           {{FLYING_OBJECTS_HEIGHT.LOW}}
         </button>
-        <button class="radio" (click)="chooseFlyingObjectHeight(FLYING_OBJECTS_HEIGHT.ON_GROUND)">
-          {{FLYING_OBJECTS_HEIGHT.ON_GROUND}}
+        <button class="radio" (click)="chooseFlyingObjectHeight(FLYING_OBJECTS_HEIGHT.MEDIUM)">
+          {{FLYING_OBJECTS_HEIGHT.MEDIUM}}
+        </button>
+        <button class="radio" (click)="chooseFlyingObjectHeight(FLYING_OBJECTS_HEIGHT.HIGH)">
+          {{FLYING_OBJECTS_HEIGHT.HIGH}}
         </button>
       </div>
     </div>
 
+    <div class="comment">
+      <label style="display: grid">
+        <h3 class="subtitle">הערות</h3>
+        <textarea [(ngModel)]="description" style="margin: auto;width: 90%;height: 50%"></textarea>
+      </label>
+    </div>
+
     <div class="btn-group" role="group" aria-label="Basic example">
-      <button class="finish-button" (click)="goToEndingPage()">שלח</button>
+      <button class="finish-button" (click)="goToEndingPage()" [disabled]="!canReportBeSent()">שלח</button>
     </div>
 
   </div>

@@ -8,14 +8,12 @@ import {Router} from '@angular/router';
 })
 export class AppComponent implements OnInit {
   title = 'app';
-  isInLoadingMode = true;
 
 
   constructor(private router:Router){
   }
 
   ngOnInit(): void {
-    setTimeout(()=>this.isInLoadingMode = false,1500);
 
   }
 

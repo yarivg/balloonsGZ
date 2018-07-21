@@ -1,9 +1,11 @@
 <div class="ending-page-wrapper">
-  <div class="ending-page-column">
+  <div class="ending-page-column" style="height: 28vh;">
     <div class="ending-page-main-title">הדיווח נשלח בהצלחה</div>
     <div class="row-with-vertical-centered-items" style="margin: auto; justify-content: space-between">
-      <button class="send-report-button small-report-button" style="outline: none;" (click)="buttonClicked()">שלח דיווח</button>
-      <a *ngIf="reportService.currLocation" style="width: 70px;height: 70px"
+      <button class="send-report-button small-report-button" style="outline: none;" (click)="buttonClicked()">שלח
+        דיווח
+      </button>
+      <a *ngIf="reportService.currLocation" style="width: 100px;height: 100px"
          href="https://api.whatsapp.com/send?text={{ reportService.getWhatsappSharingUrl() }}">
         <img src="/assets/whatsapp.svg"/>
       </a>
@@ -12,13 +14,13 @@
            (change)="reportService.captureImage($event)">
 
   </div>
-  <div class="ending-page-column">
+  <div class="ending-page-column" style="height: 35vh;
+    justify-content: space-between;">
     <div class="ending-page-column balloon-icon-wrapper">
-      <img class="balloon-icon" src="/assets/ending-logo.svg"/>
       <span class="balloon-icon-text">זה סופו של כל בלון</span>
     </div>
     <div class="row-with-vertical-centered-items" style="justify-content: space-evenly; flex-wrap: wrap;">
-      <div class="row-with-vertical-centered-items credit-logo" style="justify-content: inherit">
+      <div class="row-with-vertical-centered-items credit-logo" style="justify-content: space-between;width: 145px;">
         <img class="unit-icon" src="/assets/OfekUnit.png"/>
         <img class="unit-icon" src="/assets/Bamza_108.png"/>
       </div>

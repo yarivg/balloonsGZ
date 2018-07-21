@@ -2,7 +2,7 @@
   "name": "זה סופו של כל בלון",
   "short_name": "בלון",
   "theme_color": "#1976d2",
-  "background_color": "#000000",
+  "background_color": "#057D6E",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
