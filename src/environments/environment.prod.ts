@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   serverBaseURL: 'http://localhost:4300',
-  serverLayersURL: 'https://callcenter.res-cue.com:8082',
+  serverLayersURL: 'https://res-cue.com',
   token: 'leeroezpsnyoecdjvqofomqpwjvrjcybdvcpewkwhjbvkwdeqewlyfhtyprhxngbmhrdxzjupigeounbiwzgdbzuuydtykguzkxoghqjnjisazxwaswjwscpuyogdzgr',
   callcenter: '65'
 };
