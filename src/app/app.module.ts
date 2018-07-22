@@ -21,6 +21,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import {MapPageComponent} from "./pages/map-page/map-page.component";
 import {LayersService} from "../services/layers.service";
 import {HttpClientModule} from "@angular/common/http";
+import {AgmCoreModule} from '@agm/core';
+import {MarkerDescriptionComponent} from './pages/map-page/marker-description/marker-description.component';
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
@@ -30,6 +32,7 @@ const APP_COMPONENTS = [
   CommentPageComponent,
   EndingPageComponent,
   MapPageComponent,
+  MarkerDescriptionComponent
 ];
 
 const APP_SERVICES = [
@@ -48,6 +51,9 @@ const APP_SERVICES = [
     HttpClientModule,
     HttpModule,
     !environment.production ? StoreDevtoolsModule.instrument({maxAge: 50}) : [],
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAYT3aC83fuuZNXhGZj-SHPTvaLoooAK6c'
+    }),
     RouterModule.forRoot(
       routes,
       {
