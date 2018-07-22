@@ -1,24 +1,45 @@
-<div class="map-page">
-  <div #gmap class="google-map" ></div>
-  <div class="header">
-    <img src="/assets/location.svg" />
-    <span>היכן נמצא הגורם המאיים?</span>
-    <button (click)="setCenterMap()">
-      <span>מיקומי הנוכחי</span>
-    </button>
-    <div class="header-bg"></div>
-    <div class="hint">לחץ לחיצה ארוכה כדי לסמן נקודה</div>
-  </div>
-  <div class="information">
-    <img src="/assets/location.svg" />
-    <span>היכן נמצא הגורם המאיים?</span>
-    <button (click)="setCenterMap()">
-      <span>מיקומי הנוכחי</span>
-    </button>
-    <div class="header-bg"></div>
-    <div class="hint">לחץ לחיצה ארוכה כדי לסמן נקודה</div>
-  </div>
-  <div class="footer">
-    <button (click)="goToCommentScreen()"></button>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="map-page">
+        <div class="header">
+          <img src="/assets/location.svg" />
+          <span>היכן נמצא הגורם המאיים?</span>
+          <button (click)="getLocation()">
+            <span>מיקומי הנוכחי</span>
+          </button>
+          <div class="header-bg"></div>
+          <div class="hint">לחץ לחיצה ארוכה כדי לסמן נקודה</div>
+        </div>
+        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom"
+                 [gestureHandling]="'greedy'"
+                 (mapClick)="mapClicked($event)">
+          <agm-marker
+            [latitude]="currentLocationMarker.latitude"
+            [longitude]="currentLocationMarker.longitude"
+            [iconUrl]="currentLocationMarker.iconUrl">
+          </agm-marker>
+          <agm-marker
+            [latitude]="selectedLocationMarker.latitude"
+            [longitude]="selectedLocationMarker.longitude"
+            [iconUrl]="selectedLocationMarker.iconUrl">
+          </agm-marker>
+          <agm-marker
+            *ngFor="let m of markers; let i = index"
+            [latitude]="m.latitude" [longitude]="m.longitude" [iconUrl]="m.iconUrl">
+
+            <agm-info-window>
+              <marker-description [lat]=""></marker-description>
+            </agm-info-window>
+
+          </agm-marker>
+        </agm-map>
+        <div class="footer-button">
+          <button (click)="goToCommentScreen()"></button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+
