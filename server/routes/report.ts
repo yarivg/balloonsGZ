@@ -37,7 +37,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
       token: seeVUToken,
       user_id,
     };
-    console.log(JSON.stringify(reqBody))
+    console.log(reqBody)
     request.post({
         headers: {"content-type": "application/json"},
         url: "https://res-cue.com/web/report/image",
