@@ -7,7 +7,7 @@ import * as path from "path";
 import { reportRouter } from "./routes/report";
 import { layerRouter } from "./routes/layers";
 
-let alonAPI = require("./routes/alon");
+let phoneAPI = require("./routes/phone");
 
 let util = require("util");
 let https = require("https");
@@ -35,7 +35,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("/api/token", alonAPI.router);
+app.use("/api/token", phoneAPI.router);
 app.use("/api/report", reportRouter);
 app.use("/api/layers", layerRouter);
 

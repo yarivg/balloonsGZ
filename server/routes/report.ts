@@ -3,7 +3,7 @@ import * as uuid from "uuid";
 
 const isInPolygon = require("../utils/polygonFilter").isInPolygon;
 const _ = require("lodash");
-const alonAPI = require("../routes/alon");
+const phoneAPI = require("../routes/phone");
 const request = require("request");
 const seeVUToken = "leeroezpsnyoecdjvqofomqpwjvrjcybdvcpewkwhjbvkwdeqewlyfhtyprhxngbmhrdxzjupigeounbiwzgdbzuuydtykguzkxoghqjnjisazxwaswjwscpuyogdzgr";
 const user_id = "1846";
@@ -20,9 +20,9 @@ reportRouter.post("/", (req: Request, res: Response) => {
     // if (req.body.lat && req.body.lng && isInPolygon([req.body.lat, req.body.lng])) {
     let phoneNumber;
     if (req.body.userToken) {
-      phoneNumber = (_.invert(alonAPI.tokens))[req.body.userToken] || "XXX-XXXXXXX";
+      phoneNumber = (_.invert(phoneAPI.tokens))[req.body.userToken] || "XXX-XXXXXXX";
     }
-    // TODO remove xxx-xxxxxxxx if alon way required
+    // TODO remove xxx-xxxxxxxx if phone way required
     // if (phoneNumber) {
     const reqBody = {
       phone: "+972504841981",

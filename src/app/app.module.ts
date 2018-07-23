@@ -21,6 +21,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import {MapPageComponent} from "./pages/map-page/map-page.component";
 import {LayersService} from "../services/layers.service";
 import {HttpClientModule} from "@angular/common/http";
+import { TokenService } from '../services/token.services';
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
@@ -34,7 +35,8 @@ const APP_COMPONENTS = [
 
 const APP_SERVICES = [
   LayersService,
-  ReportService
+  ReportService,
+  TokenService
 ];
 
 @NgModule({
