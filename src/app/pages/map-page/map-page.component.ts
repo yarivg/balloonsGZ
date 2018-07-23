@@ -101,7 +101,7 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   }
 
   centerMap() {
-    this.zoom = 16;
+    this.zoom = 8;
   }
 
   goToCommentScreen() {
