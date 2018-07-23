@@ -6,6 +6,7 @@ const isInPolygon = require("../utils/polygonFilter").isInPolygon;
 const _ = require("lodash");
 const alonAPI = require("../routes/alon");
 const request = require("request");
+const uuidv4 = require("uuid/v4");
 
 const reportRouter: Router = Router();
 reportRouter.get("/", (req: Request, res: Response) => {
@@ -17,7 +18,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
 
   if (req.body.lat && req.body.lng) {
     let token, userID, serverReportsURL;
-    sendToDrones(req.body.lat, req.body.lng);
+    sendToDrones(req.body.lat, req.body.lng, req.body.name);
 
     // if (req.body.lat && req.body.lng && isInPolygon([req.body.lat, req.body.lng])) {
     let phoneNumber;
@@ -50,7 +51,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
       token,
       user_id: userID,
     };
-    console.log(JSON.stringify(reqBody))
+    console.log(JSON.stringify(reqBody));
     request.post({
         headers: {"content-type": "application/json"},
         url: serverReportsURL + "/web/report/image",
@@ -76,8 +77,47 @@ reportRouter.post("/", (req: Request, res: Response) => {
   }
 });
 
-function sendToDrones(lat, lng) {
-
+function sendToDrones(lat: string, long: string, text: string) {
+  const uniqueId = uuidv4();
+  const reqBody = {
+    data: [{
+      version: 1,
+      color_index: 0,
+      elevation: 0,
+      latitude: parseFloat(lat),
+      longitude: parseFloat(long),
+      owner_id: "7b172f10-e609-4f5a-a03f-4a8e05ce9e38",
+      visible_off_screen: true,
+      created: 1516031210,
+      modified: 1516031210,
+      projected_fov: [],
+      text,
+      yaw: 0,
+      unique_id: uniqueId,
+      active: true,
+      address: "",
+      type: "tracker",
+      mission_id: "aabccbbdfdfhdgfhhfdggdghdghdfhngd",
+      code: "g48fe",
+      owner_name: "pilot",
+      pitch: 0,
+      user_stopped_tracking: true,
+      accuracy: 0.1,
+    }]
+  };
+  console.log("sending request to Edgybees...");
+  request.post({
+      headers: {"content-type": "application/json"},
+      url: "https://backend.edgybees.us/10027/virtual_obj/tracker_insert/",
+      body: JSON.stringify(reqBody),
+    }, (error, response, body) => {
+      if (response && response.statusCode == 200) {
+        console.log("request to Edgybees passed successfully");
+      } else {
+        console.log("request to Edgybees did not pass");
+      }
+    },
+  );
 }
 
 export {reportRouter};
