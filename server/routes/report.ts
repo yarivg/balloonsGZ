@@ -29,7 +29,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
       name: req.body.name,
       lng: req.body.lng,
       lat: req.body.lat,
-      image: req.body.imageBase64.split("base64,")[1],
+      image: '',
       heading: req.body.azimuth ? req.body.azimuth.toString() : "0",
       category: req.body.category ? req.body.category.toString() : "0",
       description: req.body.description,
