@@ -50,7 +50,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
       token,
       user_id: userID,
     };
-    console.log(reqBody)
+    console.log(JSON.stringify(reqBody))
     request.post({
         headers: {"content-type": "application/json"},
         url: serverReportsURL + "/web/report/image",
