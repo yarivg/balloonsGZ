@@ -16,9 +16,11 @@ reportRouter.post("/", (req: Request, res: Response) => {
   if (req.body.id === null && req.body.lat && req.body.lng) {
     // if (req.body.lat && req.body.lng && isInPolygon([req.body.lat, req.body.lng])) {
     const reqBody = {
-      lng: req.body.lng,
-      lat: req.body.lat,
-      heading: req.body.azimuth ? req.body.azimuth.toString() : "0",
+      phone: "+972504841981",
+      name: req.body.name,
+      image: req.body.imageBase64.split("base64,")[1],
+      category: req.body.category ? req.body.category.toString() : "0",
+      description: req.body.description,
       pitch: "0",
       token: seeVUToken,
       user_id,
