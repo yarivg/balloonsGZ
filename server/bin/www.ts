@@ -17,7 +17,7 @@ app.set("port", port);
 /**
  * Create HTTP server.
  */
-//const server = http.createServer(app);
+const server = http.createServer(app);
 
 /**
  * Create HTTPS server.
@@ -25,38 +25,39 @@ app.set("port", port);
 var fs = require('fs')
 
 var pathToEncrption = "../encryption/"
-var key = fs.readFileSync(pathToEncrption + 'balloon_private.key');
-var cert = fs.readFileSync(pathToEncrption + 'balloon_cf.crt' );
-var ca = [
-  // fs.readFileSync(pathToEncrption + 'balloon_cf.crt' ),
-  fs.readFileSync(pathToEncrption + 'AddTrustExternalCARoot.crt' ),
-  fs.readFileSync(pathToEncrption + 'COMODORSAAddTrustCA.crt' ),
-  fs.readFileSync(pathToEncrption + 'COMODORSADomainValidationSecureServerCA.crt' )
-]
+// var key = fs.readFileSync(pathToEncrption + 'balloon_private.key');
+// var cert = fs.readFileSync(pathToEncrption + 'balloon_cf.crt' );
+// var ca = [
+//   // fs.readFileSync(pathToEncrption + 'balloon_cf.crt' ),
+//   fs.readFileSync(pathToEncrption + 'AddTrustExternalCARoot.crt' ),
+//   fs.readFileSync(pathToEncrption + 'COMODORSAAddTrustCA.crt' ),
+//   fs.readFileSync(pathToEncrption + 'COMODORSADomainValidationSecureServerCA.crt' )
+// ]
 
 var options = {
-  key: key,
-  cert: cert,
-  ca: ca
+//  key: key,
+//  cert: cert,
+//  ca: ca
 };
 
-var https = require('https');
-const server = https.createServer(options, app)
+//var https = require('https');
+//const server = https.createServer(options, app)
 
-server.listen(443, () => console.log('Balloon listening on port 443!'))
+// server.listen(443, () => console.log('Balloon listening on port 443!'))
+server.listen(4444, () => console.log('Balloon listening on port 4444!'))
 
 // Redirect from http port 80 to https
 http.createServer(function (req, res) {
   if(req.url.indexOf('.well-known/acme-challenge/') > -1 ||
     req.url.indexOf('.well-known/pki-validation/')  > -1) {
     res.write(fs.readFileSync('../' + req.url))
-    
+
   } else if(req.url.indexOf('/favicon.ico') > -1) {
     res.write(fs.readFileSync('src/favicon.ico'))
   }
   else{
     res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-  } 
+  }
 
   res.end();
 }).listen(80, () => console.log('Http Port 80 is forwarding to Https(443)'))
