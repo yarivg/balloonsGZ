@@ -137,7 +137,8 @@ export class ReportService {
       'name': 'WEB-REPORTER',
       'lat': this.currLocation ? this.currLocation.latitude.toString() : '0',
       'lng': this.currLocation ? this.currLocation.longitude.toString() : '0',
-      'imageBase64': this.getImage(),
+      // 'imageBase64': this.getImage(),
+      'imageBase64': '',
       'azimuth': this.currAzimuth,
       'description': description,
       'category': '11',// TODO - balloon, kite, fire
@@ -152,7 +153,7 @@ export class ReportService {
     console.log(reportURL);
     console.log(body)
     this.http.post(reportURL.toString() + `/api/report`, body, options).subscribe(data => {
-      alert("עובדים על זה. תודה.")
+      // alert("עובדים על זה. תודה.")
 
       // this.router.navigate(['/map']);
     }, error => {
@@ -177,7 +178,7 @@ export class ReportService {
 
         // as of now - immediately create a report to the server, description is ''
         this.upload('');
-      }
+      };
     }
   }
 
