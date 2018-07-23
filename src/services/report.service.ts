@@ -18,6 +18,14 @@ export class ReportService {
     private imageBase64: string = ''
     private reader: any = new FileReader()
 
+    private id = ''
+    private options = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        })
+    }
+
     public getAzimuth() {
         return this.currAzimuth
     }
@@ -125,31 +133,36 @@ export class ReportService {
         }
     }
 
+    
     upload(description: string) {
-        let options = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            })
-        }
-
         let body = {
-            'name': 'WEB-REPORTER',
             'lat': this.currLocation ? this.currLocation.latitude.toString() : '0',
             'lng': this.currLocation ? this.currLocation.longitude.toString() : '0',
-            'imageBase64': this.getImage(),
             'azimuth': this.currAzimuth,
+        }
+
+        this.http.post(`/api/report`, body, this.options).subscribe(data => {
+            this.id = data['id']
+            // this.router.navigate(['/map']);
+        }, error => {
+            console.log(error)
+            // this.router.navigate(['/map']);
+        });
+    }
+
+    update(description: string) {
+        let body = {
+            'id': this.id,
+            'name': 'WEB-REPORTER',
+            'imageBase64': this.image,
             'description': description,
             'category': '11',// TODO - balloon, kite, fire
             'userToken': localStorage.getItem('userToken')
         }
-
-        this.http.post(`/api/report`, body, options).subscribe(data => {
-            // alert("עובדים על זה. תודה.")
+        this.http.post(`/api/report/update`, body, this.options).subscribe(data => {
 
             // this.router.navigate(['/map']);
         }, error => {
-            // alert("אנחנו על זה.")
             console.log(error)
             // this.router.navigate(['/map']);
         });

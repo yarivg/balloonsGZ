@@ -15,7 +15,7 @@ export class CapturePageComponent implements OnInit, OnDestroy {
   private reader: any = new FileReader();
   public description: string = ''
 
-  constructor(private router: Router, private cd: ChangeDetectorRef, private reportSrv: ReportService) {}
+  constructor(private router: Router, private cd: ChangeDetectorRef, private reportSrv: ReportService) { }
 
   ngOnInit() {
     // this.initCamera({video: true, audio: false});
