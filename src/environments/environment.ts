@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  serverBaseURL: 'http://localhost:4300',
+  serverBaseURL: 'https://localhost',
   serverLayersURL: 'https://dev.res-cue.com:8081',
   token: 'kljgfzedtapamqpcbwksviwxeofzfeqqrpvphtbwhyocnstakgoduzprhybrxxjwsrctloghthhshqdgaaecqvofmuidjfplosyyokfukkrpjclayvrnmbrnojohyjjm',
   callcenter: '1'
