@@ -78,6 +78,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
 });
 
 function sendToDrones(lat: string, long: string, text: string) {
+  const timestamp = new Date().getTime();
   const uniqueId = uuidv4();
   const reqBody = {
     data: [{
@@ -88,8 +89,8 @@ function sendToDrones(lat: string, long: string, text: string) {
       longitude: parseFloat(long),
       owner_id: "7b172f10-e609-4f5a-a03f-4a8e05ce9e38",
       visible_off_screen: true,
-      created: 1516031210,
-      modified: 1516031210,
+      created: timestamp,
+      modified: timestamp,
       projected_fov: [],
       text,
       yaw: 0,
@@ -105,6 +106,7 @@ function sendToDrones(lat: string, long: string, text: string) {
       accuracy: 0.1,
     }]
   };
+  console.log(reqBody);
   console.log("sending request to Edgybees...");
   request.post({
       headers: {"content-type": "application/json"},
