@@ -18,11 +18,14 @@ import { ReportService } from '../services/report.service';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 import { EndingPageComponent } from './pages/ending-page/ending-page.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import {MapPageComponent} from "./pages/map-page/map-page.component";
-import {LayersService} from "../services/layers.service";
-import {HttpClientModule} from "@angular/common/http";
+import {MapPageComponent} from './pages/map-page/map-page.component';
+import {LayersService} from '../services/layers.service';
+import {HttpClientModule} from '@angular/common/http';
 import {AgmCoreModule} from '@agm/core';
 import {MarkerDescriptionComponent} from './pages/map-page/marker-description/marker-description.component';
+import {LoginPageComponent} from './pages/login-page/login-page.component';
+import {AuthServiceConfig, SocialLoginModule} from 'angular-6-social-login';
+import {getAuthServiceConfig} from "../services/auth.service";
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
@@ -32,7 +35,8 @@ const APP_COMPONENTS = [
   CommentPageComponent,
   EndingPageComponent,
   MapPageComponent,
-  MarkerDescriptionComponent
+  MarkerDescriptionComponent,
+  LoginPageComponent
 ];
 
 const APP_SERVICES = [
@@ -48,6 +52,7 @@ const APP_SERVICES = [
   imports: [
     BrowserModule,
     FormsModule,
+    SocialLoginModule,
     HttpClientModule,
     HttpModule,
     !environment.production ? StoreDevtoolsModule.instrument({maxAge: 50}) : [],
@@ -62,7 +67,9 @@ const APP_SERVICES = [
     ),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [...APP_SERVICES],
+  providers: [...APP_SERVICES,
+    {provide: AuthServiceConfig,
+      useFactory: getAuthServiceConfig}],
   bootstrap: [
     AppComponent
   ]
