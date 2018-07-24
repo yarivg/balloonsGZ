@@ -6,6 +6,7 @@ import * as path from "path";
 
 import { reportRouter } from "./routes/report";
 import { layerRouter } from "./routes/layers";
+import {supportGazaStripRouter} from "./routes/support_gaza_strip";
 
 let alonAPI = require("./routes/alon");
 
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
 app.use("/api/token", alonAPI.router);
 app.use("/api/report", reportRouter);
 app.use("/api/layers", layerRouter);
+app.use("/api/supportcitizens", supportGazaStripRouter);
 
 let polygonFilter = require("./utils/polygonFilter");
 console.log("started");
