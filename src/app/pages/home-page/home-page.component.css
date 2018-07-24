@@ -32,6 +32,8 @@ input {
 }
 
 .home-container{
-  min-height: 86vh;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: calc(100vh - 80px);
 }
