@@ -1,7 +1,8 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {LayersService} from '../../../services/layers.service';
 import {addMarkerWithIcon, Marker} from '../../models/Marker';
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-map-page',
@@ -19,10 +20,12 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   currentLocationMarker:Marker = new Marker();
   selectedLocationMarker:Marker = new Marker();
 
-  constructor(private router: Router, private layersService: LayersService) {
+  constructor(private router: Router, private route:ActivatedRoute, private layersService: LayersService) {
   }
 
   ngOnInit() {
+    this.lat = +this.route.snapshot.params['lat'];
+    this.lng = +this.route.snapshot.params['lng'];
 
     this.layersService.getLayers()
       .then(res => {
@@ -34,7 +37,7 @@ export class MapPageComponent implements OnInit, AfterViewInit {
         console.log(err);
       });
 
-    if (this.currentLocation) {
+    if (this.currentLocation || this.haveCoordinatesBeenReceived()) {
       this.centerMap();
     } else {
       this.getLocation();
@@ -42,7 +45,7 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.currentLocation) {
+    if (this.currentLocation || this.haveCoordinatesBeenReceived()) {
       this.centerMap();
     } else {
       this.getLocation();
@@ -113,5 +116,9 @@ export class MapPageComponent implements OnInit, AfterViewInit {
     marker.latitude = $event['coords']['lat'];
     marker.longitude = $event['coords']['lng'];
     this.selectedLocationMarker = marker;
+  }
+
+  haveCoordinatesBeenReceived(){
+    return !isNullOrUndefined(this.route.snapshot.params['lat']) && !isNullOrUndefined(this.route.snapshot.params['lng'])
   }
 }
