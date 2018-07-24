@@ -44,4 +44,6 @@ export class HomePageComponent implements OnInit, AfterViewInit{
     // activate camera
     $('input').click();
   }
+  supportButtonClicked(){
+  }
 }
