@@ -66,10 +66,12 @@ export class ReportService {
    */
   checkLocation() {
     if (navigator.geolocation) {
-      this.watchPosId = navigator.geolocation.watchPosition(((position) => {
-        this.currLocation = position.coords
-        console.log(position.coords)
-      }), (error) => {
+      this.watchPosId = navigator.geolocation.watchPosition((position) => {
+        this.currLocation = position.coords;
+        console.log(position.coords);
+        localStorage.setItem("latitude", position.coords.latitude.toString());
+        localStorage.setItem("longitude", position.coords.longitude.toString());
+      }, (error) => {
         switch (error.code) {
           case error.PERMISSION_DENIED:
             // alert("User denied the request for Geolocation.")
@@ -131,19 +133,24 @@ export class ReportService {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       })
-    }
+    };
+
+    this.checkLocation();
+
+    const storedLatitude = localStorage.getItem('latitude');
+    const storedLongitude = localStorage.getItem('longitude');
 
     const body = {
       'name': 'WEB-REPORTER',
-      'lat': this.currLocation ? this.currLocation.latitude.toString() : '0',
-      'lng': this.currLocation ? this.currLocation.longitude.toString() : '0',
+      'lat': storedLatitude ? storedLatitude : '1',
+      'lng': storedLongitude ? storedLongitude : '1',
       // 'imageBase64': this.getImage(),
       'imageBase64': '',
       'azimuth': this.currAzimuth,
       'description': description,
       'category': '11',// TODO - balloon, kite, fire
       'userToken': localStorage.getItem('userToken')
-    }
+    };
     let reportURL = '';
     if (process.env.NODE_ENV !== 'production') {
       reportURL = environment.config.serverBaseURL[1];
@@ -158,7 +165,7 @@ export class ReportService {
       // this.router.navigate(['/map']);
     }, error => {
       // alert("אנחנו על זה.")
-      console.log(error)
+      console.error(error)
       // this.router.navigate(['/map']);
     });
   }
