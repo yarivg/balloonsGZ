@@ -7,6 +7,7 @@ import { CapturePageComponent } from './pages/capture-page/capture-page.componen
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 import { EndingPageComponent } from './pages/ending-page/ending-page.component';
 import {MapPageComponent} from './pages/map-page/map-page.component';
+import {LoginPageComponent} from './pages/login-page/login-page.component';
 
 const routes: Routes = [
   {path: 'home', component: HomePageComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'comment', component: CommentPageComponent},
   {path: 'ending', component: EndingPageComponent},
   {path: 'map', component: MapPageComponent},
+  {path: 'login', component: LoginPageComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' }
 ];
