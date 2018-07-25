@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { request } from 'https';
 
 @Component({
   selector: 'app-login-page',
@@ -24,8 +25,8 @@ export class LoginPageComponent {
         var accessToken = response.authResponse.accessToken;
         var uid = response.authResponse.userID;
         var accessToken = response.authResponse.accessToken;
-        FB.api('/me', {fields: ['name','picture']}, function(response) {
-        
+        FB.api('/me', {fields: ['name','picture', 'email']}, function(response) {
+          console.log(response)
         });
       } else if (response.status === 'authorization_expired') {
         // The user has signed into your application with
