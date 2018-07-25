@@ -6,9 +6,9 @@ let mongoDB = process.env.MONGODB_URI;
 
 // If we couldn't get the value so set as local host.
 if (!mongoDB) {
-  mongoDB = "mongodb://127.0.0.1/balloons";
+  mongoDB = "mongodb://localhost:27017/balloons";
 }
-mongoose.connect(mongoDB);
+mongoose.connect(mongoDB, { useNewUrlParser: true });
 
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
