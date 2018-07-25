@@ -1,0 +1,24 @@
+<div class="map-page">
+  <div class="header">
+    <img src="/assets/location.svg"/>
+    <span>היכן נמצא הגורם המאיים?</span>
+    <button (click)="getLocation()">
+      <span>מיקומי הנוכחי</span>
+    </button>
+    <div class="header-bg"></div>
+    <div class="hint">לחץ לחיצה ארוכה כדי לסמן נקודה</div>
+  </div>
+  <agm-map [latitude]="lat" [longitude]="lng"
+           gestureHandling="greedy"
+           mapTypeId="satellite"
+           (mapClick)="mapClicked($event)">
+    <agm-marker
+      [latitude]="currentLocationMarker.latitude"
+      [longitude]="currentLocationMarker.longitude"
+      [iconUrl]="currentLocationMarker.iconUrl">
+    </agm-marker>
+  </agm-map>
+  <div class="footer">
+    <button (click)="goToCommentScreen()"></button>
+  </div>
+</div>
