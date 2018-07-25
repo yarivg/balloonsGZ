@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const userSchema = new mongoose.Schema({
   _id: Schema.Types.ObjectId,
   // date_of_birth: Date,
-  facebook_id: Schema.Types.ObjectId,
-  phone_number: Schema.Types.ObjectId,
+  facebook_id: String,
+  phone_number: String,
   profile_image: String,
   user_support_images: [{
     image: String,
