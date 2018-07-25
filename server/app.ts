@@ -8,15 +8,17 @@ import { reportRouter } from "./routes/report";
 import { layerRouter } from "./routes/layers";
 import {supportGazaStripRouter} from "./routes/support_gaza_strip";
 import {loginRouter} from "./routes/login";
+import {config} from "../.configenv";
 
-let alonAPI = require("./routes/alon");
+const alonAPI = require("./routes/alon");
 
-let util = require("util");
-let https = require("https");
-let url = require("url");
-let bodyParser = require("body-parser");
+const util = require("util");
+const https = require("https");
+const url = require("url");
+const bodyParser = require("body-parser");
+const jwt = require("jsonwebtoken");
 
-let cors = require("cors");
+const cors = require("cors");
 const app: express.Application = express();
 
 app.disable("x-powered-by");
@@ -35,6 +37,30 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
     res.header("Access-Control-Allow-Credentials", "true");
     next();
+});
+app.use((req, res, next) =>{
+  let secretToken;
+  // check header or url parameters or post parameters for token
+  const token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+  // decode token
+  if (token) {
+    // verifies secret and checks exp
+    if (process.env.NODE_ENV !== "production") {
+      secretToken = config.secretToken[1];
+    } else {
+      secretToken = config.secretToken[0];
+    }
+    jwt.verify(token, config.dev.tokenSecret, function (err, decoded) {
+      if (err) {
+        return res.json({success: false, message: 'Failed to authenticate token.'});
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decoded = decoded;
+        next();
+      }
+    });
+  }
 });
 
 app.use("/api/token", alonAPI.router);
