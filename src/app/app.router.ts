@@ -13,7 +13,6 @@ const routes: Routes = [
   {path: 'capture', component: CapturePageComponent},
   {path: 'comment', component: CommentPageComponent},
   {path: 'ending', component: EndingPageComponent},
-  {path: 'map/:lng/:lat', component: MapPageComponent},
   {path: 'map', component: MapPageComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' }
