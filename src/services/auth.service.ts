@@ -1,9 +1,20 @@
-import * as environment from '../../.configenv';
+import * as environment from '../../configenv';
 import {
   FacebookLoginProvider, AuthServiceConfig, GoogleLoginProvider,
   LinkedinLoginProvider
 } from 'angular-6-social-login';
 
+export class AuthService {
+
+  public isAuthenticated(): boolean {
+
+    const token = localStorage.getItem('token');
+
+    // Check whether the token is expired and return
+    // true or false
+    return true;
+  }
+}
 export function getAuthServiceConfig() {
   let config;
   if (process.env.NODE_ENV !== 'production') {

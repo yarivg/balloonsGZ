@@ -20,6 +20,7 @@ import { EndingPageComponent } from './pages/ending-page/ending-page.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import {MapPageComponent} from './pages/map-page/map-page.component';
 import {LayersService} from '../services/layers.service';
+import {SupportService} from '../services/support.service';
 import {HttpClientModule} from '@angular/common/http';
 import {AgmCoreModule} from '@agm/core';
 import {MarkerDescriptionComponent} from './pages/map-page/marker-description/marker-description.component';
@@ -41,7 +42,8 @@ const APP_COMPONENTS = [
 
 const APP_SERVICES = [
   LayersService,
-  ReportService
+  ReportService,
+  SupportService
 ];
 
 @NgModule({

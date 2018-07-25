@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core'
 import { Router, ActivatedRoute, Params} from '@angular/router'
 import { ReportService } from '../../../services/report.service'
+import { SupportService } from '../../../services/support.service'
 
 declare var $: any;
 
@@ -14,10 +15,12 @@ export class HomePageComponent implements OnInit, AfterViewInit{
   private reader: any = new FileReader();
   public imageBase64: string = null;
   reportService: ReportService;
+  supportService: SupportService;
 
 
-  constructor(private router: Router, private reportSrv: ReportService) {
+  constructor(private router: Router, private reportSrv: ReportService, private supportSrv: SupportService) {
     this.reportService = reportSrv;
+    this.supportService = supportSrv;
     let splitString = window.location.href.split('entry=')
 
     if(splitString.length > 1 && ['undefined', '', null, undefined].includes(localStorage.getItem('userToken'))) {
@@ -28,6 +31,7 @@ export class HomePageComponent implements OnInit, AfterViewInit{
   ngOnInit() {
     this.reportSrv.checkLocation()
     this.reportSrv.checkAzimuth()
+    this.supportSrv.checkLocation()
   }
 
   // Handle loading screen div and homepage, in such a way
@@ -42,8 +46,10 @@ export class HomePageComponent implements OnInit, AfterViewInit{
 
   buttonClicked() {
     // activate camera
-    $('input').click();
+    $('#file').click();
   }
   supportButtonClicked(){
+    // activate camera
+    $('#supportfile').click();
   }
 }
