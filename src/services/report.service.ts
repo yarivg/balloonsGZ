@@ -140,8 +140,8 @@ export class ReportService {
 
     this.checkLocation();
 
-    const selectedLatitude = this.getSelectedLocationCoordinates().latitude;
-    const selectedLongitude = this.getSelectedLocationCoordinates().longitude;
+    const selectedLatitude = this.getCurrentLocationCoordinates().latitude;
+    const selectedLongitude = this.getCurrentLocationCoordinates().longitude;
 
     const body = {
       'name': 'WEB-REPORTER',

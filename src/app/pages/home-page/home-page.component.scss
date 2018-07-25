@@ -34,6 +34,39 @@ input {
 .home-container{
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   height: calc(100vh - 80px);
+}
+
+
+
+@mixin report-button {
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+  border: none;
+  font-size: 24px;
+  color: white;
+  box-shadow: 3px 3px 10px grey;
+  margin: auto; outline: none;
+}
+
+.main-button{
+  @include report-button();
+  background-color: #037c6d;
+}
+
+.police-button{
+  @include report-button();
+  background-color: #00417c;
+}
+
+.fire-service-button{
+  @include report-button();
+  background-color: #c0000d;
+}
+
+.phone-call{
+  color: white;
+  text-decoration: none;
 }
