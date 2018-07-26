@@ -3,8 +3,17 @@ import {
   FacebookLoginProvider, AuthServiceConfig, GoogleLoginProvider,
   LinkedinLoginProvider
 } from 'angular-6-social-login';
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+import { Router } from '@angular/router'
 
+@Injectable()
 export class AuthService {
+
+  private _window: any
+  constructor(private http: HttpClient, private router: Router) {
+    this._window = window
+  }
 
   public isAuthenticated(): boolean {
 
@@ -13,6 +22,34 @@ export class AuthService {
     // Check whether the token is expired and return
     // true or false
     return true;
+  }
+  public sendAuthReq(): string {
+
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+    const body = {
+      'facebook_id': localStorage.getItem('uid'),
+      'name':     localStorage.getItem('name'),
+      'phone_number': '',
+      'profile_image':localStorage.getItem('picture'),
+      'email': localStorage.getItem('email'),
+    };
+    let dbURL = '';
+    console.log(body)
+    return 'hi'
+    /*
+    this.http.post(dbURL.toString() + `/api/login/signup`, body, options).subscribe(data => {
+      return data
+    }, error => {
+      // alert("אנחנו על זה.")
+      console.error(error)
+      this.router.navigate(['/login']);
+    });
+    return '';*/
   }
 }
 export function getAuthServiceConfig() {
@@ -33,7 +70,7 @@ export function getAuthServiceConfig() {
           provider: new LinkedinLoginProvider(environment.config.linkedin_app_id[1])
         },
       ],
-  );
+    );
   } else {
     config = new AuthServiceConfig(
       [
@@ -50,7 +87,7 @@ export function getAuthServiceConfig() {
           provider: new LinkedinLoginProvider(environment.config.linkedin_app_id[0])
         },
       ],
-  );
+    );
   }
   return config;
 }

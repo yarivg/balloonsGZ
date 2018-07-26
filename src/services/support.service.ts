@@ -171,6 +171,9 @@ export class SupportService {
   }
 
   captureImage(event) {
+        // Move further, to next route
+        this.goToSupportMap()
+        /*
     if (event.target.files && event.target.files[0]) {
       this.reader.readAsDataURL(event.target.files[0]); // read file as data url
 
@@ -180,12 +183,10 @@ export class SupportService {
         // Hold the image in memory, to be used in the next state(route)
         this.setImage(this.imageBase64);
 
-        // Move further, to next route
-        this.goToSupportMap()
         // as of now - immediately create a report to the server, description is ''
         this.upload('');
       };
-    }
+    }*/
   }
 
   goToSupportMap() {

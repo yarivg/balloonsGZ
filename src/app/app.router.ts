@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, CanActivate} from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { CapturePageComponent } from './pages/capture-page/capture-page.component';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
@@ -10,7 +10,7 @@ import { MapPageComponent } from './pages/map-page/map-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthGuardService as AuthGuard } from '../services/auth-guard.service';
 const routes: Routes = [
-  { path: 'home', component: HomePageComponent },
+  { path: 'home', component: HomePageComponent},
   { path: 'capture', component: CapturePageComponent },
   { path: 'comment', component: CommentPageComponent },
   { path: 'ending', component: EndingPageComponent },
