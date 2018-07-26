@@ -1,7 +1,9 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {LayersService} from '../../../services/layers.service';
 import {addMarkerWithIcon, Marker} from '../../models/Marker';
+import {isNullOrUndefined} from 'util';
+import {ReportService} from '../../../services/report.service';
 
 @Component({
   selector: 'app-map-page',
@@ -14,15 +16,20 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   private currentLocation: any = null;
   lat: number = null;
   lng: number = null;
-  zoom: number = 8;
+  zoom: number = 14;
   markers: Marker[]=[];
   currentLocationMarker:Marker = new Marker();
   selectedLocationMarker:Marker = new Marker();
 
-  constructor(private router: Router, private layersService: LayersService) {
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private layersService: LayersService,
+              private reportService:ReportService) {
   }
 
   ngOnInit() {
+    this.lat = +this.route.snapshot.params['lat'];
+    this.lng = +this.route.snapshot.params['lng'];
 
     this.layersService.getLayers()
       .then(res => {
@@ -34,19 +41,13 @@ export class MapPageComponent implements OnInit, AfterViewInit {
         console.log(err);
       });
 
-    if (this.currentLocation) {
-      this.centerMap();
-    } else {
-      this.getLocation();
-    }
+    this.getLocation();
+    this.centerMap();
   }
 
   ngAfterViewInit() {
-    if (this.currentLocation) {
-      this.centerMap();
-    } else {
-      this.getLocation();
-    }
+    this.getLocation();
+    this.centerMap();
   }
 
   setCenterMap() {
@@ -101,17 +102,48 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   }
 
   centerMap() {
-    this.zoom = 8;
+    this.zoom = 14;
+  }
+
+  setCenterOfMapBySelectedLocation(){
+    this.lat = this.selectedLocationMarker.latitude;
+    this.lng = this.selectedLocationMarker.longitude;
   }
 
   goToCommentScreen() {
+    this.reportService.setSelectedLocationCoordinates(this.selectedLocationMarker.latitude,this.selectedLocationMarker.longitude);
     this.router.navigate(['/comment']);
   }
 
   mapClicked($event: MouseEvent) {
+    this.setSelectedLocation($event['coords']['lat'],$event['coords']['lng']);
+  }
+
+  setSelectedLocation(latitude:number,longitude:number){
     let marker = new Marker();
-    marker.latitude = $event['coords']['lat'];
-    marker.longitude = $event['coords']['lng'];
+    marker.latitude = Number(latitude.toFixed(6));
+    marker.longitude = Number(longitude.toFixed(6));
     this.selectedLocationMarker = marker;
+  }
+
+  isSelectedLocationValid(){
+    return !isNullOrUndefined(this.selectedLocationMarker.latitude) && !isNullOrUndefined(this.selectedLocationMarker.longitude)
+  }
+
+  setSelectedLatitude(latitude:string){
+    this.selectedLocationMarker.latitude = Number(latitude);
+    if(this.isSelectedLocationValid()){
+      this.setCenterOfMapBySelectedLocation();
+      this.centerMap();
+    }
+
+  }
+
+  setSelectedLongitude(longitude:string){
+    this.selectedLocationMarker.longitude = Number(longitude);
+    if(this.isSelectedLocationValid()){
+      this.setCenterOfMapBySelectedLocation();
+      this.centerMap();
+    }
   }
 }

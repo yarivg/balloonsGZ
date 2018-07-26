@@ -1,14 +1,15 @@
-import { OnInit, Component} from '@angular/core'
-import { Router } from '@angular/router'
-import { ReportService } from '../../../services/report.service'
-import { UserAgentService } from '../../../services/userAgent.service'
+import { OnInit, Component} from '@angular/core';
+import { Router } from '@angular/router';
+import { ReportService } from '../../../services/report.service';
+import { UserAgentService } from '../../../services/userAgent.service';
+import {Location} from '../../models/Location';
 
 declare var $: any;
 
 @Component({
   selector: 'app-comment-page',
   templateUrl: './comment-page.component.html',
-  styleUrls: ['./comment-page.component.css'],
+  styleUrls: ['./comment-page.component.scss'],
   providers: [UserAgentService]
 })
 export class CommentPageComponent implements OnInit {
@@ -33,6 +34,9 @@ export class CommentPageComponent implements OnInit {
   };
 
   private selectedType: string = null;
+  longitude:number = null;
+  latitude:number = null;
+  inputCoordinate:Location = new Location(null,null);
   description: string = '';
   public currCategoryName = 'בלון';
   burningSize = '';
@@ -48,6 +52,15 @@ export class CommentPageComponent implements OnInit {
       this.reportSrv.clearWatching()
     } else {
       this.reportSrv.checkLocation()
+    }
+
+    this.setInputCoordinates();
+  }
+
+  private setInputCoordinates() {
+    if (this.reportSrv.getSelectedLocationCoordinates() !== null) {
+      this.inputCoordinate.latitude = this.reportSrv.getSelectedLocationCoordinates().latitude;
+      this.inputCoordinate.longitude = this.reportSrv.getSelectedLocationCoordinates().longitude;
     }
   }
 
@@ -108,6 +121,16 @@ export class CommentPageComponent implements OnInit {
       // Add 'selected; class to (this) element clicked
       elem.addClass('selected');
 
+      // Clear 'selected' class from all child 'radio' elements
+      parent.find('.radio-3').removeClass('selected');
+      // Add 'selected; class to (this) element clicked
+      elem.addClass('selected');
+
+      // Clear 'selected' class from all child 'radio' elements
+      parent.find('.radio-4').removeClass('selected');
+      // Add 'selected; class to (this) element clicked
+      elem.addClass('selected');
+
       determineSubState(elem.attr('data-value'));
     }
 
@@ -134,10 +157,21 @@ export class CommentPageComponent implements OnInit {
       let parent = $(this).parent();
       onSelect($(this), parent);
     });
+
+    $('.buttons.radio-group .radio-3').on('click', function() {
+      let parent = $(this).parent();
+      onSelect($(this), parent);
+    });
+
+    $('.buttons.radio-group .radio-4').on('click', function() {
+      let parent = $(this).parent();
+      onSelect($(this), parent);
+    });
   }
 
   goToEndingPage() {
     this.reportSrv.setWhatsappSharingUrl(encodeURIComponent(this.makeUserMessage()));
+    //TODO: sending to sayuv all info: details, photo and selected location.
     this.router.navigate(['/ending']);
   }
 
@@ -146,5 +180,18 @@ export class CommentPageComponent implements OnInit {
       return Object.values(this.BURNING_SIZES).includes(this.burningSize);
     }
     return Object.values(this.FLYING_OBJECTS_HEIGHT).includes(this.flyingObjectHeight);
+  }
+
+  openMap(){
+    this.router.navigate([`/map`]);
+  }
+
+  cameraButtonClicked() {
+    // activate camera
+    $('input').click();
+  }
+
+  captureImage(image){
+    this.reportSrv.captureImageWithoutSending(image);
   }
 }
