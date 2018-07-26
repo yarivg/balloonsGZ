@@ -26,11 +26,11 @@ reportRouter.post("/", (req: Request, res: Response) => {
       phoneNumber = (_.invert(alonAPI.tokens))[req.body.userToken] || "XXX-XXXXXXX";
     }
     if (process.env.NODE_ENV !== "production") {
-      token = environment.config.token[1];
+      token = environment.config.serverLayersToken[1];
       serverReportsURL = environment.config.serverLayersURL[1];
       userID = "790";
     } else {
-      token = environment.config.serverBaseURL[0];
+      token = environment.config.serverLayersToken[0];
       serverReportsURL = environment.config.serverLayersURL[0];
       userID = "1846";
     }
@@ -38,15 +38,15 @@ reportRouter.post("/", (req: Request, res: Response) => {
     // TODO remove xxx-xxxxxxxx if alon way required
     // if (phoneNumber) {
     const reqBody = {
-      phone: "+972504841981",
-      name: req.body.name,
-      lng: req.body.lng,
-      lat: req.body.lat,
-      // image: req.body.imageBase64.split("base64,")[1],
-      image: "",
-      heading: req.body.azimuth ? req.body.azimuth.toString() : "0",
       category: req.body.category ? req.body.category.toString() : "0",
       description: req.body.description,
+      heading: req.body.azimuth ? req.body.azimuth.toString() : "0",
+      // image: req.body.imageBase64.split("base64,")[1],
+      image: "",
+      lat: req.body.lat,
+      lng: req.body.lng,
+      name: req.body.name,
+      phone: "+972504841981",
       pitch: "0",
       token,
       user_id: userID,

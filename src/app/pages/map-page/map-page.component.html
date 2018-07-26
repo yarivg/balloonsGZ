@@ -1,12 +1,18 @@
 <div class="map-page">
   <div class="header">
-    <img src="/assets/location.svg"/>
-    <span>היכן נמצא הגורם המאיים?</span>
-    <button (click)="getLocation()">
-      <span>מיקומי הנוכחי</span>
-    </button>
+    <span>סמן בלחיצה את מיקום השריפה</span>
+    <img (click)="getLocation()" style="cursor: pointer;vertical-align: middle" src="/assets/icons8-hunt-50.png"/>
     <div class="header-bg"></div>
-    <div class="hint">לחץ לחיצה ארוכה כדי לסמן נקודה</div>
+  </div>
+  <div class="coordinates-container">
+    <input type="text" class="coordinates-input" maxlength="9"
+           [(ngModel)]="selectedLocationMarker.longitude"
+           (ngModelChange)="setSelectedLongitude($event)"
+           placeholder="קו אורך">
+    <input type="text" class="coordinates-input" maxlength="9"
+           [(ngModel)]="selectedLocationMarker.latitude"
+           (ngModelChange)="setSelectedLatitude($event)"
+           placeholder="קו רוחב">
   </div>
   <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom"
            gestureHandling="greedy"
@@ -31,6 +37,6 @@
     </agm-marker>
   </agm-map>
   <div class="footer">
-    <button (click)="goToCommentScreen()"></button>
+    <button [disabled]="!isSelectedLocationValid()" (click)="goToCommentScreen()"></button>
   </div>
 </div>
