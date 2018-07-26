@@ -39,42 +39,42 @@ app.use((req, res, next) => {
     next();
 });
 app.use((req, res, next) => {
-  let secretToken;
-
-  const url = req.url.toLowerCase();
-
-  // check header or url parameters or post parameters for token
-  const token = req.body.token || req.query.token || req.headers["x-access-token"];
-
-  // decode token
-  if (token) {
-    // verifies secret and checks exp
-    if (process.env.NODE_ENV !== "production") {
-      secretToken = config.secretToken[1];
-    } else {
-      secretToken = config.secretToken[0];
-    }
-    jwt.verify(token, secretToken, (err, decoded) => {
-      if (err) {
-        return res.json({success: false, message: "Failed to authenticate token."});
-      } else {
-        // if everything is good, save to request for use in other routes
-        req["decoded"] = decoded;
-        next();
-      }
-    });
-  } else if (
-    url == "/api/login/signup" ) {
+  // let secretToken;
+  //
+  // const url = req.url.toLowerCase();
+  //
+  // // check header or url parameters or post parameters for token
+  // const token = req.body.token || req.query.token || req.headers["x-access-token"];
+  //
+  // // decode token
+  // if (token) {
+  //   // verifies secret and checks exp
+  //   if (process.env.NODE_ENV !== "production") {
+  //     secretToken = config.secretToken[1];
+  //   } else {
+  //     secretToken = config.secretToken[0];
+  //   }
+  //   jwt.verify(token, secretToken, (err, decoded) => {
+  //     if (err) {
+  //       return res.json({success: false, message: "Failed to authenticate token."});
+  //     } else {
+  //       // if everything is good, save to request for use in other routes
+  //       req["decoded"] = decoded;
+  //       next();
+  //     }
+  //   });
+  // } else if (
+  //   url == "/api/login/signup" ) {
     next();
-  } else {
-    // if there is no token
-    // return an error
-    console.log(url);
-    return res.status(403).send({
-      success: false,
-      message: "No token provided.",
-    });
-  }
+  // } else {
+  //   // if there is no token
+  //   // return an error
+  //   console.log(url);
+  //   return res.status(403).send({
+  //     success: false,
+  //     message: "No token provided.",
+  //   });
+  // }
 });
 
 app.use("/api/token", alonAPI.router);
