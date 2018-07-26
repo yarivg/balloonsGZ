@@ -1,8 +1,3 @@
-.main {
-  width: 800px;
-  padding: 20px;
-}
-
 .main-container{
   background-image: url(/assets/imageedit_1_8551196791.png);
   background-size: cover;
@@ -19,46 +14,21 @@
   width: 100%;
   box-shadow: 0 0 10px grey;
   height: 50px;
+  background-color: #ededed;
+  opacity: 0.8;
 }
 
-.header .icon {
+.header .system-icon{
+  background-image: url(/assets/new-design-assets/ya-logo-header.svg);
   display: block;
   margin: 0 auto;
-  width: 40px;
-  height: 40px;
-  background-image: url(/assets/colored-balloon.svg);
+  width: 50px;
+  height: 50px;
   background-position: center center;
   background-repeat: no-repeat;
   position: relative;
-  top: 5px;
-  border: 1px solid black;
-  border-radius: 20px;
-  background-color: #037c6d;
-  background-size: 50%;
+  border: none;
   cursor: pointer;
-
-}
-
-.loading-screen {
-  width: 100%;
-  height: 100%;
-  background: url(/assets/loading-screen-portrait.png);
-  background-size: cover;
-  position: absolute;
-  z-index: 5;
-}
-
-@media screen and (min-width: 768px) {
-  .loading-screen {
-    width: 100%;
-    height: 100%;
-    background: url(/assets/loading-screen.png);
-    background-size: cover;
-    position: absolute;
-    z-index: 5;
-  }
-}
-
-.home-icon{
-  position: absolute;margin-left: 3%;
+  background-color: transparent;
+  outline: none;
 }
