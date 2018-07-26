@@ -1,13 +1,10 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-
 import * as environment from '../../.configenv';
 
-import {Location} from '../app/models/Location';
-
 @Injectable()
-export class ReportService {
+export class SupportService {
   private image: string = null;
   private _window: any;
   private watchPosId: number;
@@ -20,9 +17,6 @@ export class ReportService {
   private category = '11';
   private imageBase64 = '';
   private reader: any = new FileReader();
-
-  private selectedLocation: Location = null;
-  private currentLocation: Location = null;
 
   public getAzimuth() {
     return this.currAzimuth;
@@ -75,7 +69,8 @@ export class ReportService {
       this.watchPosId = navigator.geolocation.watchPosition((position) => {
         this.currLocation = position.coords;
         console.log(position.coords);
-        this.setCurrentLocationCoordinates(position.coords.latitude, position.coords.longitude);
+        localStorage.setItem('latitude', position.coords.latitude.toString());
+        localStorage.setItem('longitude', position.coords.longitude.toString());
       }, (error) => {
         switch (error.code) {
           case error.PERMISSION_DENIED:
@@ -139,14 +134,14 @@ export class ReportService {
 
     this.checkLocation();
 
-    const selectedLatitude = this.getCurrentLocationCoordinates().latitude;
-    const selectedLongitude = this.getCurrentLocationCoordinates().longitude;
+    const storedLatitude = localStorage.getItem('latitude');
+    const storedLongitude = localStorage.getItem('longitude');
 
     const body = {
       'name': 'WEB-REPORTER',
-      'lat': selectedLatitude ? selectedLatitude : '1',
-      'lng': selectedLongitude ? selectedLongitude : '1',
-      // 'imageBase64': this.getImage(), TODO: send the image to sayvu
+      'lat': storedLatitude ? storedLatitude : '1',
+      'lng': storedLongitude ? storedLongitude : '1',
+      // 'imageBase64': this.getImage(),
       'imageBase64': '',
       'azimuth': this.currAzimuth,
       'description': description,
@@ -173,6 +168,9 @@ export class ReportService {
   }
 
   captureImage(event) {
+        // Move further, to next route
+        this.goToSupportMap();
+        /*
     if (event.target.files && event.target.files[0]) {
       this.reader.readAsDataURL(event.target.files[0]); // read file as data url
 
@@ -181,46 +179,14 @@ export class ReportService {
 
         // Hold the image in memory, to be used in the next state(route)
         this.setImage(this.imageBase64);
-
-        // Move further, to next route
-        this.goToCommentScreen();
 
         // as of now - immediately create a report to the server, description is ''
         this.upload('');
       };
-    }
+    }*/
   }
 
-  captureImageWithoutSending(event) {
-    if (event.target.files && event.target.files[0]) {
-      this.reader.readAsDataURL(event.target.files[0]); // read file as data url
-
-      this.reader.onload = (event: any) => { // called once readAsDataURL is completed
-        this.imageBase64 = event.target.result;
-
-        // Hold the image in memory, to be used in the next state(route)
-        this.setImage(this.imageBase64);
-      };
-    }
-  }
-
-  goToCommentScreen() {
-    this.router.navigate(['/comment']);
-  }
-
-  setSelectedLocationCoordinates(latitude: number, longtitude: number) {
-    this.selectedLocation = new Location(latitude, longtitude);
-  }
-
-  getSelectedLocationCoordinates() {
-    return this.selectedLocation;
-  }
-
-  setCurrentLocationCoordinates(latitude: number, longtitude: number) {
-    this.currentLocation = new Location(latitude, longtitude);
-  }
-
-  getCurrentLocationCoordinates() {
-    return this.currentLocation;
+  goToSupportMap() {
+    this.router.navigate(['/login']);
   }
 }

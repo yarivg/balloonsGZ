@@ -6,6 +6,7 @@
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
+  "image":"assets/icons/512.png",
   "icons": [
     {
       "src": "assets/icons/72.png",
