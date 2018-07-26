@@ -43,6 +43,6 @@ export class LoginPageComponent {
   }
   public getUser(socialPlatform: string) {
 
-  }
 
+  }
 }

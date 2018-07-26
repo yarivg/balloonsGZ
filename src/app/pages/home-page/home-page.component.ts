@@ -8,7 +8,7 @@ declare var $: any;
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css']
+  styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit, AfterViewInit {
 
@@ -30,20 +30,21 @@ export class HomePageComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.checkToken()
-    //this.reportSrv.checkLocation()
-    //this.reportSrv.checkAzimuth()
+    this.reportSrv.checkLocation()
+    this.reportSrv.checkAzimuth()
   }
   checkToken() {
     //localStorage.setItem('token', '')
     if (['undefined', '', null, undefined].includes(localStorage.getItem('token'))) {
       console.log('no token go to login')
       this.router.navigate(['/login']);
+    } else {
+      this.router.navigate(['/home']);
     }
   }
   // Handle loading screen div and homepage, in such a way
   // that simulates a real loading screen
   ngAfterViewInit() {
-
   }
 
   goToCommentScreen() {

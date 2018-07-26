@@ -38,18 +38,18 @@ export class AuthService {
       'profile_image':localStorage.getItem('picture'),
       'email': localStorage.getItem('email'),
     };
-    let dbURL = '';
-    console.log(body)
-    return 'hi'
-    /*
-    this.http.post(dbURL.toString() + `/api/login/signup`, body, options).subscribe(data => {
-      return data
+    let reportURL = '';
+    if (process.env.NODE_ENV !== 'production') {
+      reportURL = environment.config.serverBaseURL[1];
+    } else {
+      reportURL = environment.config.serverBaseURL[0];
+    }
+    this.http.post(reportURL.toString() + `/api/login/signup`, body, options).subscribe(data => {
+      return data.token
     }, error => {
-      // alert("אנחנו על זה.")
       console.error(error)
-      this.router.navigate(['/login']);
+      return null
     });
-    return '';*/
   }
 }
 export function getAuthServiceConfig() {

@@ -53,7 +53,7 @@
   text-align: -moz-center;
   display:  flex;
   flex-direction:  row;
-  justify-content:  space-evenly;
+  justify-content:  space-between;
   padding-bottom:  5%;
  }
 
@@ -92,13 +92,49 @@
   background-image: url(/assets/colored-kite.svg);
 }
 
-.comment textarea {
-  height: 4em;
-  border-radius: 20px;
-  background: transparent;
-  border: 2px solid gray;
-  padding: 5px;
-  outline: none;
+.comment{
+  justify-content: space-between;
+}
+
+
+@media screen and (max-width: 630px) {
+  .location-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@media screen and (min-width: 631px) {
+  .location-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.send-location-button {
+  background-color: #037c6d;
+  border-radius: 30px;
+  padding: 10px;
+  text-align: center;
+  border: none;
+  color: white;
+  box-shadow: 3px 3px 10px grey;
+  margin: auto;
+}
+
+.send-location-button:disabled {
+  border-radius: 30px;
+  padding: 10px;
+  text-align: center;
+  border: none;
+  color: white;
+  box-shadow: 3px 3px 10px grey;
+  margin: auto;
+  cursor: not-allowed;
+  background-color: grey;
 }
 
 .buttons {
@@ -153,15 +189,42 @@
   position: relative;
 }
 
-.radio {
+@mixin radio {
   cursor: pointer;
   transition: border 0.1s, background 0.1s;
   outline: none;
 }
 
-.radio:active {
-  transform: translateY(3px);
+@mixin radio-active {
+  cursor: pointer;
+  transition: border 0.1s, background 0.1s;
   outline: none;
+}
+
+.radio {
+  @include radio();
+}
+
+.radio:active {
+  @include radio-active();
+}
+
+.radio-3{
+  @include radio();
+  width: calc(((100vw - 30px)*10)/(12*3));
+}
+
+.radio-3:active {
+  @include radio-active();
+}
+
+.radio-4{
+  @include radio();
+  width: calc(((100vw - 30px)*10)/(12*4));
+}
+
+.radio-4:active {
+  @include radio-active();
 }
 
 .factor-icons .radio.selected {
@@ -174,6 +237,16 @@
   color: #FFF;
 }
 
+.buttons .radio-3.selected{
+  background-color: #037c6d;
+  color: #FFF;
+}
+
+.buttons .radio-4.selected{
+  background-color: #037c6d;
+  color: #FFF;
+}
+
 .btn-group {
   width: 100%;
   text-align: center;
@@ -182,10 +255,59 @@
 .page-column {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 86vh;
+  justify-content: space-evenly;
+  height: calc(100vh - 80px);
 }
 
 .subtitle{
   margin:auto;
+}
+
+.coordinates-subtitle {
+  margin: auto;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.column-item{
+  display: grid;
+}
+
+$small-button-size: 40px;
+
+@mixin comment-page-small-button {
+  width: $small-button-size;
+  height: $small-button-size;
+  background-color: #037c6d;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 60%;
+  padding: 0.5rem;
+  border-radius: 45px;
+  border: none;
+  outline: none;
+  z-index: 5;
+}
+
+.load-location-button {
+  @include comment-page-small-button();
+  background-image: url(/assets/define-location-48.png);
+}
+
+.load-image-button {
+  @include comment-page-small-button();
+  background-image: url(/assets/camera-4-48.png);
+}
+
+.comment-input {
+  height: 40px;
+  border-radius: 20px;
+  background: transparent;
+  border: 2px solid gray;
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: auto;
+  direction: ltr;
+  width: calc(100vw - 120px);
+  outline: none;
 }

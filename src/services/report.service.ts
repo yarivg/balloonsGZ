@@ -1,7 +1,10 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http'
 import {Injectable} from '@angular/core'
 import {Router} from '@angular/router'
+
 import * as environment from '../../configenv';
+
+import {Location} from '../app/models/Location';
 
 @Injectable()
 export class ReportService {
@@ -16,7 +19,10 @@ export class ReportService {
   // report data
   private category: string = '11'
   private imageBase64: string = ''
-  private reader: any = new FileReader()
+  private reader: any = new FileReader();
+
+  private selectedLocation:Location = null;
+  private currentLocation:Location = null;
 
   public getAzimuth() {
     return this.currAzimuth
@@ -69,8 +75,7 @@ export class ReportService {
       this.watchPosId = navigator.geolocation.watchPosition((position) => {
         this.currLocation = position.coords;
         console.log(position.coords);
-        localStorage.setItem("latitude", position.coords.latitude.toString());
-        localStorage.setItem("longitude", position.coords.longitude.toString());
+        this.setCurrentLocationCoordinates(position.coords.latitude, position.coords.longitude);
       }, (error) => {
         switch (error.code) {
           case error.PERMISSION_DENIED:
@@ -137,14 +142,14 @@ export class ReportService {
 
     this.checkLocation();
 
-    const storedLatitude = localStorage.getItem('latitude');
-    const storedLongitude = localStorage.getItem('longitude');
+    const selectedLatitude = this.getCurrentLocationCoordinates().latitude;
+    const selectedLongitude = this.getCurrentLocationCoordinates().longitude;
 
     const body = {
       'name': 'WEB-REPORTER',
-      'lat': storedLatitude ? storedLatitude : '1',
-      'lng': storedLongitude ? storedLongitude : '1',
-      // 'imageBase64': this.getImage(),
+      'lat': selectedLatitude ? selectedLatitude : '1',
+      'lng': selectedLongitude ? selectedLongitude : '1',
+      // 'imageBase64': this.getImage(), TODO: send the image to sayvu
       'imageBase64': '',
       'azimuth': this.currAzimuth,
       'description': description,
@@ -158,7 +163,7 @@ export class ReportService {
       reportURL = environment.config.serverBaseURL[0];
     }
     console.log(reportURL);
-    console.log(body)
+    console.log(body);
     this.http.post(reportURL.toString() + `/api/report`, body, options).subscribe(data => {
       // alert("עובדים על זה. תודה.")
 
@@ -189,7 +194,36 @@ export class ReportService {
     }
   }
 
+  captureImageWithoutSending(event) {
+    if (event.target.files && event.target.files[0]) {
+      this.reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      this.reader.onload = (event: any) => { // called once readAsDataURL is completed
+        this.imageBase64 = event.target.result;
+
+        // Hold the image in memory, to be used in the next state(route)
+        this.setImage(this.imageBase64);
+      };
+    }
+  }
+
   goToCommentScreen() {
     this.router.navigate(['/comment']);
+  }
+
+  setSelectedLocationCoordinates(latitude:number, longtitude:number){
+    this.selectedLocation = new Location(latitude, longtitude);
+  }
+
+  getSelectedLocationCoordinates(){
+    return this.selectedLocation;
+  }
+
+  setCurrentLocationCoordinates(latitude:number, longtitude:number){
+    this.currentLocation = new Location(latitude, longtitude);
+  }
+
+  getCurrentLocationCoordinates(){
+    return this.currentLocation;
   }
 }

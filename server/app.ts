@@ -4,18 +4,21 @@ import * as express from "express";
 import * as http from "http";
 import * as path from "path";
 
-import { reportRouter } from "./routes/report";
+import {config} from "../configenv";
 import { layerRouter } from "./routes/layers";
+import {loginRouter} from "./routes/login";
+import { reportRouter } from "./routes/report";
 import {supportGazaStripRouter} from "./routes/support_gaza_strip";
 
-let alonAPI = require("./routes/alon");
+const alonAPI = require("./routes/alon");
 
-let util = require("util");
-let https = require("https");
-let url = require("url");
-let bodyParser = require("body-parser");
+const util = require("util");
+const https = require("https");
+const url = require("url");
+const bodyParser = require("body-parser");
+const jwt = require("jsonwebtoken");
 
-let cors = require("cors");
+const cors = require("cors");
 const app: express.Application = express();
 
 app.disable("x-powered-by");
@@ -35,13 +38,48 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Credentials", "true");
     next();
 });
+app.use((req, res, next) => {
+  let secretToken;
+  // check header or url parameters or post parameters for token
+  const token = req.body.token || req.query.token || req.headers["x-access-token"];
+
+  // decode token
+  if (token) {
+    // verifies secret and checks exp
+    if (process.env.NODE_ENV !== "production") {
+      secretToken = config.secretToken[1];
+    } else {
+      secretToken = config.secretToken[0];
+    }
+    jwt.verify(token, secretToken, (err, decoded) => {
+      if (err) {
+        return res.json({success: false, message: "Failed to authenticate token."});
+      } else {
+        // if everything is good, save to request for use in other routes
+        req['decoded'] = decoded;
+        next();
+      }
+    });
+  } else if (
+    url == "/api/login/signup" ) {
+    next();
+  } else {
+    // if there is no token
+    // return an error
+    return res.status(403).send({
+      success: false,
+      message: 'No token provided.'
+    });
+  }
+});
 
 app.use("/api/token", alonAPI.router);
 app.use("/api/report", reportRouter);
 app.use("/api/layers", layerRouter);
+app.use("/api/login", loginRouter);
 app.use("/api/supportcitizens", supportGazaStripRouter);
 
-let polygonFilter = require("./utils/polygonFilter");
+const polygonFilter = require("./utils/polygonFilter");
 console.log("started");
 
 // if (app.get("env") === "production") {
