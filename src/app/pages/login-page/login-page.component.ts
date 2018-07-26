@@ -4,7 +4,6 @@ import {AuthService} from '../../../services/auth.service';
 import {Router, ActivatedRoute, Params} from '@angular/router';
 import {FacebookService, InitParams, LoginResponse} from 'ngx-facebook';
 import {ApiMethod} from 'ngx-facebook/dist/umd/providers/facebook';
-import {stringify} from 'querystring';
 
 @Component({
   selector: 'app-login-page',
@@ -28,7 +27,7 @@ export class LoginPageComponent {
       version: 'v2.8'
     };
 
-    this.fb.init(initParams);
+    this.fb.init(initParams);    
   }
 
   checkLogin() {
@@ -51,10 +50,10 @@ export class LoginPageComponent {
           'profile_image': response.picture.data.url,
           'email': response.email,
         };
+        localStorage.setItem('facebook_id', response.id);
         localStorage.setItem('userData', JSON.stringify(userData));
 
         this.authService.sendAuthReq();
-        this.router.navigate(['/home']);
       })
       .catch(err => {
         console.log(err);

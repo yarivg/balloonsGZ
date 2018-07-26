@@ -74,7 +74,6 @@ export class ReportService {
     if (navigator.geolocation) {
       this.watchPosId = navigator.geolocation.watchPosition((position) => {
         this.currLocation = position.coords;
-        console.log(position.coords);
         this.setCurrentLocationCoordinates(position.coords.latitude, position.coords.longitude);
       }, (error) => {
         switch (error.code) {
@@ -151,7 +150,8 @@ export class ReportService {
       'azimuth': this.currAzimuth,
       'description': description,
       'category': '11', // TODO - balloon, kite, fire
-      'userToken': localStorage.getItem('userToken')
+      'userToken': localStorage.getItem('userToken'),
+      'token': localStorage.getItem('token'),
     };
     let reportURL = '';
     if (process.env.NODE_ENV !== 'production') {

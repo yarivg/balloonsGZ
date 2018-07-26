@@ -1,6 +1,6 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import * as environment from '../../.configenv';
 
 @Injectable()
@@ -124,29 +124,19 @@ export class SupportService {
     }
   }
 
-  upload(description: string) {
+  upload() {
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       })
     };
-
-    this.checkLocation();
-
-    const storedLatitude = localStorage.getItem('latitude');
-    const storedLongitude = localStorage.getItem('longitude');
-
     const body = {
-      'name': 'WEB-REPORTER',
-      'lat': storedLatitude ? storedLatitude : '1',
-      'lng': storedLongitude ? storedLongitude : '1',
-      // 'imageBase64': this.getImage(),
-      'imageBase64': '',
-      'azimuth': this.currAzimuth,
-      'description': description,
-      'category': '11', // TODO - balloon, kite, fire
-      'userToken': localStorage.getItem('userToken')
+      'image': this.getImage(),
+      'lat':  localStorage.getItem('latitude'),
+      'lng': localStorage.getItem('longitude'),
+      'facebook_id': localStorage.getItem('facebook_id'),
+      'token':localStorage.getItem('token'),
     };
     let reportURL = '';
     if (process.env.NODE_ENV !== 'production') {
@@ -156,21 +146,14 @@ export class SupportService {
     }
     console.log(reportURL);
     console.log(body);
-    this.http.post(reportURL.toString() + `/api/report`, body, options).subscribe(data => {
-      // alert("עובדים על זה. תודה.")
-
-      // this.router.navigate(['/map']);
+    this.http.post(reportURL.toString() + `/api/support`, body, options).subscribe(data => {
+      console.log(data);
     }, error => {
-      // alert("אנחנו על זה.")
       console.error(error);
-      // this.router.navigate(['/map']);
     });
   }
 
   captureImage(event) {
-        // Move further, to next route
-        this.goToSupportMap();
-        /*
     if (event.target.files && event.target.files[0]) {
       this.reader.readAsDataURL(event.target.files[0]); // read file as data url
 
@@ -179,14 +162,14 @@ export class SupportService {
 
         // Hold the image in memory, to be used in the next state(route)
         this.setImage(this.imageBase64);
-
-        // as of now - immediately create a report to the server, description is ''
-        this.upload('');
+        this.upload()
+        // Move further, to next route
+        this.goToSupportMap();
       };
-    }*/
+    }
   }
 
   goToSupportMap() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/map']);
   }
 }

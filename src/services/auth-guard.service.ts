@@ -9,10 +9,12 @@ export class AuthGuardService implements CanActivate {
 
   canActivate(): boolean {
     if (!this.auth.isAuthenticated()) {
+      console.log('no token')
+      this.router.navigate(['/login']);
       //connect with facebook or phone number
-      this.router.navigate(['login']);
       return false;
     }
+    console.log('yes token')
     return true;
   }
 

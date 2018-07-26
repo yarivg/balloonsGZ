@@ -17,6 +17,7 @@ import { reportRouter } from '../../server/routes/report';
 import { ReportService } from '../services/report.service';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 import { EndingPageComponent } from './pages/ending-page/ending-page.component';
+import { SupportPageComponent } from './pages/support-page/support-page.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import {MapPageComponent} from './pages/map-page/map-page.component';
 import {LayersService} from '../services/layers.service';
@@ -28,6 +29,7 @@ import {LoginPageComponent} from './pages/login-page/login-page.component';
 import {AuthServiceConfig, SocialLoginModule} from 'angular-6-social-login';
 import {getAuthServiceConfig} from '../services/auth.service';
 import {AuthService} from '../services/auth.service';
+import {AuthGuardService} from '../services/auth-guard.service';
 import {FacebookModule} from "ngx-facebook";
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
@@ -39,14 +41,16 @@ const APP_COMPONENTS = [
   EndingPageComponent,
   MapPageComponent,
   MarkerDescriptionComponent,
-  LoginPageComponent
+  LoginPageComponent,
+  SupportPageComponent
 ];
 
 const APP_SERVICES = [
   LayersService,
   ReportService,
   SupportService,
-  AuthService
+  AuthService,
+  AuthGuardService
 ];
 
 const APP_MODULES = [

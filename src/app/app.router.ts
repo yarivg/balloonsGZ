@@ -10,11 +10,11 @@ import { MapPageComponent } from './pages/map-page/map-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthGuardService as AuthGuard } from '../services/auth-guard.service';
 const routes: Routes = [
-  { path: 'home', component: HomePageComponent},
-  { path: 'capture', component: CapturePageComponent },
-  { path: 'comment', component: CommentPageComponent },
-  { path: 'ending', component: EndingPageComponent },
-  { path: 'map', component: MapPageComponent },
+  { path: 'home', component: HomePageComponent, canActivate: [AuthGuard]},
+  { path: 'capture', component: CapturePageComponent, canActivate: [AuthGuard] },
+  { path: 'comment', component: CommentPageComponent, canActivate: [AuthGuard] },
+  { path: 'ending', component: EndingPageComponent, canActivate: [AuthGuard] },
+  { path: 'map', component: MapPageComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginPageComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' }
