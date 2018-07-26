@@ -4,7 +4,7 @@ import * as express from "express";
 import * as http from "http";
 import * as path from "path";
 
-import {config} from "../configenv";
+import {config} from "../.configenv";
 import { layerRouter } from "./routes/layers";
 import {loginRouter} from "./routes/login";
 import { reportRouter } from "./routes/report";
@@ -40,6 +40,9 @@ app.use((req, res, next) => {
 });
 app.use((req, res, next) => {
   let secretToken;
+
+  const url = req.url.toLowerCase();
+
   // check header or url parameters or post parameters for token
   const token = req.body.token || req.query.token || req.headers["x-access-token"];
 
@@ -56,7 +59,7 @@ app.use((req, res, next) => {
         return res.json({success: false, message: "Failed to authenticate token."});
       } else {
         // if everything is good, save to request for use in other routes
-        req['decoded'] = decoded;
+        req["decoded"] = decoded;
         next();
       }
     });
@@ -66,9 +69,10 @@ app.use((req, res, next) => {
   } else {
     // if there is no token
     // return an error
+    console.log(url);
     return res.status(403).send({
       success: false,
-      message: 'No token provided.'
+      message: "No token provided.",
     });
   }
 });

@@ -1,7 +1,7 @@
 import {pbkdf2, randomBytes} from "crypto";
 import {NextFunction, Request, Response, Router} from "express";
 import {sign} from "jsonwebtoken";
-import {config} from "../../configenv";
+import {config} from "../../.configenv";
 import {digest, length, secret} from "../config";
 import {mongoose} from "../dal/connection";
 import {User} from "../models/User";
@@ -21,44 +21,59 @@ const user = {
 };
 
 loginRouter.post("/signup", (request: Request, response: Response, next: NextFunction) => {
-    let data;
-    let secretToken;
-    let condition;
+  let data;
+  let secretToken;
+  let condition;
+  if (request.body.hasOwnProperty("phone_number") && (request.body.phone_number !== "")) {
+    condition = {phone_number: request.body.phone_number};
+  } else if (request.body.hasOwnProperty("facebook_id")) {
+    condition = {facebook_id: request.body.facebook_id};
+  } else {
+    const err = new Error("No phone number nor facebook entered");
+    response.send(err).status(400).end();
+    return;
+  }
+  const newUser = {
+    facebook_id: request.body.facebook_id,
+    name: request.body.name,
+    phone_number: request.body.phoneNumber,
+    profile_image: request.body.profile_image,
+    user_support_images: [],
+  };
 
-    if (request.body.hasOwnProperty("phone_number")) {
-      condition = {phone_number: request.body.phone_number};
-    } else if (request.body.hasOwnProperty("facebook_id")) {
-      condition = {facebook_id: request.body.facebook_id};
-    } else {
-      const err = new Error("No phone number nor facebook entered");
+  User.findOneAndUpdate(condition, {$set: newUser}, {upsert: true, new: true}, (err, user) => {
+    console.log("X!!!");
+    if (err) {
+      console.log(err);
+      console.log("X6!X");
       response.send(err).status(400).end();
       return;
+    } else if (!user) {
+      console.log("X5!X");
+      response.send("Something went wrong, no user was created, sowwie").status(400).end();
+      return;
     }
-    User.findOneAndUpdate(condition, user, {strict: false}, (err, user) => {
-      if (err) {
-        response.send(err).status(400).end();
-        return;
-      } else if (!user) {
-        response.send("Something went wrong, no user was created, sowwie").status(400).end();
-        return;
-      }
-      if (process.env.NODE_ENV !== "production") {
-        secretToken = config.secretToken[1];
-      } else {
-        secretToken = config.secretToken[0];
-      }
-
-      const stringToken = (sign({
-        _id: user._doc._id,
-        expiration: moment({}).add(200, "hours").valueOf(),
-        fullName: user._doc.fullName,
-        phoneNumber: user._doc.phoneNumber,
-      }, secretToken));
-      data = {
-        token: stringToken,
-      };
-      response.send(data).status(200).end();
-    });
+    console.log("X2");
+    if (process.env.NODE_ENV !== "production") {
+      console.log("X3");
+      secretToken = config.secretToken[1];
+    } else {
+      console.log("X4");
+      secretToken = config.secretToken[0];
+    }
+    console.log(user)
+    const stringToken = (sign({
+      _id: user._doc._id,
+      expiration: moment({}).add(200, "hours").valueOf(),
+      fullName: user._doc.fullName,
+      phoneNumber: user._doc.phoneNumber,
+    }, secretToken));
+    data = {
+      token: stringToken,
+    };
+    console.log(data);
+    response.send(data).status(200).end();
+  });
 });
 
 // login method

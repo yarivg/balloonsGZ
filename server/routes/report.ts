@@ -1,6 +1,6 @@
 import {Request, Response, Router} from "express";
 import * as uuid from "uuid";
-import * as environment from "../../configenv";
+import * as environment from "../../.configenv";
 
 const isInPolygon = require("../utils/polygonFilter").isInPolygon;
 const _ = require("lodash");

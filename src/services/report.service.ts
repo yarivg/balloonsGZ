@@ -1,47 +1,47 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http'
-import {Injectable} from '@angular/core'
-import {Router} from '@angular/router'
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 
-import * as environment from '../../configenv';
+import * as environment from '../../.configenv';
 
 import {Location} from '../app/models/Location';
 
 @Injectable()
 export class ReportService {
-  private image: string = null
-  private _window: any
-  private watchPosId: number
+  private image: string = null;
+  private _window: any;
+  private watchPosId: number;
 
-  public currLocation: any
-  private currAzimuth: number = 0
-  private whatsappSharingUrl: string = ''
+  public currLocation: any;
+  private currAzimuth = 0;
+  private whatsappSharingUrl = '';
 
   // report data
-  private category: string = '11'
-  private imageBase64: string = ''
+  private category = '11';
+  private imageBase64 = '';
   private reader: any = new FileReader();
 
-  private selectedLocation:Location = null;
-  private currentLocation:Location = null;
+  private selectedLocation: Location = null;
+  private currentLocation: Location = null;
 
   public getAzimuth() {
-    return this.currAzimuth
+    return this.currAzimuth;
   }
 
   public setCategory(catValue: string) {
-    this.category = catValue
+    this.category = catValue;
   }
 
   public setWhatsappSharingUrl(whatsappSharingUrl: string) {
-    this.whatsappSharingUrl = whatsappSharingUrl
+    this.whatsappSharingUrl = whatsappSharingUrl;
   }
 
   public getWhatsappSharingUrl() {
-    return this.whatsappSharingUrl
+    return this.whatsappSharingUrl;
   }
 
   constructor(private http: HttpClient, private router: Router) {
-    this._window = window
+    this._window = window;
   }
 
   /**
@@ -63,7 +63,7 @@ export class ReportService {
    *   @returns {String}
    */
   getImage() {
-    return this.image
+    return this.image;
   }
 
 
@@ -90,7 +90,7 @@ export class ReportService {
             // alert("The request to get user location timed out.")
             break;
         }
-      })
+      });
     }
   }
 
@@ -107,33 +107,30 @@ export class ReportService {
   checkAzimuth() {
     // Check if device can provide absolute orientation data
     if ('DeviceOrientationAbsoluteEvent' in window) {
-      this._window.addEventListener("DeviceOrientationAbsoluteEvent", (event: any) => {
-        this.deviceOrientationHandler(event)
-      })
-    } // If not, check if the device sends any orientation data
-    else if ('DeviceOrientationEvent' in window) {
-      this._window.addEventListener("deviceorientation", (event: any) => {
-        this.deviceOrientationHandler(event)
+      this._window.addEventListener('DeviceOrientationAbsoluteEvent', (event: any) => {
+        this.deviceOrientationHandler(event);
       });
-    } // Send an alert if the device isn't compatible
-    else {
-      alert("Sorry, try again on a compatible mobile device!");
+    } else if ('DeviceOrientationEvent' in window) {
+      this._window.addEventListener('deviceorientation', (event: any) => {
+        this.deviceOrientationHandler(event);
+      });
+    } else {
+      alert('Sorry, try again on a compatible mobile device!');
     }
   }
 
   deviceOrientationHandler(event: any) {
-    //Check if absolute values have been sent
-    if (typeof event.webkitCompassHeading !== "undefined") {
-      this.currAzimuth = event.webkitCompassHeading; //iOS non-standard
-    }
-    else {
-      this.currAzimuth = 360 - event.alpha
+    // Check if absolute values have been sent
+    if (typeof event.webkitCompassHeading !== 'undefined') {
+      this.currAzimuth = event.webkitCompassHeading; // iOS non-standard
+    } else {
+      this.currAzimuth = 360 - event.alpha;
       // this.isRelativeAzimuth = true
     }
   }
 
   upload(description: string) {
-    let options = {
+    const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
@@ -153,7 +150,7 @@ export class ReportService {
       'imageBase64': '',
       'azimuth': this.currAzimuth,
       'description': description,
-      'category': '11',// TODO - balloon, kite, fire
+      'category': '11', // TODO - balloon, kite, fire
       'userToken': localStorage.getItem('userToken')
     };
     let reportURL = '';
@@ -170,7 +167,7 @@ export class ReportService {
       // this.router.navigate(['/map']);
     }, error => {
       // alert("אנחנו על זה.")
-      console.error(error)
+      console.error(error);
       // this.router.navigate(['/map']);
     });
   }
@@ -211,19 +208,19 @@ export class ReportService {
     this.router.navigate(['/comment']);
   }
 
-  setSelectedLocationCoordinates(latitude:number, longtitude:number){
+  setSelectedLocationCoordinates(latitude: number, longtitude: number) {
     this.selectedLocation = new Location(latitude, longtitude);
   }
 
-  getSelectedLocationCoordinates(){
+  getSelectedLocationCoordinates() {
     return this.selectedLocation;
   }
 
-  setCurrentLocationCoordinates(latitude:number, longtitude:number){
+  setCurrentLocationCoordinates(latitude: number, longtitude: number) {
     this.currentLocation = new Location(latitude, longtitude);
   }
 
-  getCurrentLocationCoordinates(){
+  getCurrentLocationCoordinates() {
     return this.currentLocation;
   }
 }

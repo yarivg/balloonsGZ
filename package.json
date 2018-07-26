@@ -69,6 +69,7 @@
     "moment": "^2.22.2",
     "mongoose": "^5.2.5",
     "ngrx-store-freeze": "^0.2.4",
+    "ngx-facebook": "^2.4.0",
     "normalize.css": "^8.0.0",
     "path": "^0.12.7",
     "performance-now": "^2.1.0",

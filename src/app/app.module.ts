@@ -26,8 +26,9 @@ import {AgmCoreModule} from '@agm/core';
 import {MarkerDescriptionComponent} from './pages/map-page/marker-description/marker-description.component';
 import {LoginPageComponent} from './pages/login-page/login-page.component';
 import {AuthServiceConfig, SocialLoginModule} from 'angular-6-social-login';
-import {getAuthServiceConfig} from "../services/auth.service";
-import {AuthService} from "../services/auth.service";
+import {getAuthServiceConfig} from '../services/auth.service';
+import {AuthService} from '../services/auth.service';
+import {FacebookModule} from "ngx-facebook";
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
@@ -48,17 +49,22 @@ const APP_SERVICES = [
   AuthService
 ];
 
+const APP_MODULES = [
+  FacebookModule.forRoot(),
+  BrowserModule,
+  FormsModule,
+  SocialLoginModule,
+  HttpClientModule,
+  HttpModule
+];
+
 @NgModule({
   declarations: [
     AppComponent,
     ...APP_COMPONENTS
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    SocialLoginModule,
-    HttpClientModule,
-    HttpModule,
+    ...APP_MODULES,
     !environment.production ? StoreDevtoolsModule.instrument({maxAge: 50}) : [],
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAYT3aC83fuuZNXhGZj-SHPTvaLoooAK6c'

@@ -1,18 +1,18 @@
-import * as environment from '../../configenv';
+import * as environment from '../../.configenv';
 import {
   FacebookLoginProvider, AuthServiceConfig, GoogleLoginProvider,
   LinkedinLoginProvider
 } from 'angular-6-social-login';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Injectable } from '@angular/core'
-import { Router } from '@angular/router'
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
 
-  private _window: any
+  private _window: any;
   constructor(private http: HttpClient, private router: Router) {
-    this._window = window
+    this._window = window;
   }
 
   public isAuthenticated(): boolean {
@@ -23,21 +23,15 @@ export class AuthService {
     // true or false
     return true;
   }
-  public sendAuthReq(): string {
+  public sendAuthReq() {
 
-    let options = {
+    const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       })
     };
-    const body = {
-      'facebook_id': localStorage.getItem('uid'),
-      'name':     localStorage.getItem('name'),
-      'phone_number': '',
-      'profile_image':localStorage.getItem('picture'),
-      'email': localStorage.getItem('email'),
-    };
+    const body = JSON.parse(localStorage.getItem('userData'));
     let reportURL = '';
     if (process.env.NODE_ENV !== 'production') {
       reportURL = environment.config.serverBaseURL[1];
@@ -45,10 +39,10 @@ export class AuthService {
       reportURL = environment.config.serverBaseURL[0];
     }
     this.http.post(reportURL.toString() + `/api/login/signup`, body, options).subscribe(data => {
-      return data.token
+      console.log(data);
+      localStorage.setItem('token', data['token']);
     }, error => {
-      console.error(error)
-      return null
+      console.error(error);
     });
   }
 }

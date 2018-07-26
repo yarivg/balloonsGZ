@@ -1,41 +1,41 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http'
-import {Injectable} from '@angular/core'
-import {Router} from '@angular/router'
-import * as environment from '../../configenv';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import * as environment from '../../.configenv';
 
 @Injectable()
 export class SupportService {
-  private image: string = null
-  private _window: any
-  private watchPosId: number
+  private image: string = null;
+  private _window: any;
+  private watchPosId: number;
 
-  public currLocation: any
-  private currAzimuth: number = 0
-  private whatsappSharingUrl: string = ''
+  public currLocation: any;
+  private currAzimuth = 0;
+  private whatsappSharingUrl = '';
 
   // report data
-  private category: string = '11'
-  private imageBase64: string = ''
-  private reader: any = new FileReader()
+  private category = '11';
+  private imageBase64 = '';
+  private reader: any = new FileReader();
 
   public getAzimuth() {
-    return this.currAzimuth
+    return this.currAzimuth;
   }
 
   public setCategory(catValue: string) {
-    this.category = catValue
+    this.category = catValue;
   }
 
   public setWhatsappSharingUrl(whatsappSharingUrl: string) {
-    this.whatsappSharingUrl = whatsappSharingUrl
+    this.whatsappSharingUrl = whatsappSharingUrl;
   }
 
   public getWhatsappSharingUrl() {
-    return this.whatsappSharingUrl
+    return this.whatsappSharingUrl;
   }
 
   constructor(private http: HttpClient, private router: Router) {
-    this._window = window
+    this._window = window;
   }
 
   /**
@@ -57,7 +57,7 @@ export class SupportService {
    *   @returns {String}
    */
   getImage() {
-    return this.image
+    return this.image;
   }
 
 
@@ -69,8 +69,8 @@ export class SupportService {
       this.watchPosId = navigator.geolocation.watchPosition((position) => {
         this.currLocation = position.coords;
         console.log(position.coords);
-        localStorage.setItem("latitude", position.coords.latitude.toString());
-        localStorage.setItem("longitude", position.coords.longitude.toString());
+        localStorage.setItem('latitude', position.coords.latitude.toString());
+        localStorage.setItem('longitude', position.coords.longitude.toString());
       }, (error) => {
         switch (error.code) {
           case error.PERMISSION_DENIED:
@@ -85,7 +85,7 @@ export class SupportService {
             // alert("The request to get user location timed out.")
             break;
         }
-      })
+      });
     }
   }
 
@@ -102,33 +102,30 @@ export class SupportService {
   checkAzimuth() {
     // Check if device can provide absolute orientation data
     if ('DeviceOrientationAbsoluteEvent' in window) {
-      this._window.addEventListener("DeviceOrientationAbsoluteEvent", (event: any) => {
-        this.deviceOrientationHandler(event)
-      })
-    } // If not, check if the device sends any orientation data
-    else if ('DeviceOrientationEvent' in window) {
-      this._window.addEventListener("deviceorientation", (event: any) => {
-        this.deviceOrientationHandler(event)
+      this._window.addEventListener('DeviceOrientationAbsoluteEvent', (event: any) => {
+        this.deviceOrientationHandler(event);
       });
-    } // Send an alert if the device isn't compatible
-    else {
-      alert("Sorry, try again on a compatible mobile device!");
+    } else if ('DeviceOrientationEvent' in window) {
+      this._window.addEventListener('deviceorientation', (event: any) => {
+        this.deviceOrientationHandler(event);
+      });
+    } else {
+      alert('Sorry, try again on a compatible mobile device!');
     }
   }
 
   deviceOrientationHandler(event: any) {
-    //Check if absolute values have been sent
-    if (typeof event.webkitCompassHeading !== "undefined") {
-      this.currAzimuth = event.webkitCompassHeading; //iOS non-standard
-    }
-    else {
-      this.currAzimuth = 360 - event.alpha
+    // Check if absolute values have been sent
+    if (typeof event.webkitCompassHeading !== 'undefined') {
+      this.currAzimuth = event.webkitCompassHeading; // iOS non-standard
+    } else {
+      this.currAzimuth = 360 - event.alpha;
       // this.isRelativeAzimuth = true
     }
   }
 
   upload(description: string) {
-    let options = {
+    const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
@@ -148,7 +145,7 @@ export class SupportService {
       'imageBase64': '',
       'azimuth': this.currAzimuth,
       'description': description,
-      'category': '11',// TODO - balloon, kite, fire
+      'category': '11', // TODO - balloon, kite, fire
       'userToken': localStorage.getItem('userToken')
     };
     let reportURL = '';
@@ -158,21 +155,21 @@ export class SupportService {
       reportURL = environment.config.serverBaseURL[0];
     }
     console.log(reportURL);
-    console.log(body)
+    console.log(body);
     this.http.post(reportURL.toString() + `/api/report`, body, options).subscribe(data => {
       // alert("עובדים על זה. תודה.")
 
       // this.router.navigate(['/map']);
     }, error => {
       // alert("אנחנו על זה.")
-      console.error(error)
+      console.error(error);
       // this.router.navigate(['/map']);
     });
   }
 
   captureImage(event) {
         // Move further, to next route
-        this.goToSupportMap()
+        this.goToSupportMap();
         /*
     if (event.target.files && event.target.files[0]) {
       this.reader.readAsDataURL(event.target.files[0]); // read file as data url
