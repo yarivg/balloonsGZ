@@ -1,9 +1,13 @@
-import { pbkdf2, randomBytes } from "crypto";
-import { NextFunction, Request, Response, Router } from "express";
-import { sign } from "jsonwebtoken";
-import { digest, length, secret } from "../config";
+import {pbkdf2, randomBytes} from "crypto";
+import {NextFunction, Request, Response, Router} from "express";
+import {sign} from "jsonwebtoken";
+import {config} from "../../.configenv";
+import {digest, length, secret} from "../config";
+import {mongoose} from "../dal/connection";
+import {User} from "../models/User";
 
 const loginRouter: Router = Router();
+import * as moment from "moment";
 
 const user = {
   hashedPassword: "6fb3a68cb5fe34d0c2c9fc3807c8fa9bc0e7dd10023065ea4233d40a2d6bb4a" +
@@ -17,19 +21,44 @@ const user = {
 };
 
 loginRouter.post("/signup", (request: Request, response: Response, next: NextFunction) => {
-  if (!request.body.hasOwnProperty("password")) {
-    const err = new Error("No password");
-    return next(err);
-  }
+    let data;
+    let secretToken;
+    let condition;
 
-  const salt = randomBytes(128).toString("base64");
+    if (request.body.hasOwnProperty("phone_number")) {
+      condition = {phone_number: request.body.phone_number};
+    } else if (request.body.hasOwnProperty("facebook_id")) {
+      condition = {facebook_id: request.body.facebook_id};
+    } else {
+      const err = new Error("No phone number nor facebook entered");
+      response.send(err).status(400).end();
+      return;
+    }
+    User.findOneAndUpdate(condition, user, {strict: false}, (err, user) => {
+      if (err) {
+        response.send(err).status(400).end();
+        return;
+      } else if (!user) {
+        response.send("Something went wrong, no user was created, sowwie").status(400).end();
+        return;
+      }
+      if (process.env.NODE_ENV !== "production") {
+        secretToken = config.secretToken[1];
+      } else {
+        secretToken = config.secretToken[0];
+      }
 
-  pbkdf2(request.body.password, salt, 10000, length, digest, (err: Error, hash: Buffer) => {
-    response.json({
-      hashed: hash.toString("hex"),
-      salt,
+      const stringToken = (sign({
+        _id: user._doc._id,
+        expiration: moment({}).add(200, "hours").valueOf(),
+        fullName: user._doc.fullName,
+        phoneNumber: user._doc.phoneNumber,
+      }, secretToken));
+      data = {
+        token: stringToken,
+      };
+      response.send(data).status(200).end();
     });
-  });
 });
 
 // login method
@@ -42,15 +71,15 @@ loginRouter.post("/", (request: Request, response: Response, next: NextFunction)
 
     // check if password is active
     if (hash.toString("hex") !== user.hashedPassword) {
-      return response.json({ message: "Wrong password" });
+      return response.json({message: "Wrong password"});
     }
 
-    const toSign = Object.assign({}, { user: user.username, permissions: [] });
-    const token = sign(toSign, secret, { expiresIn: "7d" });
+    const toSign = Object.assign({}, {user: user.username, permissions: []});
+    const token = sign(toSign, secret, {expiresIn: "7d"});
 
-    return response.json({ jwt: token });
+    return response.json({jwt: token});
 
   });
 });
 
-export { loginRouter };
+export {loginRouter};
