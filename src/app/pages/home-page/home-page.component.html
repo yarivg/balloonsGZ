@@ -1,8 +1,9 @@
 <div class="home-container">
   <div class="row-with-vertical-centered-items">
     <button class="main-button" (click)="buttonClicked()">שלח דיווח</button>
-    <button class="main-button" (click)="buttonClicked()">תמוך בעוטף</button>
+    <button class="main-button" (click)="supportButtonClicked()">תמוך בעוטף</button>
     <input id="file" type="file" accept="image/*" capture="environment" (change)="reportService.captureImage($event)">
+    <input id="supportfile" type="file" accept="image/*" capture="environment" (change)="supportService.captureImage($event)">
   </div>
   <div class="row-with-vertical-centered-items">
     <button class="police-button" (click)="buttonClicked()">
