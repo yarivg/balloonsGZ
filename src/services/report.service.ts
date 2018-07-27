@@ -45,6 +45,7 @@ export class ReportService {
 
   constructor(private http: HttpClient, private router: Router) {
     this._window = window;
+    this.checkLocation();
   }
 
   /**
