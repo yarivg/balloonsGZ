@@ -6,21 +6,24 @@ import {Location} from '../app/models/Location';
 
 @Injectable()
 export class ReportService {
-  private image: string = null
-  private _window: any
-  private watchPosId: number
+  private image: string = null;
+  private _window: any;
+  private watchPosId: number;
 
-  public currLocation: any
-  private currAzimuth: number = 0
-  private whatsappSharingUrl: string = ''
+  public currLocation: any;
+  private currAzimuth: number = 0;
+  private whatsappSharingUrl: string = '';
 
   // report data
-  private category: string = '11'
-  private imageBase64: string = ''
+  private category: string = '11';
+  private imageBase64: string = '';
   private reader: any = new FileReader();
 
   private selectedLocation:Location = null;
   private currentLocation:Location = null;
+
+  private supportImage:any = null;
+  private supportImageBase64:any = null;
 
   public getAzimuth() {
     return this.currAzimuth
@@ -209,6 +212,10 @@ export class ReportService {
     this.router.navigate(['/comment']);
   }
 
+  goToMapScreen() {
+    this.router.navigate(['/map']);
+  }
+
   setSelectedLocationCoordinates(latitude:number, longtitude:number){
     this.selectedLocation = new Location(latitude, longtitude);
   }
@@ -224,4 +231,13 @@ export class ReportService {
   getCurrentLocationCoordinates(){
     return this.currentLocation;
   }
+
+  sendInitialReportAndMoveToMapScreen(){
+    // Move further, to next route
+    this.goToMapScreen();
+
+    // as of now - immediately create a report to the server, description is ''
+    this.upload('');
+  }
+
 }
