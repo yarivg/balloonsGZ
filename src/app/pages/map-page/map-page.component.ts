@@ -29,7 +29,7 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   markers: Marker[] = [];
   currentLocationMarker: Marker = new Marker();
   selectedLocationMarker: Marker = new Marker();
-  mapTypeId: string = 'satellite';
+  mapTypeId: string = 'roadmap';
   googleMap: google.maps.Map = null;
   locationName:string;
 
@@ -47,6 +47,7 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.initializeCurrentLocation();
     this.layersService.getLayers()
       .then(res => {
         const responseBody = JSON.parse(res['_body']);
@@ -99,7 +100,9 @@ export class MapPageComponent implements OnInit, AfterViewInit {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
         this.currentLocation = position.coords;
-        this.currentLocationMarker = addMarkerWithIcon(this.lat, this.lng, 'assets/circle-16.png');
+        if (this.isCurrentLocationMarkerInitialized()) {
+          this.currentLocationMarker = addMarkerWithIcon(this.lat, this.lng, 'assets/circle-16.png');
+        }
         if (!this.isSelectedLocationValid()) {
           this.setSelectedLongitude(this.currentLocation.longitude.toString());
           this.setSelectedLatitude(this.currentLocation.latitude.toString());
@@ -120,6 +123,13 @@ export class MapPageComponent implements OnInit, AfterViewInit {
         }
       });
     }
+  }
+
+  initializeCurrentLocation() {
+    this.currentLocation = this.reportService.getCurrentLocationCoordinates();
+    this.lat = this.reportService.getCurrentLocationCoordinates().latitude;
+    this.lng = this.reportService.getCurrentLocationCoordinates().longitude;
+    this.centerMap();
   }
 
   centerMap() {
@@ -145,6 +155,10 @@ export class MapPageComponent implements OnInit, AfterViewInit {
 
   isSelectedLocationValid() {
     return !isNullOrUndefined(this.selectedLocationMarker.latitude) && !isNullOrUndefined(this.selectedLocationMarker.longitude);
+  }
+
+  isCurrentLocationMarkerInitialized() {
+    return !isNullOrUndefined(this.currentLocationMarker.latitude) && !isNullOrUndefined(this.currentLocationMarker.longitude);
   }
 
   setSelectedLatitude(latitude: string) {
