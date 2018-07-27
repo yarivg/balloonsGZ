@@ -234,9 +234,6 @@ export class ReportService {
   sendInitialReportAndMoveToMapScreen(){
     // Move further, to next route
     this.goToMapScreen();
-
-    // as of now - immediately create a report to the server, description is ''
-    this.upload('');
   }
 
 }
