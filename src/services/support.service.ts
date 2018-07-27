@@ -131,13 +131,11 @@ export class SupportService {
         'Access-Control-Allow-Origin': '*'
       })
     };
-    const body = {
-      'image': this.getImage(),
-      'lat':  localStorage.getItem('latitude'),
-      'lng': localStorage.getItem('longitude'),
-      'facebook_id': localStorage.getItem('facebook_id'),
-      'token':localStorage.getItem('token'),
-    };
+    
+    let body = JSON.parse(localStorage.getItem('userData'));
+    body['image'] =this.getImage();
+    body['lat'] = localStorage.getItem('latitude');
+    body['lng'] = localStorage.getItem('longitude');
     let reportURL = '';
     if (process.env.NODE_ENV !== 'production') {
       reportURL = environment.config.serverBaseURL[1];
@@ -146,11 +144,12 @@ export class SupportService {
     }
     console.log(reportURL);
     console.log(body);
-    this.http.post(reportURL.toString() + `/api/support`, body, options).subscribe(data => {
+    //until support service will work, just replace line in db
+    this.http.post(reportURL.toString() + '/api/login/signup', body, options).subscribe(data => {
       console.log(data);
     }, error => {
       console.error(error);
-    });
+    });    
   }
 
   captureImage(event) {

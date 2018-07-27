@@ -4,11 +4,11 @@ import * as express from "express";
 import * as http from "http";
 import * as path from "path";
 
-import {config} from "../.configenv";
+import { config } from "../.configenv";
 import { layerRouter } from "./routes/layers";
-import {loginRouter} from "./routes/login";
+import { loginRouter } from "./routes/login";
 import { reportRouter } from "./routes/report";
-import {supportGazaStripRouter} from "./routes/support_gaza_strip";
+import { supportRouter } from "./routes/support_gaza_strip";
 
 const alonAPI = require("./routes/alon");
 
@@ -23,20 +23,20 @@ const app: express.Application = express();
 
 app.disable("x-powered-by");
 
-app.use(bodyParser.json({limit: "50mb"}));
-app.use(bodyParser.urlencoded({limit: "50mb", extended: true}));
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors());
 
 // Add headers - enable cors
 app.use((req, res, next) => {
-    // Website you wish to allow to connect
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    // Request methods you wish to allow
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
-    // Request headers you wish to allow
-    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
-    res.header("Access-Control-Allow-Credentials", "true");
-    next();
+  // Website you wish to allow to connect
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  // Request methods you wish to allow
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  // Request headers you wish to allow
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
 });
 app.use((req, res, next) => {
   let secretToken;
@@ -56,7 +56,7 @@ app.use((req, res, next) => {
     }
     jwt.verify(token, secretToken, (err, decoded) => {
       if (err) {
-        return res.json({success: false, message: "Failed to authenticate token."});
+        return res.json({ success: false, message: "Failed to authenticate token." });
       } else {
         // if everything is good, save to request for use in other routes
         req["decoded"] = decoded;
@@ -81,15 +81,15 @@ app.use("/api/token", alonAPI.router);
 app.use("/api/report", reportRouter);
 app.use("/api/layers", layerRouter);
 app.use("/api/login", loginRouter);
-app.use("/api/supportcitizens", supportGazaStripRouter);
+app.use("/api/support", supportRouter);
 
 const polygonFilter = require("./utils/polygonFilter");
 console.log("started");
 
 // if (app.get("env") === "production") {
-  // in production mode run application from dist folder
+// in production mode run application from dist folder
 
-  // PRODUCTION MODE
+// PRODUCTION MODE
 app.use(express.static(path.join(__dirname, "/../client")));
 // }
 

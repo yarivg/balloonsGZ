@@ -1,10 +1,10 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import * as environment from '../../.configenv';
 
-import {Location} from '../app/models/Location';
+import { Location } from '../app/models/Location';
 
 @Injectable()
 export class ReportService {
@@ -75,6 +75,8 @@ export class ReportService {
       this.watchPosId = navigator.geolocation.watchPosition((position) => {
         this.currLocation = position.coords;
         this.setCurrentLocationCoordinates(position.coords.latitude, position.coords.longitude);
+        localStorage.setItem('latitude', position.coords.latitude.toString());
+        localStorage.setItem('longitude', position.coords.longitude.toString());
       }, (error) => {
         switch (error.code) {
           case error.PERMISSION_DENIED:
@@ -138,8 +140,8 @@ export class ReportService {
 
     this.checkLocation();
 
-    const selectedLatitude = this.getCurrentLocationCoordinates().latitude;
-    const selectedLongitude = this.getCurrentLocationCoordinates().longitude;
+    const selectedLatitude = this.currentLocation.latitude;
+    const selectedLongitude = this.currentLocation.longitude;
 
     const body = {
       'name': 'WEB-REPORTER',
@@ -159,11 +161,10 @@ export class ReportService {
     } else {
       reportURL = environment.config.serverBaseURL[0];
     }
-    console.log(reportURL);
-    console.log(body);
-    this.http.post(reportURL.toString() + `/api/report`, body, options).subscribe(data => {
+    this.http.post(reportURL.toString() + '/api/report', body, options).subscribe(data => {
       // alert("עובדים על זה. תודה.")
 
+      console.log("success");
       // this.router.navigate(['/map']);
     }, error => {
       // alert("אנחנו על זה.")
@@ -220,7 +221,4 @@ export class ReportService {
     this.currentLocation = new Location(latitude, longtitude);
   }
 
-  getCurrentLocationCoordinates() {
-    return this.currentLocation;
-  }
 }
