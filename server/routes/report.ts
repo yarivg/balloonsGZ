@@ -45,6 +45,8 @@ reportRouter.post("/", (req: Request, res: Response) => {
       category: req.body.category ? req.body.category.toString() : "0",
       description: req.body.description,
       heading: req.body.azimuth ? req.body.azimuth.toString() : "0",
+      // image: req.body.imageBase64.split("base64,")[1],
+      image: "",
       lat: req.body.lat,
       lng: req.body.lng,
       name: req.body.name,
