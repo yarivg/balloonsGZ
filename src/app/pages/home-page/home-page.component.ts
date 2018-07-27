@@ -35,12 +35,12 @@ export class HomePageComponent implements OnInit, AfterViewInit {
   }
   checkToken() {
     //localStorage.setItem('token', '')
-    if (['undefined', '', null, undefined].includes(localStorage.getItem('token'))) {
-      console.log('no token go to login')
-      this.router.navigate(['/login']);
-    } else {
+    // if (['undefined', '', null, undefined].includes(localStorage.getItem('token'))) {
+    //   console.log('no token go to login')
+    //   this.router.navigate(['/login']);
+    // } else {
       this.router.navigate(['/home']);
-    }
+    // }
   }
   // Handle loading screen div and homepage, in such a way
   // that simulates a real loading screen
