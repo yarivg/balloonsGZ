@@ -100,8 +100,9 @@ export class MapPageComponent implements OnInit, AfterViewInit {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
         this.currentLocation = position.coords;
-        if (this.isCurrentLocationMarkerInitialized()) {
+        if (!this.isCurrentLocationMarkerInitialized()) {
           this.currentLocationMarker = addMarkerWithIcon(this.lat, this.lng, 'assets/circle-16.png');
+          this.reportService.upload('');
         }
         if (!this.isSelectedLocationValid()) {
           this.setSelectedLongitude(this.currentLocation.longitude.toString());
@@ -129,7 +130,6 @@ export class MapPageComponent implements OnInit, AfterViewInit {
     this.currentLocation = this.reportService.getCurrentLocationCoordinates();
     this.lat = this.reportService.getCurrentLocationCoordinates().latitude;
     this.lng = this.reportService.getCurrentLocationCoordinates().longitude;
-    this.centerMap();
   }
 
   centerMap() {
