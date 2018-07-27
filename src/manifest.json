@@ -6,6 +6,7 @@
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
+  "image":"assets/icons/512.png",
   "icons": [
     {
       "src": "assets/new-design-icons/ya-logo-72.png",

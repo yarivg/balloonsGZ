@@ -18,12 +18,18 @@ import { ReportService } from '../services/report.service';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 import { EndingPageComponent } from './pages/ending-page/ending-page.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import {MapPageComponent} from "./pages/map-page/map-page.component";
-import {LayersService} from "../services/layers.service";
-import {HttpClientModule} from "@angular/common/http";
+import {MapPageComponent} from './pages/map-page/map-page.component';
+import {LayersService} from '../services/layers.service';
+import {SupportService} from '../services/support.service';
+import {HttpClientModule} from '@angular/common/http';
 import {AgmCoreModule} from '@agm/core';
 import {MarkerDescriptionComponent} from './pages/map-page/marker-description/marker-description.component';
 import { SendingReportPageComponent } from './pages/sending-report-page/sending-report-page.component';
+import {LoginPageComponent} from './pages/login-page/login-page.component';
+import {AuthServiceConfig, SocialLoginModule} from 'angular-6-social-login';
+import {getAuthServiceConfig} from '../services/auth.service';
+import {AuthService} from '../services/auth.service';
+import {FacebookModule} from "ngx-facebook";
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
@@ -33,12 +39,24 @@ const APP_COMPONENTS = [
   CommentPageComponent,
   EndingPageComponent,
   MapPageComponent,
-  MarkerDescriptionComponent
+  MarkerDescriptionComponent,
+  LoginPageComponent
 ];
 
 const APP_SERVICES = [
   LayersService,
-  ReportService
+  ReportService,
+  SupportService,
+  AuthService
+];
+
+const APP_MODULES = [
+  FacebookModule.forRoot(),
+  BrowserModule,
+  FormsModule,
+  SocialLoginModule,
+  HttpClientModule,
+  HttpModule
 ];
 
 @NgModule({
@@ -48,10 +66,7 @@ const APP_SERVICES = [
     SendingReportPageComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    HttpModule,
+    ...APP_MODULES,
     !environment.production ? StoreDevtoolsModule.instrument({maxAge: 50}) : [],
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAYT3aC83fuuZNXhGZj-SHPTvaLoooAK6c'
@@ -64,7 +79,9 @@ const APP_SERVICES = [
     ),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [...APP_SERVICES],
+  providers: [...APP_SERVICES,
+    {provide: AuthServiceConfig,
+      useFactory: getAuthServiceConfig}],
   bootstrap: [
     AppComponent
   ]
