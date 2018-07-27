@@ -18,25 +18,11 @@ export class SupportService {
   private imageBase64 = '';
   private reader: any = new FileReader();
 
-  public getAzimuth() {
-    return this.currAzimuth;
-  }
-
-  public setCategory(catValue: string) {
-    this.category = catValue;
-  }
-
-  public setWhatsappSharingUrl(whatsappSharingUrl: string) {
-    this.whatsappSharingUrl = whatsappSharingUrl;
-  }
-
-  public getWhatsappSharingUrl() {
-    return this.whatsappSharingUrl;
-  }
 
   constructor(private http: HttpClient, private router: Router) {
     this._window = window;
   }
+
 
   /**
    *   Set private local variable "image", to hold the recieved image (as string)
@@ -59,6 +45,8 @@ export class SupportService {
   getImage() {
     return this.image;
   }
+
+
 
 
   /**
@@ -89,41 +77,6 @@ export class SupportService {
     }
   }
 
-  /**
-   * pauses watching user location
-   */
-  clearWatching() {
-    navigator.geolocation.clearWatch(this.watchPosId);
-  }
-
-  /**
-   *  Watches user azimuth for his report
-   */
-  checkAzimuth() {
-    // Check if device can provide absolute orientation data
-    if ('DeviceOrientationAbsoluteEvent' in window) {
-      this._window.addEventListener('DeviceOrientationAbsoluteEvent', (event: any) => {
-        this.deviceOrientationHandler(event);
-      });
-    } else if ('DeviceOrientationEvent' in window) {
-      this._window.addEventListener('deviceorientation', (event: any) => {
-        this.deviceOrientationHandler(event);
-      });
-    } else {
-      alert('Sorry, try again on a compatible mobile device!');
-    }
-  }
-
-  deviceOrientationHandler(event: any) {
-    // Check if absolute values have been sent
-    if (typeof event.webkitCompassHeading !== 'undefined') {
-      this.currAzimuth = event.webkitCompassHeading; // iOS non-standard
-    } else {
-      this.currAzimuth = 360 - event.alpha;
-      // this.isRelativeAzimuth = true
-    }
-  }
-
   upload() {
     const options = {
       headers: new HttpHeaders({
@@ -150,25 +103,5 @@ export class SupportService {
     }, error => {
       console.error(error);
     });    
-  }
-
-  captureImage(event) {
-    if (event.target.files && event.target.files[0]) {
-      this.reader.readAsDataURL(event.target.files[0]); // read file as data url
-
-      this.reader.onload = (event: any) => { // called once readAsDataURL is completed
-        this.imageBase64 = event.target.result;
-
-        // Hold the image in memory, to be used in the next state(route)
-        this.setImage(this.imageBase64);
-        this.upload()
-        // Move further, to next route
-        this.goToSupportMap();
-      };
-    }
-  }
-
-  goToSupportMap() {
-    this.router.navigate(['/map']);
   }
 }

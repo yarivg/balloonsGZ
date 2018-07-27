@@ -15,8 +15,9 @@ reportRouter.get("/", (req: Request, res: Response) => {
 
 reportRouter.post("/", (req: Request, res: Response) => {
   console.log("send req to seeVU");
-
+  console.log(req.body)
   if (req.body.lat && req.body.lng) {
+    console.log("REACHED!")
     let token, userID, serverReportsURL;
     sendToDrones(req.body.lat, req.body.lng, req.body.name);
 
@@ -37,6 +38,9 @@ reportRouter.post("/", (req: Request, res: Response) => {
 
     // TODO remove xxx-xxxxxxxx if alon way required
     // if (phoneNumber) {
+    console.log(token);
+    console.log(serverReportsURL);
+    console.log(userID);
     const reqBody = {
       category: req.body.category ? req.body.category.toString() : "0",
       description: req.body.description,

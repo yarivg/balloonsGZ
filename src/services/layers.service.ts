@@ -28,6 +28,7 @@ export class LayersService {
        reject(err);
      });
    });
+   
  }
 
 }

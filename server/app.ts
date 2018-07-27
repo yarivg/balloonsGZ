@@ -66,15 +66,15 @@ app.use((req, res, next) => {
   } else if (
     url == "/api/login/signup" ) {
     next();
-  } else {
-    // if there is no token
-    // return an error
-    console.log(url);
-    return res.status(403).send({
-      success: false,
-      message: "No token provided.",
-    });
-  }
+  // } else {
+  //   // if there is no token
+  //   // return an error
+  //   console.log(url);
+  //   return res.status(403).send({
+  //     success: false,
+  //     message: "No token provided.",
+  //   });
+   }
 });
 
 app.use("/api/token", alonAPI.router);

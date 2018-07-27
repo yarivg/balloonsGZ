@@ -1,16 +1,32 @@
 <div class="home-container">
   <div class="row-with-vertical-centered-items">
-    <button class="main-button" (click)="buttonClicked()">שלח דיווח</button>
-    <button class="main-button" (click)="supportButtonClicked()">תמוך בעוטף</button>
-    <input id="file" type="file" accept="image/*" capture="environment" (change)="reportService.captureImage($event)">
-    <input id="supportfile" type="file" accept="image/*" capture="environment" (change)="supportService.captureImage($event)">
+    <button class="main-button" (click)="reportService.sendInitialReportAndMoveToMapScreen()">
+      <h4 class="main-button-text">יאללה דווח!</h4>
+    </button>
+
+    <button class="main-button" (click)="reportService.reportandSupportMapScreen()">
+      <h4 class="main-button-text">יאללה תמוך!</h4>
+    </button>    
+
   </div>
-  <div class="row-with-vertical-centered-items">
-    <button class="police-button" (click)="buttonClicked()">
-      <a href="tel:+972100" class="phone-call">משטרה</a>
-    </button>
-    <button class="fire-service-button" (click)="buttonClicked()">
-      <a href="tel:+972102" class="phone-call">מכבי אש</a>
-    </button>
+  <div class="row-with-vertical-centered-items" style="justify-content: space-evenly;">
+    <div class="rescue-forces-button-container">
+      <a href="tel:+972102">
+        <button class="fire-fighters-button"></button>
+      </a>
+      <h3>כבאות והצלה</h3>
+    </div>
+    <div class="rescue-forces-button-container">
+      <a href="tel:+972100">
+        <button class="police-button"></button>
+      </a>
+      <h3>משטרה</h3>
+    </div>
+    <div class="rescue-forces-button-container">
+      <a href="tel:+972101">
+        <button class="mda-button"></button>
+      </a>
+      <h3>מד"א</h3>
+    </div>
   </div>
 </div>

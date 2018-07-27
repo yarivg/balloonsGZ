@@ -17,7 +17,6 @@ import { reportRouter } from '../../server/routes/report';
 import { ReportService } from '../services/report.service';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 import { EndingPageComponent } from './pages/ending-page/ending-page.component';
-import { SupportPageComponent } from './pages/support-page/support-page.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import {MapPageComponent} from './pages/map-page/map-page.component';
 import {LayersService} from '../services/layers.service';
@@ -25,12 +24,15 @@ import {SupportService} from '../services/support.service';
 import {HttpClientModule} from '@angular/common/http';
 import {AgmCoreModule} from '@agm/core';
 import {MarkerDescriptionComponent} from './pages/map-page/marker-description/marker-description.component';
+import { SendingReportPageComponent } from './pages/sending-report-page/sending-report-page.component';
 import {LoginPageComponent} from './pages/login-page/login-page.component';
 import {AuthServiceConfig, SocialLoginModule} from 'angular-6-social-login';
 import {getAuthServiceConfig} from '../services/auth.service';
 import {AuthService} from '../services/auth.service';
+import {MapService} from '../services/map.service';
 import {AuthGuardService} from '../services/auth-guard.service';
 import {FacebookModule} from "ngx-facebook";
+import { SupportMapPageComponent } from './pages/support-map-page/support-map-page.component';
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
@@ -40,9 +42,9 @@ const APP_COMPONENTS = [
   CommentPageComponent,
   EndingPageComponent,
   MapPageComponent,
+  SupportMapPageComponent,
   MarkerDescriptionComponent,
   LoginPageComponent,
-  SupportPageComponent
 ];
 
 const APP_SERVICES = [
@@ -50,7 +52,8 @@ const APP_SERVICES = [
   ReportService,
   SupportService,
   AuthService,
-  AuthGuardService
+  AuthGuardService,
+  MapService
 ];
 
 const APP_MODULES = [
@@ -65,7 +68,9 @@ const APP_MODULES = [
 @NgModule({
   declarations: [
     AppComponent,
-    ...APP_COMPONENTS
+    ...APP_COMPONENTS,
+    SendingReportPageComponent,
+    SupportMapPageComponent
   ],
   imports: [
     ...APP_MODULES,

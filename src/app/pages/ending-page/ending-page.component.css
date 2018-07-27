@@ -167,3 +167,24 @@
   font-size: 10px;
   line-height: 160px;
 }
+
+.main-button-mini{
+  background-image: url(/assets/new-design-assets/report-button-asset.svg);
+  display: block;
+  margin: 0 auto;
+  width: 117px;
+  height: 117px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: relative;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  outline: none;
+  color: white;
+  font-family: matka, sans-serif;
+}
+
+.main-button-mini-text{
+  padding-top: 56px;
+}

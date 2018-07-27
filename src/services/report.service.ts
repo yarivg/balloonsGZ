@@ -24,6 +24,9 @@ export class ReportService {
   private selectedLocation: Location = null;
   private currentLocation: Location = null;
 
+  private supportImage: any = null;
+  private supportImageBase64: any = null;
+
   public getAzimuth() {
     return this.currAzimuth;
   }
@@ -209,6 +212,13 @@ export class ReportService {
     this.router.navigate(['/comment']);
   }
 
+  goToMapScreen() {
+    this.router.navigate(['/map']);
+  } 
+  goToSupportMapScreen() {
+    this.router.navigate(['/support-map']);
+  }
+
   setSelectedLocationCoordinates(latitude: number, longtitude: number) {
     this.selectedLocation = new Location(latitude, longtitude);
   }
@@ -221,4 +231,18 @@ export class ReportService {
     this.currentLocation = new Location(latitude, longtitude);
   }
 
+  sendInitialReportAndMoveToMapScreen() {
+    // Move further, to next route
+    this.goToMapScreen();
+
+    // as of now - immediately create a report to the server, description is ''
+    //this.upload('');
+  } 
+  reportandSupportMapScreen() {
+    // Move further, to next route
+    this.goToSupportMapScreen();
+
+    // as of now - immediately create a report to the server, description is ''
+   // this.upload('');
+  }
 }
