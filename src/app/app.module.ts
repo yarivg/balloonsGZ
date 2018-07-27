@@ -23,6 +23,7 @@ import {LayersService} from "../services/layers.service";
 import {HttpClientModule} from "@angular/common/http";
 import {AgmCoreModule} from '@agm/core';
 import {MarkerDescriptionComponent} from './pages/map-page/marker-description/marker-description.component';
+import { SendingReportPageComponent } from './pages/sending-report-page/sending-report-page.component';
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
@@ -43,7 +44,8 @@ const APP_SERVICES = [
 @NgModule({
   declarations: [
     AppComponent,
-    ...APP_COMPONENTS
+    ...APP_COMPONENTS,
+    SendingReportPageComponent
   ],
   imports: [
     BrowserModule,
