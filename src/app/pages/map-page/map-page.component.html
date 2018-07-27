@@ -36,7 +36,7 @@
   <div class="footer">
     <div class="location-text">{{locationName}}</div>
     <div class="row-with-vertical-centered-items wide-report-button-container">
-      <button class="wide-report-button" [disabled]="!isReportValid()"></button>
+      <button class="wide-report-button" [disabled]="!isReportValid()" (click)="completeReport()"></button>
     </div>
 
   </div>

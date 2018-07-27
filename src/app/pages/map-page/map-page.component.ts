@@ -8,6 +8,7 @@ import {} from '@types/googlemaps';
 import {HttpClient} from '@angular/common/http';
 import {AgmMap} from '@agm/core';
 import {findClosestMarker} from './findClosestPlace';
+import {EVENT_TYPES} from '../../constants/EVENT_TYPES';
 
 declare var google: any;
 
@@ -32,11 +33,7 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   googleMap: google.maps.Map = null;
   locationName:string;
 
-  EVENT_TYPE_BUTTON = {
-    FIRE: 'fire',
-    BALLOON: 'balloon',
-    KITE: 'kite'
-  };
+  EVENT_TYPE_BUTTON = EVENT_TYPES;
 
   eventType = null;
 
@@ -249,6 +246,10 @@ export class MapPageComponent implements OnInit, AfterViewInit {
 
   isReportValid(){
     return this.isSelectedLocationValid() && this.eventType !== null;
+  }
+
+  completeReport(){
+    this.router.navigate([`/sending-report/${this.eventType}`])
   }
 
 }
