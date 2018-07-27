@@ -58,7 +58,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
     console.log(JSON.stringify(reqBody));
     request.post({
         headers: {"content-type": "application/json"},
-        url: serverReportsURL + "/web/report/image",
+        url: serverReportsURL + "/web/report",
         body: JSON.stringify(reqBody),
       }, (error, response, body) => {
         if (response && response.statusCode == 200) {
@@ -66,6 +66,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
           res.send(body).status(200).end();
         } else {
           console.log(error);
+          console.log(body);
           res.send("bad res").status(400).end();
         }
       },
