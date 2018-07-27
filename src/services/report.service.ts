@@ -215,7 +215,7 @@ export class ReportService {
 
   goToMapScreen() {
     this.router.navigate(['/map']);
-  } 
+  }
   goToSupportMapScreen() {
     this.router.navigate(['/support-map']);
   }
@@ -238,13 +238,17 @@ export class ReportService {
 
     // as of now - immediately create a report to the server, description is ''
     //this.upload('');
-  } 
+  }
   reportandSupportMapScreen() {
     // Move further, to next route
     this.goToSupportMapScreen();
-  
+
 
     // as of now - immediately create a report to the server, description is ''
-   // this.upload('');
+    // this.upload('');
+  }
+
+  getCurrentLocationCoordinates() {
+    return this.currentLocation;
   }
 }

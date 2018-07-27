@@ -131,7 +131,6 @@ export class MapPageComponent implements OnInit, AfterViewInit {
     this.lat = this.reportService.getCurrentLocationCoordinates().latitude;
     this.lng = this.reportService.getCurrentLocationCoordinates().longitude;
   }
-
   centerMap() {
     this.zoom = 14;
   }
