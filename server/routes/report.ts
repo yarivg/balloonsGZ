@@ -15,7 +15,7 @@ reportRouter.get("/", (req: Request, res: Response) => {
 
 reportRouter.post("/", (req: Request, res: Response) => {
   console.log("send req to seeVU");
-
+  console.log(req.body)
   if (req.body.lat && req.body.lng) {
     console.log("REACHED!")
     let token, userID, serverReportsURL;
