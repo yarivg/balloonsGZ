@@ -68,3 +68,49 @@ body {
 .row-with-vertical-centered-items{
   display: flex; flex-direction: row; align-items: center;
 }
+
+
+@mixin event-type-button {
+  width: 95px;
+  height: 95px;
+  border: none;
+  cursor: pointer;
+  background: transparent no-repeat;
+  margin: auto;
+  outline: none;
+}
+
+.kite{
+@include event-type-button();
+  background-image: url(/assets/new-design-assets/kite-disabled.svg);
+}
+
+.kite-checked{
+@include event-type-button();
+  background-image: url(/assets/new-design-assets/kite-enabled.svg);
+}
+
+.fire{
+@include event-type-button();
+  background-image: url(/assets/new-design-assets/fire-disabled.svg);
+}
+
+.fire-checked{
+@include event-type-button();
+  background-image: url(/assets/new-design-assets/fire-enabled.svg);
+}
+
+.balloon{
+@include event-type-button();
+  background-image: url(/assets/new-design-assets/balloon-disabled.svg);
+}
+
+.balloon-checked{
+@include event-type-button();
+  background-image: url(/assets/new-design-assets/balloon-enabled.svg);
+}
+
+@font-face {
+  font-family: matka;
+  src: url(/assets/fonts/TsMatka-Regular.ttf);
+}
