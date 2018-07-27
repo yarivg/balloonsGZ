@@ -51,17 +51,17 @@
 
   <div class="event-size-container" [hidden]="eventType !== EVENT_TYPE_BUTTON.FIRE">
     <button class="event-size-3" (click)="setEventSize(FIRE_SIZES.SMALL)"
-            [ngClass]="eventSize === BALLOON_HEIGHTS.ON_GROUND?'event-size-3-checked':'event-size-3'">
+            [ngClass]="eventSize === FIRE_SIZES.SMALL?'event-size-3-checked':'event-size-3'">
       <div class="small-fire"></div>
       <h5 class="event-size-text">קטנה</h5>
     </button>
     <button class="event-size-3" (click)="setEventSize(FIRE_SIZES.MEDIUM)"
-            [ngClass]="eventSize === BALLOON_HEIGHTS.LOW?'event-size-3-checked':'event-size-3'">
+            [ngClass]="eventSize === FIRE_SIZES.MEDIUM?'event-size-3-checked':'event-size-3'">
       <div class="medium-fire"></div>
       <h5 class="event-size-text">בינונית</h5>
     </button>
     <button class="event-size-3" (click)="setEventSize(FIRE_SIZES.LARGE)"
-            [ngClass]="eventSize === BALLOON_HEIGHTS.HIGH?'event-size-3-checked':'event-size-3'">
+            [ngClass]="eventSize === FIRE_SIZES.LARGE?'event-size-3-checked':'event-size-3'">
       <div class="large-fire"></div>
       <h5 class="event-size-text">גדולה</h5>
     </button>
