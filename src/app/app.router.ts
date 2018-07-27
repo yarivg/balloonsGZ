@@ -7,11 +7,13 @@ import { CapturePageComponent } from './pages/capture-page/capture-page.componen
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 import { EndingPageComponent } from './pages/ending-page/ending-page.component';
 import {MapPageComponent} from './pages/map-page/map-page.component';
+import {SendingReportPageComponent} from './pages/sending-report-page/sending-report-page.component';
 
 const routes: Routes = [
   {path: 'home', component: HomePageComponent},
   {path: 'capture', component: CapturePageComponent},
   {path: 'comment', component: CommentPageComponent},
+  {path: 'sending-report/:event-type', component: SendingReportPageComponent},
   {path: 'ending', component: EndingPageComponent},
   {path: 'map', component: MapPageComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
