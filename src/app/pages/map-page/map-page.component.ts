@@ -4,6 +4,13 @@ import {LayersService} from '../../../services/layers.service';
 import {addMarkerWithIcon, Marker} from '../../models/Marker';
 import {isNullOrUndefined} from 'util';
 import {ReportService} from '../../../services/report.service';
+import {} from '@types/googlemaps';
+import {HttpClient} from '@angular/common/http';
+import {AgmMap} from '@agm/core';
+import {findClosestMarker} from './findClosestPlace';
+import {EVENT_TYPES} from '../../constants/EVENT_TYPES';
+
+declare var google: any;
 
 @Component({
   selector: 'app-map-page',
@@ -13,24 +20,33 @@ import {ReportService} from '../../../services/report.service';
 
 export class MapPageComponent implements OnInit, AfterViewInit {
 
+  @ViewChild('AgmMap') agmMap: AgmMap;
+
   private currentLocation: any = null;
   lat: number = null;
   lng: number = null;
   zoom: number = 14;
-  markers: Marker[]=[];
-  currentLocationMarker:Marker = new Marker();
-  selectedLocationMarker:Marker = new Marker();
+  markers: Marker[] = [];
+  currentLocationMarker: Marker = new Marker();
+  selectedLocationMarker: Marker = new Marker();
+  mapTypeId: string = 'satellite';
+  googleMap: google.maps.Map = null;
+  locationName:string;
+
+  EVENT_TYPE_BUTTON = EVENT_TYPES;
+
+  eventType = null;
+
+  googleMapsClient: any;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               private layersService: LayersService,
-              private reportService:ReportService) {
+              private httpClient: HttpClient,
+              private reportService: ReportService) {
   }
 
   ngOnInit() {
-    this.lat = +this.route.snapshot.params['lat'];
-    this.lng = +this.route.snapshot.params['lng'];
-
     this.layersService.getLayers()
       .then(res => {
         const responseBody = JSON.parse(res['_body']);
@@ -40,14 +56,15 @@ export class MapPageComponent implements OnInit, AfterViewInit {
       .catch(err => {
         console.log(err);
       });
-
-    this.getLocation();
-    this.centerMap();
   }
 
   ngAfterViewInit() {
-    this.getLocation();
-    this.centerMap();
+    if (this.currentLocation) {
+      this.centerMap();
+    } else {
+      this.getLocation();
+
+    }
   }
 
   setCenterMap() {
@@ -61,14 +78,14 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   addStatusToMap(responseBody: any) {
     const reports = responseBody['reports'];
     const users = responseBody['users'];
-    reports.forEach((report)=>{
-      let marker = addMarkerWithIcon(report.lat, report.lng, 'assets/icons/fire-marker-icon.png');
+    reports.forEach((report) => {
+      let marker = addMarkerWithIcon(report.lat, report.lng, 'assets/new-design-assets/fire-pointer.svg');
       marker.markerType = 'fire';
       marker.content = report;
       this.markers.push(marker);
     });
 
-    users.forEach((user)=>{
+    users.forEach((user) => {
       let marker = addMarkerWithIcon(user.lat, user.lng, `assets/icons/${user.role}-icon.png`);
       marker.markerType = 'troop';
       marker.content = user;
@@ -83,6 +100,10 @@ export class MapPageComponent implements OnInit, AfterViewInit {
         this.lng = position.coords.longitude;
         this.currentLocation = position.coords;
         this.currentLocationMarker = addMarkerWithIcon(this.lat, this.lng, 'assets/circle-16.png');
+        if (!this.isSelectedLocationValid()) {
+          this.setSelectedLongitude(this.currentLocation.longitude.toString());
+          this.setSelectedLatitude(this.currentLocation.latitude.toString());
+        }
         this.centerMap();
       }, (error) => {
         switch (error.code) {
@@ -105,45 +126,130 @@ export class MapPageComponent implements OnInit, AfterViewInit {
     this.zoom = 14;
   }
 
-  setCenterOfMapBySelectedLocation(){
-    this.lat = this.selectedLocationMarker.latitude;
-    this.lng = this.selectedLocationMarker.longitude;
-  }
-
   goToCommentScreen() {
-    this.reportService.setSelectedLocationCoordinates(this.selectedLocationMarker.latitude,this.selectedLocationMarker.longitude);
+    this.reportService.setSelectedLocationCoordinates(this.selectedLocationMarker.latitude, this.selectedLocationMarker.longitude);
     this.router.navigate(['/comment']);
   }
 
   mapClicked($event: MouseEvent) {
-    this.setSelectedLocation($event['coords']['lat'],$event['coords']['lng']);
+    this.setSelectedLocation($event['coords']['lat'], $event['coords']['lng']);
+    this.getClosestPolitical();
   }
 
-  setSelectedLocation(latitude:number,longitude:number){
+  setSelectedLocation(latitude: number, longitude: number) {
     let marker = new Marker();
     marker.latitude = Number(latitude.toFixed(6));
     marker.longitude = Number(longitude.toFixed(6));
     this.selectedLocationMarker = marker;
   }
 
-  isSelectedLocationValid(){
-    return !isNullOrUndefined(this.selectedLocationMarker.latitude) && !isNullOrUndefined(this.selectedLocationMarker.longitude)
+  isSelectedLocationValid() {
+    return !isNullOrUndefined(this.selectedLocationMarker.latitude) && !isNullOrUndefined(this.selectedLocationMarker.longitude);
   }
 
-  setSelectedLatitude(latitude:string){
+  setSelectedLatitude(latitude: string) {
     this.selectedLocationMarker.latitude = Number(latitude);
-    if(this.isSelectedLocationValid()){
+    if (this.isSelectedLocationValid()) {
       this.setCenterOfMapBySelectedLocation();
       this.centerMap();
+      this.getClosestPolitical();
     }
 
   }
 
-  setSelectedLongitude(longitude:string){
+  setSelectedLongitude(longitude: string) {
     this.selectedLocationMarker.longitude = Number(longitude);
-    if(this.isSelectedLocationValid()){
+    if (this.isSelectedLocationValid()) {
       this.setCenterOfMapBySelectedLocation();
       this.centerMap();
+      this.getClosestPolitical();
     }
   }
+
+  setCenterOfMapBySelectedLocation() {
+    this.lat = this.selectedLocationMarker.latitude;
+    this.lng = this.selectedLocationMarker.longitude;
+  }
+
+
+  mapReady($event: any) {
+    // here $event will be of type google.maps.Map
+    // and you can put your logic here to get lat lng for marker. I have just put a sample code. You can refactor it the way you want.
+    this.googleMap = $event;
+  }
+
+  getClosestPolitical() {
+    const request = {
+      location: {lat: this.selectedLocationMarker.latitude, lng: this.selectedLocationMarker.longitude},
+      radius: 1000,
+      type: 'political'
+    };
+
+    const service = new google.maps.places.PlacesService(this.googleMap);
+    service.nearbySearch(request, (results, status) => {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        const place = this.filterClosestPlace(results);
+        this.locationName = place.name;
+      }
+      if (status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+        this.getClosestRoad();
+      }
+    });
+  }
+
+  getClosestRoad(){
+    const roadRequest = {
+      location: {lat: this.selectedLocationMarker.latitude, lng: this.selectedLocationMarker.longitude},
+      radius: 5000,
+      type: 'route'
+    };
+
+    const service = new google.maps.places.PlacesService(this.googleMap);
+
+    service.nearbySearch(roadRequest, (results, status) => {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        const road = this.filterClosestRoad(results);
+        this.locationName = "כביש " + road.name;
+      }
+      if (status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+        this.locationName = "מיקום ללא שם";
+      }
+    });
+  }
+
+  filterClosestRoad(results) {
+    const road = findClosestMarker({lat: this.selectedLocationMarker.latitude, lng: this.selectedLocationMarker.longitude}, results);
+    return road;
+  }
+
+  filterClosestPlace(results) {
+    const place = findClosestMarker({lat: this.selectedLocationMarker.latitude, lng: this.selectedLocationMarker.longitude}, results);
+    return place;
+  }
+
+  changeEventType(eventType) {
+    this.eventType = eventType;
+  }
+
+  getMarkerIconByEventType() {
+    switch (this.eventType) {
+      case this.EVENT_TYPE_BUTTON.BALLOON:
+        return 'assets/new-design-assets/balloon-pointer.svg';
+      case this.EVENT_TYPE_BUTTON.FIRE:
+        return 'assets/new-design-assets/fire-pointer.svg';
+      case this.EVENT_TYPE_BUTTON.KITE:
+        return 'assets/new-design-assets/kite-pointer.svg';
+      default:
+        return 'assets/new-design-assets/ya-pointer.svg';
+    }
+  }
+
+  isReportValid(){
+    return this.isSelectedLocationValid() && this.eventType !== null;
+  }
+
+  completeReport(){
+    this.router.navigate([`/sending-report/${this.eventType}`])
+  }
+
 }

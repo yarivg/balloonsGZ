@@ -1,22 +1,17 @@
 <div class="map-page">
-  <div class="header">
-    <span>סמן בלחיצה את מיקום השריפה</span>
-    <img (click)="getLocation()" style="cursor: pointer;vertical-align: middle" src="/assets/icons8-hunt-50.png"/>
-    <div class="header-bg"></div>
-  </div>
-  <div class="coordinates-container">
-    <input type="text" class="coordinates-input" maxlength="9"
-           [(ngModel)]="selectedLocationMarker.longitude"
-           (ngModelChange)="setSelectedLongitude($event)"
-           placeholder="קו אורך">
-    <input type="text" class="coordinates-input" maxlength="9"
-           [(ngModel)]="selectedLocationMarker.latitude"
-           (ngModelChange)="setSelectedLatitude($event)"
-           placeholder="קו רוחב">
+  <div class="header row-with-vertical-centered-items">
+    <button class="kite" (click)="changeEventType(EVENT_TYPE_BUTTON.KITE)"
+            [ngClass]="eventType === EVENT_TYPE_BUTTON.KITE?'kite-checked':'kite'"></button>
+    <button class="fire" (click)="changeEventType(EVENT_TYPE_BUTTON.FIRE)"
+            [ngClass]="eventType === EVENT_TYPE_BUTTON.FIRE?'fire-checked':'fire'"></button>
+    <button class="balloon" (click)="changeEventType(EVENT_TYPE_BUTTON.BALLOON)"
+            [ngClass]="eventType === EVENT_TYPE_BUTTON.BALLOON?'balloon-checked':'balloon'"></button>
   </div>
   <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom"
+           [zoomControl]="false"
            gestureHandling="greedy"
-           mapTypeId="satellite"
+           [mapTypeId]="mapTypeId"
+           (mapReady)="mapReady($event)"
            (mapClick)="mapClicked($event)">
     <agm-marker
       [latitude]="currentLocationMarker.latitude"
@@ -26,7 +21,7 @@
     <agm-marker
       [latitude]="selectedLocationMarker.latitude"
       [longitude]="selectedLocationMarker.longitude"
-      [iconUrl]="selectedLocationMarker.iconUrl">
+      [iconUrl]="getMarkerIconByEventType()">
     </agm-marker>
     <agm-marker
       *ngFor="let m of markers; let i = index"
@@ -36,7 +31,13 @@
       </agm-info-window>
     </agm-marker>
   </agm-map>
+
+  <img (click)="getLocation()" class="location-button" src="/assets/new-design-assets/gps-button.png"/>
   <div class="footer">
-    <button [disabled]="!isSelectedLocationValid()" (click)="goToCommentScreen()"></button>
+    <div class="location-text">{{locationName}}</div>
+    <div class="row-with-vertical-centered-items wide-report-button-container">
+      <button class="wide-report-button" [disabled]="!isReportValid()" (click)="completeReport()"></button>
+    </div>
+
   </div>
 </div>

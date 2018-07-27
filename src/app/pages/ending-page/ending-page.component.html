@@ -2,8 +2,9 @@
   <div class="ending-page-column" style="height: 28vh;">
     <div class="ending-page-main-title">הדיווח נשלח בהצלחה</div>
     <div class="row-with-vertical-centered-items" style="margin: auto; justify-content: space-between">
-      <button class="send-report-button small-report-button" style="outline: none;" (click)="buttonClicked()">שלח
-        דיווח
+      <button class="main-button-mini"
+              (click)="reportService.sendInitialReportAndMoveToMapScreen()">
+        <h5 class="main-button-mini-text">יאללה דווח!</h5>
       </button>
       <a *ngIf="reportService.currLocation" style="width: 100px;height: 100px"
          href="https://api.whatsapp.com/send?text={{ reportService.getWhatsappSharingUrl() }}">
