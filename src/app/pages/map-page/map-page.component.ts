@@ -47,6 +47,7 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.reportService.checkLocation()
     this.initializeCurrentLocation();
     this.layersService.getLayers()
       .then(res => {

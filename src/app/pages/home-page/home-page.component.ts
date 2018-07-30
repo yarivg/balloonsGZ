@@ -1,9 +1,14 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router'
 import { ReportService } from '../../../services/report.service'
-import { SupportService } from '../../../services/support.service'
+import { MapService } from '../../../services/map.service'
 
 declare var $: any;
+
+const MAP_TYPES = {
+  SUPPORT: 'support',
+  REPORT: 'report'
+};
 
 @Component({
   selector: 'app-home-page',
@@ -15,12 +20,12 @@ export class HomePageComponent implements OnInit, AfterViewInit {
   private reader: any = new FileReader();
   public imageBase64: string = null;
   reportService: ReportService;
-  supportService: SupportService;
+  mapService: MapService;
+  EVENT_TYPE_BUTTON = MAP_TYPES;
 
-
-  constructor(private router: Router, private reportSrv: ReportService, private supportSrv: SupportService) {
+  constructor(private router: Router, private reportSrv: ReportService, private mapSrv: MapService) {
     this.reportService = reportSrv;
-    this.supportService = supportSrv;
+    this.mapService = mapSrv;
     let splitString = window.location.href.split('entry=')
 
     if (splitString.length > 1 && ['undefined', '', null, undefined].includes(localStorage.getItem('userToken'))) {
@@ -29,34 +34,21 @@ export class HomePageComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.checkToken()
     this.reportSrv.checkLocation()
     this.reportSrv.checkAzimuth()
-  }
-  checkToken() {
-    //localStorage.setItem('token', '')
-    // if (['undefined', '', null, undefined].includes(localStorage.getItem('token'))) {
-    //   console.log('no token go to login')
-    //   this.router.navigate(['/login']);
-    // } else {
-      this.router.navigate(['/home']);
-    // }
   }
   // Handle loading screen div and homepage, in such a way
   // that simulates a real loading screen
   ngAfterViewInit() {
   }
-
-  goToCommentScreen() {
-    this.router.navigate(['/comment']);
+  
+  mapScreen() {
+    // Move further, to next route
+    this.router.navigate(['/map']);
+  }
+  supportMapScreen() {
+    // Move further, to next route
+    this.router.navigate(['/support-map']);
   }
 
-  buttonClicked() {
-    // activate camera
-    $('#file').click();
-  }
-  supportButtonClicked() {
-    // activate camera
-    $('#supportfile').click();
-  }
 }

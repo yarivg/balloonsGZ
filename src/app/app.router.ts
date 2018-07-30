@@ -7,6 +7,7 @@ import { CapturePageComponent } from './pages/capture-page/capture-page.componen
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 import { EndingPageComponent } from './pages/ending-page/ending-page.component';
 import {MapPageComponent} from './pages/map-page/map-page.component';
+import {SupportMapComponent} from './pages/support-map/support-map.component';
 import {SendingReportPageComponent} from './pages/sending-report-page/sending-report-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthGuardService as AuthGuard } from '../services/auth-guard.service';
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'sending-report/:event-type', component: SendingReportPageComponent},
   {path: 'ending', component: EndingPageComponent },
   { path: 'map', component: MapPageComponent },
+  { path: 'support-map', component: SupportMapComponent },
   { path: 'login', component: LoginPageComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' }

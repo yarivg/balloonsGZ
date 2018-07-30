@@ -1,10 +1,10 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import * as environment from '../../.configenv';
 
-import {Location} from '../app/models/Location';
+import { Location } from '../app/models/Location';
 
 @Injectable()
 export class ReportService {
@@ -24,8 +24,8 @@ export class ReportService {
   private selectedLocation: Location = null;
   private currentLocation: Location = null;
 
-  private supportImage:any = null;
-  private supportImageBase64:any = null;
+  private supportImage: any = null;
+  private supportImageBase64: any = null;
 
   public getAzimuth() {
     return this.currAzimuth;
@@ -232,9 +232,5 @@ export class ReportService {
     return this.currentLocation;
   }
 
-  sendInitialReportAndMoveToMapScreen(){
-    // Move further, to next route
-    this.goToMapScreen();
-  }
 
 }
