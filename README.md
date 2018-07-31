@@ -1,55 +1,32 @@
-# Project Title
+# זה סופו של כל בלון
 
-One Paragraph of project description goes here
+תשתית חיבור בין אזרחים לרשויות בעוטף עזה
 
-## Getting Started
+באמצעות דיווח של האזרחים באתר על בלונים/עפיפונים/שריפות תנתן התרעה לכוחות הביטחון בעוטף עזה  
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+המטרה הינה הקטנת את זמן התגובה ולהזעיק כוחות כיבוי למקום בהקדם האפשרי
 
-### Prerequisites
+## התקנה 
 
-What things you need to install the software and how to install them
+איך מורידים את הפרויקט ואילו עזרים זקוקים להרצתו 
 
+### להורדת הפרויקט     
 ```
-Give examples
+$ git clone https://github.com/yarivg/baloonsGZ.git
 ```
+### להורדת עזרים תומכים  
+```bash
+$ git clone https://github.com/vladotesanovic/angular2-express-starter
+$ cd angular2-express-starter
 
-### Installing
+# Install dependencies
+$ npm install
 
-A step by step series of examples that tell you how to get a development env running
+# start server
+$ npm run start
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
+# Client url: http://localhost:4200
+# Application ( epxress ) API: http://localhost:4300
 ```
 
 ## Deployment
@@ -58,8 +35,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
+* [Angular 2](https://www.tutorialspoint.com/angular2/) - The web JavaScript framework used
 * [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
 ## Contributing
@@ -74,14 +50,5 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 * **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+  [שותפים](https://github.com/yarivg/baloonsGZ/graphs/contributors) שלוקחים חלק בפרויקט 
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
