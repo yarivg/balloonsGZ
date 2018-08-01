@@ -46,8 +46,7 @@ export class SupportMapComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.reportService.checkLocation()
-        this.initializeCurrentLocation();
+        this.getLocation();
         this.layersService.getLayers()
             .then(res => {
                 const responseBody = JSON.parse(res['_body']);
@@ -70,18 +69,10 @@ export class SupportMapComponent implements OnInit, AfterViewInit {
 
     addStatusToMap(responseBody: any) {
         const reports = responseBody['reports'];
-        const users = responseBody['users'];
         reports.forEach((report) => {
-            let marker = addMarkerWithIcon(report.lat, report.lng, 'assets/new-design-assets/fire-pointer.svg');
-            marker.markerType = 'fire';
+            let marker = addMarkerWithIcon(report.lat, report.lng, 'assets/new-design-assets/balloon-pointer.svg');
+            marker.markerType = 'balloon';
             marker.content = report;
-            this.markers.push(marker);
-        });
-
-        users.forEach((user) => {
-            let marker = addMarkerWithIcon(user.lat, user.lng, `assets/icons/${user.role}-icon.png`);
-            marker.markerType = 'troop';
-            marker.content = user;
             this.markers.push(marker);
         });
     }
@@ -93,7 +84,7 @@ export class SupportMapComponent implements OnInit, AfterViewInit {
                 this.lng = position.coords.longitude;
                 this.currentLocation = position.coords;
                 if (!this.isCurrentLocationMarkerInitialized()) {
-                    this.currentLocationMarker = addMarkerWithIcon(this.lat, this.lng, 'assets/balloon-icon.png');
+                    this.currentLocationMarker = addMarkerWithIcon(this.lat, this.lng, 'assets/new-design-assets/balloon-pointer.svg');
                 }
                 this.centerMap();
             }, (error) => {
@@ -111,14 +102,8 @@ export class SupportMapComponent implements OnInit, AfterViewInit {
                 }
             });
         }
+        this.centerMap();
     }
-
-    initializeCurrentLocation() {
-        this.currentLocation = this.reportService.getCurrentLocationCoordinates();
-        this.lat = this.reportService.getCurrentLocationCoordinates().latitude;
-        this.lng = this.reportService.getCurrentLocationCoordinates().longitude;
-    }
-
     centerMap() {
         this.zoom = 14;
     }
@@ -205,5 +190,4 @@ export class SupportMapComponent implements OnInit, AfterViewInit {
     completeReport() {
         this.router.navigate([`/sending-report/${this.eventType}`])
     }
-
 }

@@ -10,9 +10,10 @@
              (mapReady)="mapReady($event)"
              (mapClick)="mapClicked($event)">
       <agm-marker
-        [latitude]="currentLocationMarker.latitude"
-        [longitude]="currentLocationMarker.longitude"
-        [iconUrl]="currentLocationMarker.iconUrl">
+        [latitude]="lat"
+        [longitude]="lng"
+        [iconUrl]="currentLocationMarker.iconUrl"
+        >
       </agm-marker>
       <agm-marker
         *ngFor="let m of markers; let i = index"
