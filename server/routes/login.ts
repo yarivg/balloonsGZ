@@ -38,27 +38,21 @@ loginRouter.post("/signup", (request: Request, response: Response, next: NextFun
     name: request.body.name,
     phone_number: request.body.phoneNumber,
     profile_image: request.body.profile_image,
-    user_support_images: [],
+    user_support_images: [{image:request.body.image,lat:request.body.lat,lng:request.body.lng}],
   };
 
   User.findOneAndUpdate(condition, {$set: newUser}, {upsert: true, new: true}, (err, user) => {
-    console.log("X!!!");
     if (err) {
       console.log(err);
-      console.log("X6!X");
       response.send(err).status(400).end();
       return;
     } else if (!user) {
-      console.log("X5!X");
       response.send("Something went wrong, no user was created, sowwie").status(400).end();
       return;
     }
-    console.log("X2");
     if (process.env.NODE_ENV !== "production") {
-      console.log("X3");
       secretToken = config.secretToken[1];
     } else {
-      console.log("X4");
       secretToken = config.secretToken[0];
     }
     console.log(user)
@@ -71,7 +65,6 @@ loginRouter.post("/signup", (request: Request, response: Response, next: NextFun
     data = {
       token: stringToken,
     };
-    console.log(data);
     response.send(data).status(200).end();
   });
 });

@@ -6,6 +6,7 @@ import {
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+//import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable()
 export class AuthService {
@@ -19,9 +20,20 @@ export class AuthService {
 
     const token = localStorage.getItem('token');
 
-    // Check whether the token is expired and return
-    // true or false
-    return true;
+    if (['undefined', '', null, undefined].includes(token)) {
+      console.log('no token go to login')
+      return false;
+    }
+    else {/*
+      const helper = new JwtHelperService();
+      const decodedToken = helper.decodeToken(token);
+      const expirationDate = helper.getTokenExpirationDate(token);
+  
+      if (helper.isTokenExpired(token))
+        return false;*/
+
+      return true;
+    }
   }
   public sendAuthReq() {
 
@@ -41,6 +53,7 @@ export class AuthService {
     this.http.post(reportURL.toString() + `/api/login/signup`, body, options).subscribe(data => {
       console.log(data);
       localStorage.setItem('token', data['token']);
+      this.router.navigate(['/home']);
     }, error => {
       console.error(error);
     });
