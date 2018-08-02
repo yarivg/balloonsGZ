@@ -12,12 +12,12 @@
 
 ### להורדת הפרויקט     
 ```
-$ git clone https://github.com/yarivg/baloonsGZ.git
+$ git clone https://github.com/yarivg/balloonsGZ.git
 ```
 ### להורדת עזרים תומכים  
 ```bash
-$ git clone https://github.com/vladotesanovic/angular2-express-starter
-$ cd angular2-express-starter
+
+$ cd balloonsGZ
 
 # Install dependencies
 $ npm install
@@ -31,7 +31,11 @@ $ npm run start
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+# "/dist" folder'
+$ npm run build 
+
+# Run server with https(port 443) 
+$ node dist/server/bin/www.js
 
 ## Built With
 
