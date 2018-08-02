@@ -1,6 +1,9 @@
 // Import the mongoose module
 const mongoose = require("mongoose");
 
+// Add .env file variables
+require('dotenv').config()
+
 // Set up default mongoose connection
 let mongoDB = process.env.MONGODB_URI;
 
