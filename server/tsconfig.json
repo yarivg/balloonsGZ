@@ -7,7 +7,7 @@
     "mapRoot": "../dist/server",
     "module": "commonjs",
     "moduleResolution": "node",
-    "outDir": "../dist/server",
+    "outDir": "../dist",
     "sourceMap": true,
     "target": "es6",
     "typeRoots": [
