@@ -31,28 +31,22 @@ $ npm run start
 
 ## Deployment
 
-# "/dist" folder'
-$ npm run build 
+### "/dist" folder'
+```bash
 
-# Run server with https(port 443) 
+$ npm run build 
+```
+### Run server with https(port 443) 
+
+```bash
 $ node dist/server/bin/www.js
+```
 
 ## Built With
 
 * [Angular 2](https://www.tutorialspoint.com/angular2/) - The web JavaScript framework used
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 ## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
 
   [שותפים](https://github.com/yarivg/baloonsGZ/graphs/contributors) שלוקחים חלק בפרויקט 
 
