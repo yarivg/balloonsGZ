@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LayersService} from '../../../services/layers.service';
 import {addMarkerWithIcon, Marker} from '../../models/Marker';
@@ -6,7 +6,7 @@ import {isNullOrUndefined} from 'util';
 import {ReportService} from '../../../services/report.service';
 import {} from '@types/googlemaps';
 import {HttpClient} from '@angular/common/http';
-import {AgmMap, GoogleMapsAPIWrapper, LatLngLiteral} from '@agm/core';
+import {GoogleMapsAPIWrapper, LatLngLiteral} from '@agm/core';
 import {findClosestMarker} from './findClosestPlace';
 import {EVENT_TYPES} from '../../constants/EVENT_TYPES';
 import {Subscription} from 'rxjs/internal/Subscription';
@@ -29,7 +29,6 @@ export class MapPageComponent implements OnInit {
   currentLocationMarker: Marker = new Marker();
   selectedLocationMarker: Marker = new Marker();
   mapTypeId: string = 'roadmap';
-  googleMap: google.maps.Map = null;
   locationName:string;
   currentLocationSubscription:Subscription;
   event:Location = new Location(null,null);
@@ -85,21 +84,13 @@ export class MapPageComponent implements OnInit {
     });
   }
 
-  centerChanged($event:LatLngLiteral){
-    this.event.longitude = $event.lng;
-    this.event.latitude = $event.lat;
-  }
-
   goToCurrentLocation() {
-    this.mapLocation = new Location(this.event.latitude,this.event.longitude);
-    this.mapLocation = new Location(this.currentLocation.latitude,this.currentLocation.longitude);
-    const position = new google.maps.LatLng(this.mapLocation.latitude, this.mapLocation.longitude);
+    const position = new google.maps.LatLng(this.currentLocation.latitude, this.currentLocation.longitude);
     this.map.panTo(position);
   }
 
   initializeCurrentLocation(location: Location) {
     this.currentLocation = location;
-    this.mapLocation = location;
     this.currentLocationMarker = addMarkerWithIcon(this.currentLocation.latitude, this.currentLocation.longitude, 'assets/circle-16.png');
     this.reportService.upload('');
     if (!this.isSelectedLocationValid()) {

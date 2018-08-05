@@ -7,11 +7,10 @@
     <button class="balloon" style="outline: none;" (click)="changeEventType(EVENT_TYPE_BUTTON.BALLOON)"
             [ngClass]="eventType === EVENT_TYPE_BUTTON.BALLOON?'balloon-checked':'balloon'"></button>
   </div>
-  <agm-map [latitude]="mapLocation.latitude" [longitude]="mapLocation.longitude" [zoom]="zoom"
+  <agm-map [latitude]="currentLocation.latitude" [longitude]="currentLocation.longitude" [zoom]="zoom"
            [zoomControl]="false"
            gestureHandling="greedy"
            [mapTypeId]="mapTypeId"
-           (centerChange)="centerChanged($event)"
            [usePanning]="true"
            (mapClick)="mapClicked($event)">
     <agm-marker
