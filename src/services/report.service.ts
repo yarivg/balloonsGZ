@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import * as environment from '../../.configenv';
 
 import {Location} from '../app/models/Location';
+import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
+import {Observable} from 'rxjs/internal/Observable';
 
 @Injectable()
 export class ReportService {
@@ -26,6 +28,9 @@ export class ReportService {
 
   private supportImage:any = null;
   private supportImageBase64:any = null;
+
+  private currentLocationSubject:BehaviorSubject<Location> = new BehaviorSubject<Location>(null);
+  currentLocationObservable:Observable<Location> = this.currentLocationSubject.asObservable();
 
   public getAzimuth() {
     return this.currAzimuth;
@@ -226,6 +231,7 @@ export class ReportService {
 
   setCurrentLocationCoordinates(latitude: number, longtitude: number) {
     this.currentLocation = new Location(latitude, longtitude);
+    this.currentLocationSubject.next(this.currentLocation);
   }
 
   getCurrentLocationCoordinates() {
