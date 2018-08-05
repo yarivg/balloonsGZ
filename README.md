@@ -1,71 +1,52 @@
-<img width="150" src="https://i.cloudup.com/zfY6lL7eFa-3000x3000.png" />
-<img width="50" src="https://angular.io/assets/images/logos/angular/angular.svg" />
+# זה סופו של כל בלון
 
-## Angular4+ Express Starter ( Advanced )
+תשתית חיבור בין אזרחים לרשויות בעוטף עזה
 
-- Angular 5+
-- ExpressJS ( 4.x - with compression )
-- Webpack ( angular-cli )
+באמצעות דיווח של האזרחים באתר על בלונים/עפיפונים/שריפות תנתן התרעה לכוחות הביטחון בעוטף עזה  
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+המטרה הינה הקטנת את זמן התגובה ולהזעיק כוחות כיבוי למקום בהקדם האפשרי
 
-## Concepts
+## התקנה 
 
-- Redux ( NgRx/Store - with server calls)
-- Smart & dumb components
-- AOT: Ahead-of-Time compilation
-- Advanced routing ( lazy loading, router outlets...)
+איך מורידים את הפרויקט ואילו עזרים זקוקים להרצתו 
 
-## Install / Development
-
+### להורדת הפרויקט     
+```
+$ git clone https://github.com/yarivg/balloonsGZ.git
+```
+### להורדת עזרים תומכים  
 ```bash
-git clone https://github.com/vladotesanovic/angular2-express-starter
-cd angular2-express-starter
+
+$ cd balloonsGZ
 
 # Install dependencies
-npm install
+$ npm install
 
 # start server
-npm run start
+$ npm run start
 
 # Client url: http://localhost:4200
 # Application ( epxress ) API: http://localhost:4300
 ```
 
-Install Redux DevTools chrome extenstion:
+## Deployment
 
-https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
-
-## Build / Production
-
+### "/dist" folder'
 ```bash
 
-npm run build
+$ npm run build 
+```
+### Run server with https(port 443) 
 
-## Deploy dist folder to app server
-
-Structure of dist folder:
-
-/dist/server <-- expressjs
-/dist/client <-- angular2
-
+```bash
+$ node dist/server/bin/www.js
 ```
 
-## Note
+## Built With
 
-All html and css are from: http://www.w3schools.com/howto/
-<table style="border: 0">
-  <tr>
-    <td><img width="200" src="http://www.innovic.io/assets/logo-small.png" /></td>
-    <td>
-      <ul>
-        <li>INNOVIC doo</li>
-        <li>Software consulting company for building full stack solutions.</li>
-        <li>Proficient in: NodeJS, TypeScript, Angular, MongoDB...</li>
-        <li><b>You have project for us? hello@innovic.io</b></li>
-      </ul>
-    </td>
-  </tr>
-</table>
-# baloonsGZ
-# baloonsGZ
+* [Angular 2](https://www.tutorialspoint.com/angular2/) - The web JavaScript framework used
+
+## Authors
+
+  [שותפים](https://github.com/yarivg/baloonsGZ/graphs/contributors) שלוקחים חלק בפרויקט 
+

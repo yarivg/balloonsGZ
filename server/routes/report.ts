@@ -8,6 +8,9 @@ const alonAPI = require("../routes/alon");
 const request = require("request");
 const uuidv4 = require("uuid/v4");
 
+const log4js = require('log4js');
+const logger = log4js.getLogger();
+logger.level = 'debug';
 const reportRouter: Router = Router();
 reportRouter.get("/", (req: Request, res: Response) => {
   res.send("ok").end();
@@ -40,7 +43,6 @@ reportRouter.post("/", (req: Request, res: Response) => {
     // if (phoneNumber) {
     console.log(token);
     console.log(serverReportsURL);
-    console.log(userID);
     const reqBody = {
       category: req.body.category ? req.body.category.toString() : "0",
       description: req.body.description,
@@ -55,7 +57,7 @@ reportRouter.post("/", (req: Request, res: Response) => {
       token,
       user_id: userID,
     };
-    console.log(JSON.stringify(reqBody));
+    logger.debug(JSON.stringify(reqBody));
     request.post({
         headers: {"content-type": "application/json"},
         url: serverReportsURL + "/web/report",
