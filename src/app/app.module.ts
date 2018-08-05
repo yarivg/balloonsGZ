@@ -22,7 +22,7 @@ import {MapPageComponent} from './pages/map-page/map-page.component';
 import {LayersService} from '../services/layers.service';
 import {SupportService} from '../services/support.service';
 import {HttpClientModule} from '@angular/common/http';
-import {AgmCoreModule} from '@agm/core';
+import {AgmCoreModule, GoogleMapsAPIWrapper} from '@agm/core';
 import {MarkerDescriptionComponent} from './pages/map-page/marker-description/marker-description.component';
 import { SendingReportPageComponent } from './pages/sending-report-page/sending-report-page.component';
 import {LoginPageComponent} from './pages/login-page/login-page.component';
@@ -30,6 +30,10 @@ import {AuthServiceConfig, SocialLoginModule} from 'angular-6-social-login';
 import {getAuthServiceConfig} from '../services/auth.service';
 import {AuthService} from '../services/auth.service';
 import {FacebookModule} from "ngx-facebook";
+import {UpdateService} from '../services/update.service';
+import {MatDialogModule} from '@angular/material/dialog';
+import { NewVersionAlertComponent } from './general-components/new-version-alert/new-version-alert.component';
+import {CoreMapContentComponent} from './pages/map-page/core-map/core-map-content.component';
 // import { MapPageComponent } from './pages/map-page/map-page.component';
 // import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 
@@ -40,14 +44,17 @@ const APP_COMPONENTS = [
   EndingPageComponent,
   MapPageComponent,
   MarkerDescriptionComponent,
-  LoginPageComponent
+  LoginPageComponent,
+  CoreMapContentComponent
 ];
 
 const APP_SERVICES = [
   LayersService,
   ReportService,
   SupportService,
-  AuthService
+  AuthService,
+  UpdateService,
+  GoogleMapsAPIWrapper
 ];
 
 const APP_MODULES = [
@@ -56,6 +63,7 @@ const APP_MODULES = [
   FormsModule,
   SocialLoginModule,
   HttpClientModule,
+  MatDialogModule,
   HttpModule
 ];
 
@@ -63,7 +71,8 @@ const APP_MODULES = [
   declarations: [
     AppComponent,
     ...APP_COMPONENTS,
-    SendingReportPageComponent
+    SendingReportPageComponent,
+    NewVersionAlertComponent
   ],
   imports: [
     ...APP_MODULES,
