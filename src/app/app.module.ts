@@ -1,6 +1,8 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
 import {RouterModule} from '@angular/router';
 import { HttpModule } from '@angular/http';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
@@ -11,6 +13,7 @@ import {environment} from '../environments/environment';
 
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { CapturePageComponent } from './pages/capture-page/capture-page.component';
+import { reportRouter } from '../../server/routes/report';
 import { ReportService } from '../services/report.service';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 import { EndingPageComponent } from './pages/ending-page/ending-page.component';
@@ -29,7 +32,6 @@ import {AuthService} from '../services/auth.service';
 import {FacebookModule} from "ngx-facebook";
 import {UpdateService} from '../services/update.service';
 import {MatDialogModule} from '@angular/material/dialog';
-import { NewVersionAlertComponent } from './general-components/new-version-alert/new-version-alert.component';
 import {CoreMapContentComponent} from './pages/map-page/core-map/core-map-content.component';
 
 const APP_COMPONENTS = [
@@ -66,8 +68,7 @@ const APP_MODULES = [
   declarations: [
     AppComponent,
     ...APP_COMPONENTS,
-    SendingReportPageComponent,
-    NewVersionAlertComponent
+    SendingReportPageComponent
   ],
   imports: [
     ...APP_MODULES,
