@@ -1,8 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {StoreModule} from '@ngrx/store';
-import {EffectsModule} from '@ngrx/effects';
 import {RouterModule} from '@angular/router';
 import { HttpModule } from '@angular/http';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
@@ -13,7 +11,6 @@ import {environment} from '../environments/environment';
 
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { CapturePageComponent } from './pages/capture-page/capture-page.component';
-import { reportRouter } from '../../server/routes/report';
 import { ReportService } from '../services/report.service';
 import { CommentPageComponent } from './pages/comment-page/comment-page.component';
 import { EndingPageComponent } from './pages/ending-page/ending-page.component';
@@ -22,7 +19,7 @@ import {MapPageComponent} from './pages/map-page/map-page.component';
 import {LayersService} from '../services/layers.service';
 import {SupportService} from '../services/support.service';
 import {HttpClientModule} from '@angular/common/http';
-import {AgmCoreModule} from '@agm/core';
+import {AgmCoreModule, GoogleMapsAPIWrapper} from '@agm/core';
 import {MarkerDescriptionComponent} from './pages/map-page/marker-description/marker-description.component';
 import { SendingReportPageComponent } from './pages/sending-report-page/sending-report-page.component';
 import {LoginPageComponent} from './pages/login-page/login-page.component';
@@ -30,8 +27,10 @@ import {AuthServiceConfig, SocialLoginModule} from 'angular-6-social-login';
 import {getAuthServiceConfig} from '../services/auth.service';
 import {AuthService} from '../services/auth.service';
 import {FacebookModule} from "ngx-facebook";
-// import { MapPageComponent } from './pages/map-page/map-page.component';
-// import { CommentPageComponent } from './pages/comment-page/comment-page.component';
+import {UpdateService} from '../services/update.service';
+import {MatDialogModule} from '@angular/material/dialog';
+import { NewVersionAlertComponent } from './general-components/new-version-alert/new-version-alert.component';
+import {CoreMapContentComponent} from './pages/map-page/core-map/core-map-content.component';
 
 const APP_COMPONENTS = [
   HomePageComponent,
@@ -40,14 +39,17 @@ const APP_COMPONENTS = [
   EndingPageComponent,
   MapPageComponent,
   MarkerDescriptionComponent,
-  LoginPageComponent
+  LoginPageComponent,
+  CoreMapContentComponent
 ];
 
 const APP_SERVICES = [
   LayersService,
   ReportService,
   SupportService,
-  AuthService
+  AuthService,
+  UpdateService,
+  GoogleMapsAPIWrapper
 ];
 
 const APP_MODULES = [
@@ -56,6 +58,7 @@ const APP_MODULES = [
   FormsModule,
   SocialLoginModule,
   HttpClientModule,
+  MatDialogModule,
   HttpModule
 ];
 
@@ -63,7 +66,8 @@ const APP_MODULES = [
   declarations: [
     AppComponent,
     ...APP_COMPONENTS,
-    SendingReportPageComponent
+    SendingReportPageComponent,
+    NewVersionAlertComponent
   ],
   imports: [
     ...APP_MODULES,
