@@ -33,7 +33,6 @@ import {FacebookModule} from "ngx-facebook";
 import {UpdateService} from '../services/update.service';
 import {MatDialogModule} from '@angular/material/dialog';
 import {CoreMapContentComponent} from './pages/map-page/core-map/core-map-content.component';
-import { AddCommentComponent } from './pages/add-comment/add-comment.component';
 
 const APP_COMPONENTS = [
   HomePageComponent,
@@ -44,7 +43,6 @@ const APP_COMPONENTS = [
   MarkerDescriptionComponent,
   LoginPageComponent,
   CoreMapContentComponent,
-  AddCommentComponent,
   SendingReportPageComponent
 ];
 
