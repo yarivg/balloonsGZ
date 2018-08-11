@@ -33,6 +33,7 @@ import {FacebookModule} from "ngx-facebook";
 import {UpdateService} from '../services/update.service';
 import {MatDialogModule} from '@angular/material/dialog';
 import {CoreMapContentComponent} from './pages/map-page/core-map/core-map-content.component';
+import { AddCommentComponent } from './pages/add-comment/add-comment.component';
 
 const APP_COMPONENTS = [
   HomePageComponent,
@@ -42,7 +43,9 @@ const APP_COMPONENTS = [
   MapPageComponent,
   MarkerDescriptionComponent,
   LoginPageComponent,
-  CoreMapContentComponent
+  CoreMapContentComponent,
+  AddCommentComponent,
+  SendingReportPageComponent
 ];
 
 const APP_SERVICES = [
@@ -67,14 +70,13 @@ const APP_MODULES = [
 @NgModule({
   declarations: [
     AppComponent,
-    ...APP_COMPONENTS,
-    SendingReportPageComponent
+    ...APP_COMPONENTS
   ],
   imports: [
     ...APP_MODULES,
     !environment.production ? StoreDevtoolsModule.instrument({maxAge: 50}) : [],
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAYT3aC83fuuZNXhGZj-SHPTvaLoooAK6c'
+      apiKey: 'AIzaSyDeAKbGpJiAyMHa4bxQ9WFq_txV2WG8suw'
     }),
     RouterModule.forRoot(
       routes,
