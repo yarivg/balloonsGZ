@@ -1,3 +1,5 @@
+@import "./../../../styles";
+
 .google-map {
   width: 100%;
   height: 100%;
@@ -118,26 +120,10 @@ agm-map {
   height: 100vh;
 }
 
-@mixin wide-report-button-mixin {
-  display: block;
-  margin: 0 auto;
-  width: 235px;
-  height: $wide-report-button-height;
-  background-position: center center;
-  background-repeat: no-repeat;
-  position: absolute;
-  border: none;
-  cursor: pointer;
-  background-color: transparent;
-  font-family: matka, sans-serif;
-  font-size: 30px;
-  color:white;
-  outline: none;
-}
-
 .wide-report-button {
   @include wide-report-button-mixin();
-  background-image: url(/assets/new-design-assets/wide-report-button.svg);
+  position: absolute;
+  height: $wide-report-button-height;
 }
 
 .wide-report-button-container {

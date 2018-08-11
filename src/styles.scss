@@ -128,10 +128,12 @@ body {
   font-family: matka, sans-serif;
   font-size: 30px;
   color:white;
+  background-image: url(/assets/new-design-assets/wide-report-button.svg);
   outline: none;
+
 }
 
 .wide-report-button {
   @include wide-report-button-mixin();
-  background-image: url(/assets/new-design-assets/wide-report-button.svg);
+
 }
