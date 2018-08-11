@@ -16,7 +16,7 @@
   z-index: 1;
   display: flex;
   justify-content: space-evenly;
-  background-color: rgba(237,237,237,0.8);
+  background-color: rgba(237, 237, 237, 0.8);
 }
 
 .information ul {
@@ -33,6 +33,7 @@
   padding: 8px 16px;
   text-decoration: none;
 }
+
 .header > img {
   width: 50px;
   height: 50px;
@@ -53,7 +54,6 @@
   font-family: sans-serif;
 }
 
-
 .header .hint {
   color: white;
   text-shadow: 1px 1px 1px black;
@@ -66,7 +66,7 @@
 .coordinates-container {
   position: fixed;
   top: 50px;
-  left:0;
+  left: 0;
   display: flex;
   flex-direction: row-reverse;
   z-index: 2;
@@ -95,32 +95,30 @@ $wide-report-button-height: 73px;
   height: $footer-height;
   direction: rtl;
   z-index: 1;
-  background-color: rgba(237,237,237,1);
+  background-color: rgba(237, 237, 237, 1);
   display: flex;
   flex-direction: column;
 }
 
-.location-text{
+.location-text {
   height: $footer-height - $wide-report-button-height;
   width: 100vw;
   text-align: center;
   font-size: 30px;
 }
 
-.location-button{
+.location-button {
   cursor: pointer;
   position: fixed;
   left: 10px;
   bottom: $footer-height + 10px;
 }
 
-agm-map{
+agm-map {
   height: 100vh;
 }
 
-
-
-@mixin wide-report-button-mixin{
+@mixin wide-report-button-mixin {
   display: block;
   margin: 0 auto;
   width: 235px;
@@ -131,19 +129,19 @@ agm-map{
   border: none;
   cursor: pointer;
   background-color: transparent;
+  font-family: matka, sans-serif;
+  font-size: 30px;
+  color:white;
   outline: none;
 }
 
-.wide-report-button{
+.wide-report-button {
   @include wide-report-button-mixin();
-  background-image: url(/assets/new-design-assets/wide-report-button-enable.png);
+  background-image: url(/assets/new-design-assets/wide-report-button.svg);
 }
 
-.wide-report-button:disabled{
-  @include wide-report-button-mixin();
-  background-image: url(/assets/new-design-assets/wide-report-button-disable.png);
-}
-
-.wide-report-button-container{
-  width: 100vw; height: $wide-report-button-height;justify-content: center;
+.wide-report-button-container {
+  width: 100vw;
+  height: $wide-report-button-height;
+  justify-content: center;
 }
