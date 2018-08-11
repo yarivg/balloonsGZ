@@ -29,6 +29,8 @@ export class ReportService {
   private supportImage:any = null;
   private supportImageBase64:any = null;
 
+  private commentForReport = '';
+
   private currentLocationSubject:BehaviorSubject<Location> = new BehaviorSubject<Location>(null);
   currentLocationObservable:Observable<Location> = this.currentLocationSubject.asObservable();
 
@@ -138,7 +140,7 @@ export class ReportService {
     }
   }
 
-  upload(description: string) {
+  upload() {
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -158,7 +160,7 @@ export class ReportService {
       // 'imageBase64': this.getImage(), TODO: send the image to sayvu
       'imageBase64': '',
       'azimuth': this.currAzimuth,
-      'description': description,
+      'description': this.commentForReport,
       'category': '11', // TODO - balloon, kite, fire
       'userToken': localStorage.getItem('userToken')
     };
@@ -171,13 +173,9 @@ export class ReportService {
     console.log(reportURL);
     console.log(body);
     this.http.post(reportURL.toString() + `/api/report`, body, options).subscribe(data => {
-      // alert("עובדים על זה. תודה.")
 
-      // this.router.navigate(['/map']);
     }, error => {
-      alert("אנחנו על זה.")
       console.error(error);
-      // this.router.navigate(['/map']);
     });
   }
 
@@ -195,7 +193,7 @@ export class ReportService {
         this.goToCommentScreen();
 
         // as of now - immediately create a report to the server, description is ''
-        this.upload('');
+        this.upload();
       };
     }
   }
@@ -241,6 +239,10 @@ export class ReportService {
   sendInitialReportAndMoveToMapScreen(){
     // Move further, to next route
     this.goToMapScreen();
+  }
+
+  setCommentForReport(comment){
+    this.commentForReport = comment;
   }
 
 }
