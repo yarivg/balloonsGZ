@@ -26,6 +26,9 @@ export class ReportService {
   private selectedLocation: Location = null;
   private currentLocation: Location = null;
 
+  eventType:string = null;
+  eventSize:string = null;
+
   private supportImage:any = null;
   private supportImageBase64:any = null;
 
@@ -251,5 +254,22 @@ export class ReportService {
   setCommentForReport(comment){
     this.commentForReport = comment;
   }
+
+  setEventSize(size:string){
+    this.eventSize=size;
+  }
+
+  setEventType(type:string){
+    this.eventType=type;
+  }
+
+  getEventSize(){
+    return this.eventSize;
+  }
+
+  getEventType(){
+    return this.eventType;
+  }
+
 
 }

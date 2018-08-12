@@ -32,10 +32,13 @@ export class SendingReportPageComponent implements OnInit {
 
   ngOnInit() {
     this.eventType = this.route.snapshot.params['event-type'];
+    this.reportService.setEventType(this.eventType);
+    this.eventSize = this.reportService.getEventSize();
   }
 
   setEventSize(eventSize){
     this.eventSize = eventSize;
+    this.reportService.setEventSize(eventSize);
   }
 
   cameraButtonClicked() {
