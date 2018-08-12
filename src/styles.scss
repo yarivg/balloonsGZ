@@ -114,3 +114,26 @@ body {
   font-family: matka;
   src: url(/assets/fonts/TsMatka-Regular.ttf);
 }
+
+@mixin wide-report-button-mixin {
+  display: block;
+  margin: 0 auto;
+  width: 235px;
+  height: 73px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  font-family: matka, sans-serif;
+  font-size: 30px;
+  color:white;
+  background-image: url(/assets/new-design-assets/wide-report-button.svg);
+  outline: none;
+
+}
+
+.wide-report-button {
+  @include wide-report-button-mixin();
+
+}

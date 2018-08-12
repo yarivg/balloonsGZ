@@ -68,14 +68,16 @@
   </div>
 
   <div class="row-with-vertical-centered-items">
-    <button style="border-left: 1px solid gray"
+    <button style="border-left: 1px solid gray;"
+            [disabled]="true"
             class="event-size-2 row-with-vertical-centered-items"
             (click)="cameraButtonClicked()">
       <img src="/assets/new-design-assets/camera-icon.svg" class="action-icon" alt="">
       <span class="action-text">הוספת תמונה</span>
     </button>
     <input id="file" type="file" style="display: none;" accept="image/*" capture="environment" (change)="captureImage($event)">
-    <button class="event-size-2 row-with-vertical-centered-items">
+    <button class="event-size-2 row-with-vertical-centered-items"
+    (click)="addComment()">
       <img src="/assets/new-design-assets/write-note.svg" class="action-icon" alt="">
       <span class="action-text">הוספת הערה</span>
     </button>
@@ -83,7 +85,7 @@
 
 </div>
 <div class="row-with-vertical-centered-items sending-report-footer">
-  <button class="finish-button" (click)="goToEndingPage()">
+  <button class="finish-button" (click)="sendReportAndGoToEndingPage()">
     סיימתי
   </button>
 </div>

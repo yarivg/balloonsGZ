@@ -32,10 +32,13 @@ export class SendingReportPageComponent implements OnInit {
 
   ngOnInit() {
     this.eventType = this.route.snapshot.params['event-type'];
+    this.reportService.setEventType(this.eventType);
+    this.eventSize = this.reportService.getEventSize();
   }
 
   setEventSize(eventSize){
     this.eventSize = eventSize;
+    this.reportService.setEventSize(eventSize);
   }
 
   cameraButtonClicked() {
@@ -47,7 +50,8 @@ export class SendingReportPageComponent implements OnInit {
     this.reportSrv.captureImageWithoutSending(image);
   }
 
-  goToEndingPage(){
+  sendReportAndGoToEndingPage(){
+    this.reportSrv.upload(this.getEventDescription());
     this.reportSrv.setWhatsappSharingUrl(encodeURIComponent(this.makeUserMessage()));
     this.router.navigate(['/ending'])
   }
@@ -75,6 +79,10 @@ export class SendingReportPageComponent implements OnInit {
     } else {
       return `${CATEGORIES_NAMES[this.eventType]} ` + 'בגובה' + ` ${FLYING_OBJECTS_HEIGHT[this.eventSize]}`;
     }
+  }
+
+  addComment(){
+    this.router.navigate(['/add-comment']);
   }
 
 }

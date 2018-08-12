@@ -11,6 +11,7 @@ import {findClosestMarker} from './findClosestPlace';
 import {EVENT_TYPES} from '../../constants/EVENT_TYPES';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {Location} from '../../models/Location';
+import {ROLES} from '../../constants/ROLES';
 
 declare var google: any;
 
@@ -48,6 +49,7 @@ export class MapPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.changeEventType(this.EVENT_TYPE_BUTTON.FIRE);
     this.currentLocationSubscription = this.reportService.currentLocationObservable
       .subscribe((location:Location)=>{
         if (!this.isCurrentLocationMarkerInitialized() && !isNullOrUndefined(location)) {
@@ -70,18 +72,37 @@ export class MapPageComponent implements OnInit {
     const reports = responseBody['reports'];
     const users = responseBody['users'];
     reports.forEach((report) => {
-      let marker = addMarkerWithIcon(report.lat, report.lng, 'assets/new-design-assets/fire-pointer.svg');
+      let marker = addMarkerWithIcon(report.lat, report.lng, 'assets/new-design-icons/fire-savyu.png');
       marker.markerType = 'fire';
       marker.content = report;
       this.markers.push(marker);
     });
 
     users.forEach((user) => {
-      let marker = addMarkerWithIcon(user.lat, user.lng, `assets/icons/${user.role}-icon.png`);
-      marker.markerType = 'troop';
-      marker.content = user;
-      this.markers.push(marker);
+      let iconUrl = this.getIconUrlByRole(user.role);
+
+      if(!isNullOrUndefined(iconUrl)){
+        this.addNewRoleMarker(user, iconUrl);
+      }
     });
+  }
+
+  private addNewRoleMarker(user, iconUrl) {
+    let marker = addMarkerWithIcon(user.lat, user.lng, iconUrl);
+    marker.markerType = 'troop';
+    marker.content = user;
+    this.markers.push(marker);
+  }
+
+  private getIconUrlByRole(role) {
+    switch (role) {
+      case ROLES.FIRETRUCK:
+        return 'assets/new-design-icons/fire-truck-savyu.png';
+      case ROLES.PATROL:
+        return 'assets/new-design-icons/patrolman-savyu.png';
+      default:
+        return null;
+    }
   }
 
   goToCurrentLocation() {
@@ -92,7 +113,6 @@ export class MapPageComponent implements OnInit {
   initializeCurrentLocation(location: Location) {
     this.currentLocation = location;
     this.currentLocationMarker = addMarkerWithIcon(this.currentLocation.latitude, this.currentLocation.longitude, 'assets/circle-16.png');
-    this.reportService.upload('');
     if (!this.isSelectedLocationValid()) {
       this.setSelectedLongitude(this.currentLocation.longitude.toString());
       this.setSelectedLatitude(this.currentLocation.latitude.toString());
@@ -218,13 +238,13 @@ export class MapPageComponent implements OnInit {
   getMarkerIconByEventType() {
     switch (this.eventType) {
       case this.EVENT_TYPE_BUTTON.BALLOON:
-        return 'assets/new-design-assets/balloon-pointer.svg';
+        return 'assets/new-design-assets/balloon-pointer.png';
       case this.EVENT_TYPE_BUTTON.FIRE:
-        return 'assets/new-design-assets/fire-pointer.svg';
+        return 'assets/new-design-assets/fire-pointer.png';
       case this.EVENT_TYPE_BUTTON.KITE:
-        return 'assets/new-design-assets/kite-pointer.svg';
+        return 'assets/new-design-assets/kite-pointer.png';
       default:
-        return 'assets/new-design-assets/ya-pointer.svg';
+        return 'assets/new-design-assets/fire-pointer.png';
     }
   }
 
