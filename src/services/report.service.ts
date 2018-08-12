@@ -140,7 +140,7 @@ export class ReportService {
     }
   }
 
-  upload() {
+  upload(eventDescription:string) {
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -160,7 +160,7 @@ export class ReportService {
       // 'imageBase64': this.getImage(), TODO: send the image to sayvu
       'imageBase64': '',
       'azimuth': this.currAzimuth,
-      'description': this.commentForReport,
+      'description': this.getFinalCommentToSend(eventDescription, this.commentForReport),
       'category': '11', // TODO - balloon, kite, fire
       'userToken': localStorage.getItem('userToken')
     };
@@ -193,9 +193,16 @@ export class ReportService {
         this.goToCommentScreen();
 
         // as of now - immediately create a report to the server, description is ''
-        this.upload();
+        this.upload('');
       };
     }
+  }
+
+  getFinalCommentToSend(eventDescription:string, commentForReport:string){
+    const eventDescriptionTitle = "גודל איום: ";
+    const commentForReportTitle = "הערות: ";
+    return `${eventDescriptionTitle} ${eventDescription}\n
+    ${commentForReportTitle} ${commentForReport}.`;
   }
 
   captureImageWithoutSending(event) {

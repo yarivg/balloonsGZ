@@ -48,7 +48,7 @@ export class SendingReportPageComponent implements OnInit {
   }
 
   sendReportAndGoToEndingPage(){
-    this.reportSrv.upload();
+    this.reportSrv.upload(this.getEventDescription());
     this.reportSrv.setWhatsappSharingUrl(encodeURIComponent(this.makeUserMessage()));
     this.router.navigate(['/ending'])
   }
