@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import {Location} from '@angular/common';
 import {ReportService} from '../../../services/report.service';
 
@@ -7,7 +7,7 @@ import {ReportService} from '../../../services/report.service';
   templateUrl: './add-comment.component.html',
   styleUrls: ['./add-comment.component.scss']
 })
-export class AddCommentComponent implements OnInit, AfterViewInit {
+export class AddCommentComponent implements AfterViewInit {
 
   comment:string=null;
 
@@ -19,9 +19,6 @@ export class AddCommentComponent implements OnInit, AfterViewInit {
   }
 
   constructor(private _location: Location, private reportService:ReportService) { }
-
-  ngOnInit() {
-  }
 
   saveComment(){
     this.reportService.setCommentForReport(this.comment);
