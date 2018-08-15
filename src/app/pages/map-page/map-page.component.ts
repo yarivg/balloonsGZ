@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LayersService} from '../../../services/layers.service';
 import {addMarkerWithIcon, Marker} from '../../models/Marker';
@@ -6,9 +6,12 @@ import {isNullOrUndefined} from 'util';
 import {ReportService} from '../../../services/report.service';
 import {} from '@types/googlemaps';
 import {HttpClient} from '@angular/common/http';
-import {AgmMap} from '@agm/core';
+import {GoogleMapsAPIWrapper, LatLngLiteral} from '@agm/core';
 import {findClosestMarker} from './findClosestPlace';
 import {EVENT_TYPES} from '../../constants/EVENT_TYPES';
+import {Subscription} from 'rxjs/internal/Subscription';
+import {Location} from '../../models/Location';
+import {ROLES} from '../../constants/ROLES';
 
 declare var google: any;
 
@@ -18,36 +21,42 @@ declare var google: any;
   styleUrls: ['./map-page.component.scss']
 })
 
-export class MapPageComponent implements OnInit, AfterViewInit {
+export class MapPageComponent implements OnInit {
 
-  @ViewChild('AgmMap') agmMap: AgmMap;
-
-  private currentLocation: any = null;
-  lat: number = null;
-  lng: number = null;
+  currentLocation: Location = new Location (null,null);
+  mapLocation: Location = new Location (null,null);
   zoom: number = 14;
   markers: Marker[] = [];
   currentLocationMarker: Marker = new Marker();
   selectedLocationMarker: Marker = new Marker();
   mapTypeId: string = 'roadmap';
-  googleMap: google.maps.Map = null;
   locationName:string;
+  currentLocationSubscription:Subscription;
+  event:Location = new Location(null,null);
+  map: any;
 
   EVENT_TYPE_BUTTON = EVENT_TYPES;
 
   eventType = null;
 
-  googleMapsClient: any;
-
   constructor(private router: Router,
               private route: ActivatedRoute,
               private layersService: LayersService,
               private httpClient: HttpClient,
-              private reportService: ReportService) {
+              private wrapper: GoogleMapsAPIWrapper,
+              private el: ElementRef,
+  private reportService: ReportService) {
   }
 
   ngOnInit() {
-    this.initializeCurrentLocation();
+    this.changeEventType(this.EVENT_TYPE_BUTTON.FIRE);
+    this.currentLocationSubscription = this.reportService.currentLocationObservable
+      .subscribe((location:Location)=>{
+        if (!this.isCurrentLocationMarkerInitialized() && !isNullOrUndefined(location)) {
+          this.initializeCurrentLocation(location);
+        }
+      });
+
     this.layersService.getLayers()
       .then(res => {
         const responseBody = JSON.parse(res['_body']);
@@ -59,77 +68,55 @@ export class MapPageComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngAfterViewInit() {
-    if (this.currentLocation) {
-      this.centerMap();
-    } else {
-      this.getLocation();
-
-    }
-  }
-
-  setCenterMap() {
-    if (this.currentLocation) {
-      this.centerMap();
-    } else {
-      this.getLocation();
-    }
-  }
-
   addStatusToMap(responseBody: any) {
     const reports = responseBody['reports'];
     const users = responseBody['users'];
     reports.forEach((report) => {
-      let marker = addMarkerWithIcon(report.lat, report.lng, 'assets/new-design-assets/fire-pointer.svg');
+      let marker = addMarkerWithIcon(report.lat, report.lng, 'assets/new-design-icons/fire-savyu.png');
       marker.markerType = 'fire';
       marker.content = report;
       this.markers.push(marker);
     });
 
     users.forEach((user) => {
-      let marker = addMarkerWithIcon(user.lat, user.lng, `assets/icons/${user.role}-icon.png`);
-      marker.markerType = 'troop';
-      marker.content = user;
-      this.markers.push(marker);
+      let iconUrl = this.getIconUrlByRole(user.role);
+
+      if(!isNullOrUndefined(iconUrl)){
+        this.addNewRoleMarker(user, iconUrl);
+      }
     });
   }
 
-  getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        this.currentLocation = position.coords;
-        if (!this.isCurrentLocationMarkerInitialized()) {
-          this.currentLocationMarker = addMarkerWithIcon(this.lat, this.lng, 'assets/circle-16.png');
-          this.reportService.upload('');
-        }
-        if (!this.isSelectedLocationValid()) {
-          this.setSelectedLongitude(this.currentLocation.longitude.toString());
-          this.setSelectedLatitude(this.currentLocation.latitude.toString());
-        }
-        this.centerMap();
-      }, (error) => {
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            console.log('User denied the request for Geolocation.');
-            this.getLocation();
-            break;
-          case error.POSITION_UNAVAILABLE:
-            console.log('Location information is unavailable.');
-            break;
-          case error.TIMEOUT:
-            console.log('The request to get user location timed out.');
-            break;
-        }
-      });
+  private addNewRoleMarker(user, iconUrl) {
+    let marker = addMarkerWithIcon(user.lat, user.lng, iconUrl);
+    marker.markerType = 'troop';
+    marker.content = user;
+    this.markers.push(marker);
+  }
+
+  private getIconUrlByRole(role) {
+    switch (role) {
+      case ROLES.FIRETRUCK:
+        return 'assets/new-design-icons/fire-truck-savyu.png';
+      case ROLES.PATROL:
+        return 'assets/new-design-icons/patrolman-savyu.png';
+      default:
+        return null;
     }
   }
 
-  initializeCurrentLocation() {
-    this.currentLocation = this.reportService.getCurrentLocationCoordinates();
-    this.lat = this.reportService.getCurrentLocationCoordinates().latitude;
-    this.lng = this.reportService.getCurrentLocationCoordinates().longitude;
+  goToCurrentLocation() {
+    const position = new google.maps.LatLng(this.currentLocation.latitude, this.currentLocation.longitude);
+    this.map.panTo(position);
+  }
+
+  initializeCurrentLocation(location: Location) {
+    this.currentLocation = location;
+    this.currentLocationMarker = addMarkerWithIcon(this.currentLocation.latitude, this.currentLocation.longitude, 'assets/circle-16.png');
+    if (!this.isSelectedLocationValid()) {
+      this.setSelectedLongitude(this.currentLocation.longitude.toString());
+      this.setSelectedLatitude(this.currentLocation.latitude.toString());
+    }
   }
 
   centerMap() {
@@ -181,16 +168,19 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   }
 
   setCenterOfMapBySelectedLocation() {
-    this.lat = this.selectedLocationMarker.latitude;
-    this.lng = this.selectedLocationMarker.longitude;
+    this.currentLocation.latitude = this.selectedLocationMarker.latitude;
+    this.currentLocation.longitude = this.selectedLocationMarker.longitude;
   }
 
 
-  mapReady($event: any) {
-    // here $event will be of type google.maps.Map
-    // and you can put your logic here to get lat lng for marker. I have just put a sample code. You can refactor it the way you want.
-    this.googleMap = $event;
+  public loadAPIWrapper(map) {
+    this.map = map;
   }
+
+  public markerClicked = (markerObj) => {
+    const position = new google.maps.LatLng(this.selectedLocationMarker.latitude, this.selectedLocationMarker.longitude);
+    this.map.panTo(position);
+  };
 
   getClosestPolitical() {
     const request = {
@@ -199,7 +189,7 @@ export class MapPageComponent implements OnInit, AfterViewInit {
       type: 'political'
     };
 
-    const service = new google.maps.places.PlacesService(this.googleMap);
+    const service = new google.maps.places.PlacesService(this.map);
     service.nearbySearch(request, (results, status) => {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         const place = this.filterClosestPlace(results);
@@ -218,7 +208,7 @@ export class MapPageComponent implements OnInit, AfterViewInit {
       type: 'route'
     };
 
-    const service = new google.maps.places.PlacesService(this.googleMap);
+    const service = new google.maps.places.PlacesService(this.map);
 
     service.nearbySearch(roadRequest, (results, status) => {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -248,13 +238,13 @@ export class MapPageComponent implements OnInit, AfterViewInit {
   getMarkerIconByEventType() {
     switch (this.eventType) {
       case this.EVENT_TYPE_BUTTON.BALLOON:
-        return 'assets/new-design-assets/balloon-pointer.svg';
+        return 'assets/new-design-assets/balloon-pointer.png';
       case this.EVENT_TYPE_BUTTON.FIRE:
-        return 'assets/new-design-assets/fire-pointer.svg';
+        return 'assets/new-design-assets/fire-pointer.png';
       case this.EVENT_TYPE_BUTTON.KITE:
-        return 'assets/new-design-assets/kite-pointer.svg';
+        return 'assets/new-design-assets/kite-pointer.png';
       default:
-        return 'assets/new-design-assets/ya-pointer.svg';
+        return 'assets/new-design-assets/fire-pointer.png';
     }
   }
 

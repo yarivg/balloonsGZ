@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import * as environment from '../../.configenv';
 
 import {Location} from '../app/models/Location';
+import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
+import {Observable} from 'rxjs/internal/Observable';
 
 @Injectable()
 export class ReportService {
@@ -24,8 +26,16 @@ export class ReportService {
   private selectedLocation: Location = null;
   private currentLocation: Location = null;
 
+  eventType:string = null;
+  eventSize:string = null;
+
   private supportImage:any = null;
   private supportImageBase64:any = null;
+
+  private commentForReport = '';
+
+  private currentLocationSubject:BehaviorSubject<Location> = new BehaviorSubject<Location>(null);
+  currentLocationObservable:Observable<Location> = this.currentLocationSubject.asObservable();
 
   public getAzimuth() {
     return this.currAzimuth;
@@ -133,7 +143,7 @@ export class ReportService {
     }
   }
 
-  upload(description: string) {
+  upload(eventDescription:string) {
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -153,7 +163,7 @@ export class ReportService {
       // 'imageBase64': this.getImage(), TODO: send the image to sayvu
       'imageBase64': '',
       'azimuth': this.currAzimuth,
-      'description': description,
+      'description': this.getFinalCommentToSend(eventDescription, this.commentForReport),
       'category': '11', // TODO - balloon, kite, fire
       'userToken': localStorage.getItem('userToken')
     };
@@ -166,13 +176,9 @@ export class ReportService {
     console.log(reportURL);
     console.log(body);
     this.http.post(reportURL.toString() + `/api/report`, body, options).subscribe(data => {
-      // alert("עובדים על זה. תודה.")
 
-      // this.router.navigate(['/map']);
     }, error => {
-      // alert("אנחנו על זה.")
       console.error(error);
-      // this.router.navigate(['/map']);
     });
   }
 
@@ -193,6 +199,13 @@ export class ReportService {
         this.upload('');
       };
     }
+  }
+
+  getFinalCommentToSend(eventDescription:string, commentForReport:string){
+    const eventDescriptionTitle = "גודל איום: ";
+    const commentForReportTitle = "הערות: ";
+    return `${eventDescriptionTitle} ${eventDescription}\n
+    ${commentForReportTitle} ${commentForReport}.`;
   }
 
   captureImageWithoutSending(event) {
@@ -226,6 +239,7 @@ export class ReportService {
 
   setCurrentLocationCoordinates(latitude: number, longtitude: number) {
     this.currentLocation = new Location(latitude, longtitude);
+    this.currentLocationSubject.next(this.currentLocation);
   }
 
   getCurrentLocationCoordinates() {
@@ -236,5 +250,26 @@ export class ReportService {
     // Move further, to next route
     this.goToMapScreen();
   }
+
+  setCommentForReport(comment){
+    this.commentForReport = comment;
+  }
+
+  setEventSize(size:string){
+    this.eventSize=size;
+  }
+
+  setEventType(type:string){
+    this.eventType=type;
+  }
+
+  getEventSize(){
+    return this.eventSize;
+  }
+
+  getEventType(){
+    return this.eventType;
+  }
+
 
 }

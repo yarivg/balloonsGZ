@@ -22,7 +22,7 @@ import {MapPageComponent} from './pages/map-page/map-page.component';
 import {LayersService} from '../services/layers.service';
 import {SupportService} from '../services/support.service';
 import {HttpClientModule} from '@angular/common/http';
-import {AgmCoreModule} from '@agm/core';
+import {AgmCoreModule, GoogleMapsAPIWrapper} from '@agm/core';
 import {MarkerDescriptionComponent} from './pages/map-page/marker-description/marker-description.component';
 import { SendingReportPageComponent } from './pages/sending-report-page/sending-report-page.component';
 import {LoginPageComponent} from './pages/login-page/login-page.component';
@@ -30,8 +30,10 @@ import {AuthServiceConfig, SocialLoginModule} from 'angular-6-social-login';
 import {getAuthServiceConfig} from '../services/auth.service';
 import {AuthService} from '../services/auth.service';
 import {FacebookModule} from "ngx-facebook";
-// import { MapPageComponent } from './pages/map-page/map-page.component';
-// import { CommentPageComponent } from './pages/comment-page/comment-page.component';
+import {UpdateService} from '../services/update.service';
+import {MatDialogModule} from '@angular/material/dialog';
+import {CoreMapContentComponent} from './pages/map-page/core-map/core-map-content.component';
+import {AddCommentComponent} from './pages/add-comment/add-comment.component';
 
 const APP_COMPONENTS = [
   HomePageComponent,
@@ -40,14 +42,19 @@ const APP_COMPONENTS = [
   EndingPageComponent,
   MapPageComponent,
   MarkerDescriptionComponent,
-  LoginPageComponent
+  LoginPageComponent,
+  CoreMapContentComponent,
+  SendingReportPageComponent,
+  AddCommentComponent
 ];
 
 const APP_SERVICES = [
   LayersService,
   ReportService,
   SupportService,
-  AuthService
+  AuthService,
+  UpdateService,
+  GoogleMapsAPIWrapper
 ];
 
 const APP_MODULES = [
@@ -56,20 +63,20 @@ const APP_MODULES = [
   FormsModule,
   SocialLoginModule,
   HttpClientModule,
+  MatDialogModule,
   HttpModule
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    ...APP_COMPONENTS,
-    SendingReportPageComponent
+    ...APP_COMPONENTS
   ],
   imports: [
     ...APP_MODULES,
     !environment.production ? StoreDevtoolsModule.instrument({maxAge: 50}) : [],
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAYT3aC83fuuZNXhGZj-SHPTvaLoooAK6c'
+      apiKey: 'AIzaSyDeAKbGpJiAyMHa4bxQ9WFq_txV2WG8suw'
     }),
     RouterModule.forRoot(
       routes,

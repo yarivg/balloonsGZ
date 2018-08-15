@@ -59,4 +59,8 @@ export class HomePageComponent implements OnInit, AfterViewInit {
     // activate camera
     $('#supportfile').click();
   }
+
+  moveToMapScreen(){
+    this.router.navigate(['/map']);
+  }
 }
