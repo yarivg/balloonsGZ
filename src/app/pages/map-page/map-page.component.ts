@@ -253,7 +253,8 @@ export class MapPageComponent implements OnInit {
   }
 
   completeReport(){
-    this.router.navigate([`/sending-report/${this.eventType}`])
+    this.reportService.setSelectedLocationCoordinates(this.selectedLocationMarker.latitude, this.selectedLocationMarker.longitude);
+    this.router.navigate([`/sending-report/${this.eventType}`]);
   }
 
 }
