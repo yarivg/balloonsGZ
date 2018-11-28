@@ -1,0 +1,5 @@
+export const CATEGORY_VALUES = {
+FIRE: 11,
+BALLOON: 15,
+KITE: 16
+};

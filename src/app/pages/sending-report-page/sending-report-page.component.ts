@@ -8,7 +8,7 @@ import {ReportService} from '../../../services/report.service';
 import {UserAgentService} from '../../../services/userAgent.service';
 import {BURNING_SIZES, CATEGORIES_NAMES, FLYING_OBJECTS_HEIGHT} from '../../constants/HebrewTranslations';
 
-declare var $: any;
+declare let $: any;
 
 @Component({
   selector: 'sending-report-page',
@@ -46,11 +46,11 @@ export class SendingReportPageComponent implements OnInit {
     $('input').click();
   }
 
-  captureImage(image){
+  captureImage(image) {
     this.reportSrv.captureImageWithoutSending(image);
   }
 
-  sendReportAndGoToEndingPage(){
+  sendReportAndGoToEndingPage() {
     this.reportSrv.upload(this.getEventDescription());
     this.reportSrv.setWhatsappSharingUrl(encodeURIComponent(this.makeUserMessage()));
     this.router.navigate(['/ending'])

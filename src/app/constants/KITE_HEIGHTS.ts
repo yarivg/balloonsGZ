@@ -1,5 +1,5 @@
 export const KITE_HEIGHTS = {
-  ON_GROUND: 'on_ground',
-  LOW: 'low',
-  HIGH: 'high'
+  ON_GROUND: 'ON_GROUND',
+  LOW: 'LOW',
+  HIGH: 'HIGH'
 };

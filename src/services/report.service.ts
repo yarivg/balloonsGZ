@@ -7,6 +7,7 @@ import * as environment from '../../.configenv';
 import {Location} from '../app/models/Location';
 import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 import {Observable} from 'rxjs/internal/Observable';
+import {CATEGORY_VALUES} from "../app/constants/CATEGORY_VALUES";
 
 @Injectable()
 export class ReportService {
@@ -26,16 +27,16 @@ export class ReportService {
   private selectedLocation: Location = null;
   private currentLocation: Location = null;
 
-  eventType:string = null;
-  eventSize:string = null;
+  eventType: string = null;
+  eventSize: string = null;
 
-  private supportImage:any = null;
-  private supportImageBase64:any = null;
+  private supportImage: any = null;
+  private supportImageBase64: any = null;
 
   private commentForReport = '';
 
-  private currentLocationSubject:BehaviorSubject<Location> = new BehaviorSubject<Location>(null);
-  currentLocationObservable:Observable<Location> = this.currentLocationSubject.asObservable();
+  private currentLocationSubject: BehaviorSubject<Location> = new BehaviorSubject<Location>(null);
+  currentLocationObservable: Observable<Location> = this.currentLocationSubject.asObservable();
 
   public getAzimuth() {
     return this.currAzimuth;
@@ -143,7 +144,7 @@ export class ReportService {
     }
   }
 
-  upload(eventDescription:string) {
+  upload(eventDescription: string) {
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -155,7 +156,7 @@ export class ReportService {
 
     const selectedLatitude = this.getCurrentLocationCoordinates().latitude;
     const selectedLongitude = this.getCurrentLocationCoordinates().longitude;
-
+    const eventTypeValue = CATEGORY_VALUES[this.eventType];
     const body = {
       'name': 'WEB-REPORTER',
       'lat': selectedLatitude ? selectedLatitude : '1',
@@ -164,8 +165,8 @@ export class ReportService {
       'imageBase64': '',
       'azimuth': this.currAzimuth,
       'description': this.getFinalCommentToSend(eventDescription, this.commentForReport),
-      'category': '11', // TODO - balloon, kite, fire
-      'userToken': localStorage.getItem('userToken')
+      'category': eventTypeValue, // TODO - balloon, kite, fire
+    'userToken': localStorage.getItem('userToken')
     };
     let reportURL = '';
     if (process.env.NODE_ENV !== 'production') {
@@ -201,7 +202,7 @@ export class ReportService {
     }
   }
 
-  getFinalCommentToSend(eventDescription:string, commentForReport:string){
+  getFinalCommentToSend(eventDescription: string, commentForReport: string) {
     const eventDescriptionTitle = "גודל איום: ";
     const commentForReportTitle = "הערות: ";
     return `${eventDescriptionTitle} ${eventDescription}\n
@@ -246,28 +247,28 @@ export class ReportService {
     return this.currentLocation;
   }
 
-  sendInitialReportAndMoveToMapScreen(){
+  sendInitialReportAndMoveToMapScreen() {
     // Move further, to next route
     this.goToMapScreen();
   }
 
-  setCommentForReport(comment){
+  setCommentForReport(comment) {
     this.commentForReport = comment;
   }
 
-  setEventSize(size:string){
-    this.eventSize=size;
+  setEventSize(size) {
+    this.eventSize = size;
   }
 
-  setEventType(type:string){
-    this.eventType=type;
+  setEventType(type) {
+    this.eventType = type;
   }
 
-  getEventSize(){
+  getEventSize() {
     return this.eventSize;
   }
 
-  getEventType(){
+  getEventType() {
     return this.eventType;
   }
 

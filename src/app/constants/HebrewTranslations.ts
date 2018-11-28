@@ -1,17 +1,17 @@
 export const CATEGORIES_NAMES = {
-  fire:'שריפה',
-  balloon: 'בלון',
-  kite: 'עפיפון'
+  FIRE:'שריפה',
+  BALLOON: 'בלון',
+  KITE: 'עפיפון'
 };
 
 export const BURNING_SIZES = {
-  small: 'קטנה',
-  medium: 'בינונית',
-  large: 'גדולה'
+  SMALL: 'קטנה',
+  MEDIUM: 'בינונית',
+  LARGE: 'גדולה'
 };
 
 export const FLYING_OBJECTS_HEIGHT = {
-  on_ground: 'קרקע',
-  low: 'נמוך',
-  high: 'גבוה'
+  ON_GROUND: 'קרקע',
+  LOW: 'נמוך',
+  HIGH: 'גבוה'
 };
