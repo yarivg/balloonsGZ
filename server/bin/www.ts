@@ -19,43 +19,43 @@ if (process.env.NODE_ENV  === "production") {
   /**
    * Create HTTPS server.
    */
-  let fs = require("fs");
+ //  let fs = require("fs");
+ //
+ //  let pathToEncrption = "../encryption/";
+ //  let key = fs.readFileSync(pathToEncrption + "balloon_private.key");
+ //  let cert = fs.readFileSync(pathToEncrption + "balloon_cf.crt" );
+ //  let ca = [
+ //   // fs.readFileSync(pathToEncrption + 'balloon_cf.crt' ),
+ //   fs.readFileSync(pathToEncrption + "AddTrustExternalCARoot.crt" ),
+ //   fs.readFileSync(pathToEncrption + "COMODORSAAddTrustCA.crt" ),
+ //   fs.readFileSync(pathToEncrption + "COMODORSADomainValidationSecureServerCA.crt" ),
+ // ];
 
-  let pathToEncrption = "../encryption/";
-  let key = fs.readFileSync(pathToEncrption + "balloon_private.key");
-  let cert = fs.readFileSync(pathToEncrption + "balloon_cf.crt" );
-  let ca = [
-   // fs.readFileSync(pathToEncrption + 'balloon_cf.crt' ),
-   fs.readFileSync(pathToEncrption + "AddTrustExternalCARoot.crt" ),
-   fs.readFileSync(pathToEncrption + "COMODORSAAddTrustCA.crt" ),
-   fs.readFileSync(pathToEncrption + "COMODORSADomainValidationSecureServerCA.crt" ),
- ];
-
-  let options = {
-  key,
-  cert,
-  ca,
-  };
-
-  let https = require("https");
-  server = https.createServer(options, app);
-  server.listen(443, () => console.log("Balloon listening on port 443!"));
+  // let options = {
+  // key,
+  // cert,
+  // ca,
+  // };
+  //
+  // let https = require("https");
+  // server = https.createServer(options, app);
+  // server.listen(443, () => console.log("Balloon listening on port 443!"));
 //  server.listen(4444, () => console.log('Balloon listening on port 4444!'))
 
 // Redirect from http port 80 to https
-  http.createServer(function(req, res) {
-    if (req.url.indexOf(".well-known/acme-challenge/") > -1 ||
-      req.url.indexOf(".well-known/pki-validation/")  > -1) {
-      res.write(fs.readFileSync("../" + req.url));
-
-    } else if (req.url.indexOf("/favicon.ico") > -1) {
-      res.write(fs.readFileSync("src/favicon.ico"));
-    } else {
-      res.writeHead(301, { Location: "https://" + req.headers.host + req.url });
-    }
-
-    res.end();
-  }).listen(80, () => console.log("Http Port 80 is forwarding to Https(443)"));
+//   http.createServer(function(req, res) {
+//     if (req.url.indexOf(".well-known/acme-challenge/") > -1 ||
+//       req.url.indexOf(".well-known/pki-validation/")  > -1) {
+//       res.write(fs.readFileSync("../" + req.url));
+//
+//     } else if (req.url.indexOf("/favicon.ico") > -1) {
+//       res.write(fs.readFileSync("src/favicon.ico"));
+//     } else {
+//       res.writeHead(301, { Location: "https://" + req.headers.host + req.url });
+//     }
+//
+//     res.end();
+//   }).listen(80, () => console.log("Http Port 80 is forwarding to Https(443)"));
 
   /**
    * Listen on provided port, on all network interfaces.
@@ -83,19 +83,19 @@ if (process.env.NODE_ENV  === "production") {
   server.listen(4444, () => console.log("Balloon listening on port 4444!"));
 
 // Redirect from http port 80 to https
-  http.createServer(function(req, res) {
-    if (req.url.indexOf(".well-known/acme-challenge/") > -1 ||
-      req.url.indexOf(".well-known/pki-validation/") > -1) {
-      res.write(fs.readFileSync("../" + req.url));
-
-    } else if (req.url.indexOf("/favicon.ico") > -1) {
-      res.write(fs.readFileSync("src/favicon.ico"));
-    } else {
-      res.writeHead(301, {Location: "https://" + req.headers.host + req.url});
-    }
-
-    res.end();
-  }).listen(80, () => console.log("Http Port 80 is forwarding to Https(443)"));
+//   http.createServer(function(req, res) {
+//     if (req.url.indexOf(".well-known/acme-challenge/") > -1 ||
+//       req.url.indexOf(".well-known/pki-validation/") > -1) {
+//       res.write(fs.readFileSync("../" + req.url));
+//
+//     } else if (req.url.indexOf("/favicon.ico") > -1) {
+//       res.write(fs.readFileSync("src/favicon.ico"));
+//     } else {
+//       res.writeHead(301, {Location: "https://" + req.headers.host + req.url});
+//     }
+//
+//     res.end();
+//   }).listen(80, () => console.log("Http Port 80 is forwarding to Https(443)"));
 
   /**
    * Listen on provided port, on all network interfaces.
