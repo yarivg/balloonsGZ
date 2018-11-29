@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {Observable} from 'rxjs';
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
@@ -56,5 +57,5 @@ export class WebcamPageComponent implements  OnInit {
   }
   public get nextWebcamObservable(): Observable<boolean|string> {
     return this.nextWebcam.asObservable();
-}
+  }
 }
