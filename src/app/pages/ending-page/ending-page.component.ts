@@ -43,10 +43,10 @@ $(function() {
       .text(current_progress + "% Complete");
     if (current_progress >= 100){
       clearInterval(interval);
-      $("#dynamic")
-        .css("width", current_progress + "%")
-        .attr("aria-valuenow", current_progress)
-        .text("Contact us for solution");
+      $('#dynamic')
+        .css('width', current_progress + '%')
+        .attr('aria-valuenow', current_progress)
+        .text('Contact us for solution');
     }
   }, 1000);
 });
