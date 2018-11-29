@@ -21,23 +21,23 @@ if (process.env.NODE_ENV  === "production") {
    */
   let fs = require("fs");
 
- //  let pathToEncrption = "../encryption/";
- //  let key = fs.readFileSync(pathToEncrption + "balloon_private.key");
- //  let cert = fs.readFileSync(pathToEncrption + "balloon_cf.crt" );
- //  let ca = [
- //   // fs.readFileSync(pathToEncrption + 'balloon_cf.crt' ),
- //   fs.readFileSync(pathToEncrption + "AddTrustExternalCARoot.crt" ),
- //   fs.readFileSync(pathToEncrption + "COMODORSAAddTrustCA.crt" ),
- //   fs.readFileSync(pathToEncrption + "COMODORSADomainValidationSecureServerCA.crt" ),
- // ];
+  let pathToEncrption = "../encryption/";
+  let key = fs.readFileSync(pathToEncrption + "balloon_private.key");
+  let cert = fs.readFileSync(pathToEncrption + "balloon_cf.crt" );
+  let ca = [
+   // fs.readFileSync(pathToEncrption + 'balloon_cf.crt' ),
+   fs.readFileSync(pathToEncrption + "AddTrustExternalCARoot.crt" ),
+   fs.readFileSync(pathToEncrption + "COMODORSAAddTrustCA.crt" ),
+   fs.readFileSync(pathToEncrption + "COMODORSADomainValidationSecureServerCA.crt" ),
+ ];
 
   let options = {
-  // key,
-  // cert,
-  // ca,
+  key,
+  cert,
+  ca,
   };
 
-  let https = require("http");
+  let https = require("https");
   server = https.createServer(options, app);
   server.listen(443, () => console.log("Balloon listening on port 443!"));
 //  server.listen(4444, () => console.log('Balloon listening on port 4444!'))
