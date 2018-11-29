@@ -131,7 +131,7 @@ export class MapPageComponent implements OnInit {
   }
 
   mapClicked($event: MouseEvent) {
-    this.setSelectedLocation($event['coords']['lat'], $event['coords']['lng']);
+    // this.setSelectedLocation($event['coords']['lat'], $event['coords']['lng']);
     this.getClosestPolitical();
   }
 
