@@ -11,7 +11,7 @@ import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
 
 export class WebcamPageComponent implements  OnInit {
   // Toggle webcam on/off
-  public showWebCam = true;
+  public showWebcam = true;
   public allowCameraSwitch = true;
   public multipleWebcamsAvalable = false;
   public deviceId: string;
@@ -36,7 +36,7 @@ export class WebcamPageComponent implements  OnInit {
     this.trigger.next();
   }
   public toggleWebcam(): void {
-    this.showWebCam = !this.showWebCam;
+    this.showWebcam = !this.showWebcam;
   }
   public handleInitError(error: WebcamInitError): void {
     this.errors.push(error);
