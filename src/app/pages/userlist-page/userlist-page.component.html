@@ -1,10 +1,16 @@
-<div class = "userlist">
+<div *ngIf="users" class = "userlist">
   <ul class="mdc-list mdc-list--two-line" aria-orientation="vertical">
-    <li class="mdc-list-item">
-    <span class="mdc-list-item__text">
-      <span class="mdc-list-item__primary-text">First-line text</span>
-      <span class="mdc-list-item__secondary-text">Second-line text</span>
-    </span>
+    <li *ngFor="let user of users" class="mdc-list-item mdc-ripple-upgraded" tabindex="0" id="b1ad443c-7870-4fc2-b6de-c816a13ea9a0">
+      <span class="mdc-list-item__graphic">
+        <img src={{user.profile_image}} class="resources-icon" alt="Documentation icon">
+      </span>
+      <span class="mdc-list-item__text">
+        <span class="mdc-list-item__primary-text">{{user.name}}</span>
+        <!--<span class="mdc-list-item__secondary-text">Secondary text</span>-->
+      </span>
     </li>
   </ul>
 </div>
+
+
+<a href="https://material.io/components/web/catalog/lists/" role="listitem" class="mdc-list-item mdc-ripple-upgraded" target="_blank"></a>
