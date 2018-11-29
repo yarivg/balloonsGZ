@@ -46,7 +46,7 @@ $(function() {
       $("#dynamic")
         .css("width", current_progress + "%")
         .attr("aria-valuenow", current_progress)
-        .text("השדה שלך נמצא תקין:)");
+        .text("Contact us for solution");
     }
   }, 1000);
 });

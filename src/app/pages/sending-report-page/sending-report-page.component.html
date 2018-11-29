@@ -1,37 +1,23 @@
 <div class="page-column">
-  <div class="event-type-container" [hidden]="eventType !== EVENT_TYPE_BUTTON.KITE">
-    <button class="kite-checked"></button>
-    <h1>חרקים</h1>
-  </div>
-  <div class="event-type-container" [hidden]="eventType !== EVENT_TYPE_BUTTON.FIRE">
-    <button class="fire-checked"></button>
-    <h1>פטריה</h1>
-  </div>
-
-  <div class="event-type-container" [hidden]="eventType !== EVENT_TYPE_BUTTON.BALLOON">
-    <button class="balloon-checked"></button>
-    <h1>ווירוס</h1>
-  </div>
-
   <div class="row-with-vertical-centered-items">
     <button style="border-left: 1px solid gray;"
             [disabled]="true"
             class="event-size-2 row-with-vertical-centered-items"
             (click)="cameraButtonClicked()">
       <img src="/assets/new-design-assets/camera-icon.svg" class="action-icon" alt="">
-      <span class="action-text">הוספת תמונה</span>
+      <span class="action-text">Add picture</span>
     </button>
     <input id="file" type="file" style="display: none;" accept="image/*" capture="environment" (change)="captureImage($event)">
     <button class="event-size-2 row-with-vertical-centered-items"
     (click)="addComment()">
       <img src="/assets/new-design-assets/write-note.svg" class="action-icon" alt="">
-      <span class="action-text">הוספת הערה</span>
+      <span class="action-text">Add comment</span>
     </button>
   </div>
 
 </div>
 <div class="row-with-vertical-centered-items sending-report-footer">
   <button class="finish-button" (click)="sendReportAndGoToEndingPage()">
-    סיימתי
+    Done
   </button>
 </div>
