@@ -43,7 +43,9 @@ export class SendingReportPageComponent implements OnInit {
 
   cameraButtonClicked() {
     // activate camera
-    $('input').click();
+    
+    // Activate file choosing service
+    // $('input').click();
   }
 
   captureImage(image){
