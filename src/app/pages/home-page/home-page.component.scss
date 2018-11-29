@@ -39,7 +39,7 @@ input {
   src: url(/assets/fonts/TsMatka-Regular.ttf);
 }
 
-.main-button{
+.main-button-report{
   background-image: url(/assets/new-design-assets/report-button-asset.svg);
   display: block;
   margin: 0 auto;
@@ -61,6 +61,23 @@ input {
   padding-top: 110px;
 }
 
+.main-button-map{
+  background-image: url(/assets/new-design-assets/yalogo192Asset 6.png);
+  //display: block;
+  //margin: 0 auto;
+  //width: 250px;
+  //height: 250px;
+  //background-position: center center;
+  //background-repeat: no-repeat;
+  //position: relative;
+  //border: none;
+  //cursor: pointer;
+  //background-color: transparent;
+  //outline: none;
+  //color: white;
+  //font-family: matka, sans-serif;
+  //font-size: 3em;
+}
 @mixin rescue-forces-buttons {
   width: 100px;
   height: 100px;

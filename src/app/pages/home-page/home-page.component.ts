@@ -63,4 +63,6 @@ export class HomePageComponent implements OnInit, AfterViewInit {
   moveToMapScreen(){
     this.router.navigate(['/map']);
   }
+  moveToReportScreen(){
+  }
 }
