@@ -26,7 +26,7 @@ export class SendingReportPageComponent implements OnInit {
   FIRE_SIZES = FIRE_SIZES;
   reportService: ReportService;
 
-  constructor(private route: ActivatedRoute, private reportSrv: ReportService, private router:Router, private userAgent: UserAgentService) {
+  constructor(private route: ActivatedRoute, private reportSrv: ReportService, private router: Router, private userAgent: UserAgentService) {
     this.reportService = reportSrv;
   }
 
@@ -43,6 +43,7 @@ export class SendingReportPageComponent implements OnInit {
 
   cameraButtonClicked() {
     // activate camera
+    this.router.navigate(['/webcam-page']);
     // Activate file choosing service
     // $('input').click();
   }
@@ -67,10 +68,10 @@ export class SendingReportPageComponent implements OnInit {
   }
 
   getGoogleMapsURL() {
-    if(this.reportSrv.currLocation) {
-      return `google.com/maps/?q=${this.reportSrv.currLocation.latitude},${this.reportSrv.currLocation.longitude}`
+    if (this.reportSrv.currLocation) {
+      return `google.com/maps/?q=${this.reportSrv.currLocation.latitude},${this.reportSrv.currLocation.longitude}`;
     } else {
-      return ''
+      return '';
     }
   }
 

@@ -25,6 +25,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {AgmCoreModule, GoogleMapsAPIWrapper} from '@agm/core';
 import {MarkerDescriptionComponent} from './pages/map-page/marker-description/marker-description.component';
 import { SendingReportPageComponent } from './pages/sending-report-page/sending-report-page.component';
+import {WebcamPageComponent} from './pages/webcam-page/webcam-page.component';
 import {LoginPageComponent} from './pages/login-page/login-page.component';
 import {AuthServiceConfig, SocialLoginModule} from 'angular-6-social-login';
 import {getAuthServiceConfig} from '../services/auth.service';
@@ -45,6 +46,7 @@ const APP_COMPONENTS = [
   MarkerDescriptionComponent,
   LoginPageComponent,
   CoreMapContentComponent,
+  WebcamPageComponent,
   SendingReportPageComponent,
   AddCommentComponent
 ];

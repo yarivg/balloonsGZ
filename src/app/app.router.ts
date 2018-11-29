@@ -8,6 +8,7 @@ import { CommentPageComponent } from './pages/comment-page/comment-page.componen
 import { EndingPageComponent } from './pages/ending-page/ending-page.component';
 import {MapPageComponent} from './pages/map-page/map-page.component';
 import {SendingReportPageComponent} from './pages/sending-report-page/sending-report-page.component';
+import {WebcamPageComponent} from './pages/webcam-page/webcam-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthGuardService as AuthGuard } from '../services/auth-guard.service';
 import { AddCommentComponent } from './pages/add-comment/add-comment.component';
