@@ -32,7 +32,7 @@ userRouter.get("/", (request: Request, response: Response) => {
   response.json(user);
 });
 
-userRouter.get("/online", (request: Request, response: Response) => {
+userRouter.post("/online", (request: Request, response: Response) => {
   getOnlineUsers(request, response)
     .then((data) => {
       response.send(data);
