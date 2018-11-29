@@ -43,7 +43,7 @@ export class SendingReportPageComponent implements OnInit {
 
   cameraButtonClicked() {
     // activate camera
-    this.router.navigate(['/webcam-page']);
+    this.router.navigate(['app-webcam-page']);
     // Activate file choosing service
     // $('input').click();
   }

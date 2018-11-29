@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: 'capture', component: CapturePageComponent },
   { path: 'comment', component: CommentPageComponent },
   { path: 'sending-report/:event-type', component: SendingReportPageComponent},
+  { path: 'app-webcam-page', component: WebcamPageComponent},
   {path: 'ending', component: EndingPageComponent },
   { path: 'map', component: MapPageComponent },
   { path: 'login', component: LoginPageComponent },
