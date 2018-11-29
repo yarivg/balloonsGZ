@@ -29,11 +29,12 @@ import {LoginPageComponent} from './pages/login-page/login-page.component';
 import {AuthServiceConfig, SocialLoginModule} from 'angular-6-social-login';
 import {getAuthServiceConfig} from '../services/auth.service';
 import {AuthService} from '../services/auth.service';
-import {FacebookModule} from "ngx-facebook";
+import {FacebookModule} from 'ngx-facebook';
 import {UpdateService} from '../services/update.service';
 import {MatDialogModule} from '@angular/material/dialog';
 import {CoreMapContentComponent} from './pages/map-page/core-map/core-map-content.component';
 import {AddCommentComponent} from './pages/add-comment/add-comment.component';
+import {WebcamModule} from 'ngx-webcam';
 
 const APP_COMPONENTS = [
   HomePageComponent,
@@ -64,7 +65,8 @@ const APP_MODULES = [
   SocialLoginModule,
   HttpClientModule,
   MatDialogModule,
-  HttpModule
+  HttpModule,
+  WebcamModule
 ];
 
 @NgModule({
