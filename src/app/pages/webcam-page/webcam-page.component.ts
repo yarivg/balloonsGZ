@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {Observable} from 'rxjs';
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
-import {Component} from '@angular/core';
 import {Location} from '@angular/common';
 
 @Component({
