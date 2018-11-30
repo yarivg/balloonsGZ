@@ -2,38 +2,31 @@
   צלם
 </h1>
 
-<div class="webcam" style="text-align:center">
+<div class="webcam" style="margin: auto; alignment: center" id="camera">
 
-
-  <div>
-    <webcam [height]="400" [width]="400" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+    <webcam [height]="200" [width]="200" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
             [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
             [videoOptions]="videoOptions"
             (cameraSwitched)="cameraWasSwitched($event)"
             (initError)="handleInitError($event)"
     ></webcam>
-    <br/>
-    <button class="finish-button" (click)="triggerSnapshot();">Take A Snapshot</button>
-    <br/>
-    <br/>
-    <button class="finish-button" (click)="toggleWebcam();">Toggle Webcam</button>
-    <br/>
-    <br/>
-    <!--
-    <button class="finish-button" (click)="showNextWebcam(true);" [disabled]="!multipleWebcamsAvailable">Next Webcam</button>
-    <input id="cameraSwitchCheckbox" type="checkbox" [(ngModel)]="allowCameraSwitch"><label for="cameraSwitchCheckbox">Allow Camera Switch</label>
-    <br/>
-    DeviceId: <input id="deviceId" type="text" [(ngModel)]="deviceId" style="width: 500px">
-    <button (click)="showNextWebcam(deviceId);">Activate</button>
-    -->
-  </div>
+    <div class="snapshot" *ngIf="webcamImage" style="width: 10%; height: 10%">
+      <img [src]="webcamImage.imageAsDataUrl"/>
+    </div>
+
 </div>
 
-<div class="snapshot" *ngIf="webcamImage">
-  <img [src]="webcamImage.imageAsDataUrl"/>
+<br/>
+
+<div style="margin:0 auto; alignment: center">
+  <button class="finish-button" (click)="triggerSnapshot();">Capture</button>
   <br/>
-  <h4 class="process-info">התמונה התקבלה בהצלחה ומועבדת לקבלת מידע</h4>
+  <br/>
+  <button class="finish-button" (click)="done();">Done</button>
 </div>
+
+
+
 
 <h4 *ngIf="errors.length > 0">Messages:</h4>
 <ul *ngFor="let error of errors">
