@@ -1,0 +1,42 @@
+<h1 class="title">
+  צלם
+</h1>
+
+<div class="webcam" style="text-align:center">
+
+
+  <div>
+    <webcam [height]="400" [width]="400" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+            [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
+            [videoOptions]="videoOptions"
+            (cameraSwitched)="cameraWasSwitched($event)"
+            (initError)="handleInitError($event)"
+    ></webcam>
+    <br/>
+    <button class="finish-button" (click)="triggerSnapshot();">Take A Snapshot</button>
+    <br/>
+    <br/>
+    <button class="finish-button" (click)="toggleWebcam();">Toggle Webcam</button>
+    <br/>
+    <br/>
+    <!--
+    <button class="finish-button" (click)="showNextWebcam(true);" [disabled]="!multipleWebcamsAvailable">Next Webcam</button>
+    <input id="cameraSwitchCheckbox" type="checkbox" [(ngModel)]="allowCameraSwitch"><label for="cameraSwitchCheckbox">Allow Camera Switch</label>
+    <br/>
+    DeviceId: <input id="deviceId" type="text" [(ngModel)]="deviceId" style="width: 500px">
+    <button (click)="showNextWebcam(deviceId);">Activate</button>
+    -->
+  </div>
+</div>
+
+<div class="snapshot" *ngIf="webcamImage">
+  <img [src]="webcamImage.imageAsDataUrl"/>
+  <br/>
+  <h4 class="process-info">התמונה התקבלה בהצלחה ומועבדת לקבלת מידע</h4>
+</div>
+
+<h4 *ngIf="errors.length > 0">Messages:</h4>
+<ul *ngFor="let error of errors">
+  <li>{{error | json}}</li>
+</ul>
+
