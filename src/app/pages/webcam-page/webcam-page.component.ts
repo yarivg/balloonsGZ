@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {Observable} from 'rxjs';
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
+import {Component} from '@angular/core';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-webcam-page',
@@ -11,6 +13,9 @@ import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
 })
 
 export class WebcamPageComponent implements  OnInit {
+
+  constructor(private _location: Location) {}
+
   // Toggle webcam on/off
   public showWebcam = true;
   public allowCameraSwitch = true;
@@ -34,11 +39,14 @@ export class WebcamPageComponent implements  OnInit {
       });
   }
   public triggerSnapshot(): void {
+    this.showWebcam = false;
     this.trigger.next();
   }
-  public toggleWebcam(): void {
-    this.showWebcam = !this.showWebcam;
+
+  public done(): void {
+    this._location.back();
   }
+
   public handleInitError(error: WebcamInitError): void {
     this.errors.push(error);
   }
