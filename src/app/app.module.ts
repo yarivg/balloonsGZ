@@ -33,9 +33,12 @@ import {AuthService} from '../services/auth.service';
 import {FacebookModule} from 'ngx-facebook';
 import {UpdateService} from '../services/update.service';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatListModule} from '@angular/material/list';
+import {MatCardModule} from '@angular/material/card';
 import {CoreMapContentComponent} from './pages/map-page/core-map/core-map-content.component';
 import {AddCommentComponent} from './pages/add-comment/add-comment.component';
 import {WebcamModule} from 'ngx-webcam';
+import {UserlistPageComponent} from './pages/userlist-page/userlist-page.component';
 
 const APP_COMPONENTS = [
   HomePageComponent,
@@ -47,6 +50,7 @@ const APP_COMPONENTS = [
   LoginPageComponent,
   CoreMapContentComponent,
   WebcamPageComponent,
+  UserlistPageComponent,
   SendingReportPageComponent,
   AddCommentComponent
 ];
@@ -68,7 +72,8 @@ const APP_MODULES = [
   HttpClientModule,
   MatDialogModule,
   HttpModule,
-  WebcamModule
+  WebcamModule,
+  MatListModule
 ];
 
 @NgModule({
