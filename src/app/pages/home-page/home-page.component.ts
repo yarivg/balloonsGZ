@@ -65,7 +65,7 @@ export class HomePageComponent implements OnInit, AfterViewInit {
         localStorage.setItem('userData', JSON.stringify(userData));
 
         this.authService.sendAuthReq();
-        this.router.navigate(['/home']);
+        this.router.navigate(['/map']);
       })
       .catch(err => {
         console.log(err);

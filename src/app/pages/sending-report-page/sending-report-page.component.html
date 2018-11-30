@@ -1,20 +1,21 @@
 <div class="page-column">
-  <div class="row-with-vertical-centered-items">
-    <button style="border-left: 1px solid gray;"
-            class="event-size-2 row-with-vertical-centered-items"
-            (click)="cameraButtonClicked()">
-      <img src="/assets/new-design-assets/camera-icon.svg" class="action-icon" alt="">
-      <span class="action-text">Add picture</span>
-    </button>
-    <!--
-    <input id="file" type="file" style="display: none;" accept="image/*" capture="environment" (change)="captureImage($event)">
-    -->
-    <button class="event-size-2 row-with-vertical-centered-items"
-    (click)="addComment()">
-      <img src="/assets/new-design-assets/write-note.svg" class="action-icon" alt="">
-      <span class="action-text">Add comment</span>
-    </button>
-  </div>
+  <!--<div class="main-footer-container">-->
+      <!--<div class="actions-container">-->
+        <button
+                class="flex-item event-size-2 row-with-vertical-centered-items"
+                (click)="cameraButtonClicked()">
+          <img src="/assets/new-design-assets/camera-icon.svg" class="action-icon" alt="">
+        </button>
+      <!--
+      <input id="file" type="file" style="display: none;" accept="image/*" capture="environment" (change)="captureImage($event)">
+      -->
+        <button class="flex-item event-size-2 row-with-vertical-centered-items"
+                (click)="addComment()">
+          <img src="/assets/new-design-assets/write-note.svg" class="action-icon" alt="">
+        </button>
+      <!--</div>-->
+    <app-userlist-page class="flex-item"></app-userlist-page>
+  <!--</div>-->
 
 </div>
 <div class="row-with-vertical-centered-items sending-report-footer">
